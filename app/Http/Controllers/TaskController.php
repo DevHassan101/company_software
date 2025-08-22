@@ -55,7 +55,8 @@ class TaskController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $projectTask = ProjectTask::findOrFail($id);
+        return view('tasks.show', compact('projectTask'));
     }
 
     /**
@@ -90,14 +91,37 @@ class TaskController extends Controller
         $projectTask->update($validation);
         return redirect()->route('task.index')->with('message', 'Task Updated Successfully');
     }
-    
+
     /**
      * Remove the specified resource from storage.
-    */
+     */
     public function destroy(string $id)
     {
         $projectTask = ProjectTask::findOrFail($id);
         $projectTask->delete();
         return redirect()->route('task.index')->with('message', 'Task Deleted Successfully');
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        try {
+
+            $projectTask = ProjectTask::findOrFail($id);
+            $projectTask->update(['status' => $request->status]);
+
+            if ($request->ajax()) {
+                return response()->json([
+                    'error' => false,
+                    'message' => 'Status Updated Successfully'
+                ]);
+            }
+
+            return redirect()->route('task.index')->with('message', 'Status Updated Successfully');
+        } catch (\Throwable $th) {
+            return response()->json([
+                'error' => true,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 }

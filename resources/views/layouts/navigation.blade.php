@@ -20,7 +20,7 @@
 
 
     <nav class="mt-10" x-data="{ isMultiLevelMenuOpen: false }">
-        @role('Admin')
+        {{-- @role('admin') --}}
             <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 <x-slot name="icon">
                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -92,11 +92,11 @@
                 </x-slot>
                 {{ __('Payment') }}
             </x-nav-link>
-        @endrole
+        {{-- @endrole --}}
 
 
 
-        @role('user')
+        {{-- @role('user') --}}
             <x-nav-link href="{{ route('user.index') }}" :active="request()->routeIs('user.index')">
                 <x-slot name="icon">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -108,7 +108,7 @@
                 </x-slot>
                 {{ __('Users') }}
             </x-nav-link>
-        @endrole
+        {{-- @endrole --}}
 
     </nav>
 </div>

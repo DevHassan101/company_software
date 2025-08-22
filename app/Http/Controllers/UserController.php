@@ -92,19 +92,19 @@ class UserController extends Controller
     {
         $user = User::with('userInfo')->findOrFail($id);
         $validation = $request->validate([
-            'name' => 'required',
-            'email' => 'required|unique:users,email,' . $user->id,
+            'name' => 'nullable',
+            'email' => 'nullable|unique:users,email,' . $user->id,
             'password' => 'nullable|min:8',
-            'fname' => 'required',
-            'dob' => 'required',
-            'phone' => 'required',
+            'fname' => 'nullable',
+            'dob' => 'nullable',
+            'phone' => 'nullable',
             'gender' => 'nullable',
             'profile' => 'nullable|image',
-            'cnic' => 'required',
+            'cnic' => 'nullable',
             'cnic_frnt' => 'nullable',
             'cnic_back' => 'nullable',
-            'address' => 'required',
-            'role' => 'required|exists:roles,name'
+            'address' => 'nullable',
+            'role' => 'nullable|exists:roles,name'
         ]);
 
 

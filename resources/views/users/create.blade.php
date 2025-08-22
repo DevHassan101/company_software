@@ -3,29 +3,15 @@
         {{ __('Users') }}
     </x-slot>
 
-    {{-- <div class="mb-4 inline-flex overflow-hidden w-full bg-white rounded-lg shadow-md">
-        <div class="flex justify-center items-center w-12 bg-blue-500">
-            <svg class="w-6 h-6 text-white fill-current" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM21.6667 28.3333H18.3334V25H21.6667V28.3333ZM21.6667 21.6666H18.3334V11.6666H21.6667V21.6666Z">
-                </path>
-            </svg>
-        </div>
-
-        <div class="px-4 py-2 -mx-3">
-            <div class="mx-3">
-                <span class="font-semibold text-blue-500">Info</span>
-                <p class="text-sm text-gray-600">Sample table page</p>
-            </div>
-        </div>
-    </div> --}}
 
     <div class="flex justify-between items-center my-3">
         <div class="capitalize text-lg font-bold">
             <h1>create users</h1>
         </div>
-        <a
-            href="{{ route('user.index') }}"class="text-black hover:text-white capitalize border border-black hover:bg-black focus:ring-4 focus:outline-none rounded-lg text-sm px-5 py-2.5 text-center">back</a>
+        <a href="{{ route('user.index') }}"
+            class="px-4 py-2 text-sm font-medium rounded-lg border border-black text-black-700 hover:bg-black capitalize hover:text-white transition">
+            back
+        </a>
     </div>
 
     <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
@@ -74,12 +60,12 @@
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="phone">
-                        Address <span class="text-red-500">*</span>
+                        Phone Number <span class="text-red-500">*</span>
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="address" name="address" type="text" placeholder="Enter address">
-                    @error('address')
+                        id="phone" name="phone" type="number" placeholder="Enter phone">
+                    @error('phone')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
@@ -97,7 +83,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-4 gap-4">
+            <div class="grid grid-cols-3 gap-4">
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="Email">
@@ -107,18 +93,6 @@
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="dob" name="dob" type="date" placeholder="">
                     @error('dob')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="phone">
-                        Phone Number <span class="text-red-500">*</span>
-                    </label>
-                    <input
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="phone" name="phone" type="number" placeholder="Enter phone">
-                    @error('phone')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
@@ -204,6 +178,19 @@
                     @endforeach
                 </select>
                 @error('role')
+                    <span class="text-red-500">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="About">
+                    Address <span class="text-red-500">*</span>
+                </label>
+                <textarea id="message" rows="4"
+                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Write here..." name="address"></textarea>
+
+                @error('address')
                     <span class="text-red-500">{{ $message }}</span>
                 @enderror
             </div>

@@ -12,6 +12,9 @@
             class="text-black hover:text-white capitalize border border-black hover:bg-black focus:ring-4 focus:outline-none rounded-lg text-sm px-5 py-2.5 text-center">back</a>
     </div>
 
+    {{-- <h4>{{ $project->description }}</h4>
+    <h4>{{ $project->requirments }}</h4> --}}
+
     @if (session()->has('message'))
         <div class="alert alert-success bg-green-600 text-white my-3 p-5">
             {{ session()->get('message') }}

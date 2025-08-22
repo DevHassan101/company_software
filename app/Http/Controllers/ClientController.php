@@ -55,9 +55,10 @@ class ClientController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
+    public function show(Client $client)
+    {   
+        // dd($client);
+        return view('clients.show', compact('client'));
     }
 
     /**

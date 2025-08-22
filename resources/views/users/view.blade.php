@@ -5,8 +5,10 @@
 
     <div class="flex justify-between items-center my-6">
         <h1 class="text-2xl font-bold text-gray-800">User Information</h1>
-        <a
-            href="{{ route('user.index') }}"class="text-black hover:text-white capitalize border border-black hover:bg-black focus:ring-4 focus:outline-none rounded-lg text-sm px-5 py-2.5 text-center">back</a>
+        <a href="{{ route('user.index') }}"
+            class="px-4 py-2 text-sm font-medium rounded-lg border border-black text-black-700 hover:bg-black capitalize hover:text-white transition">
+            back
+        </a>
     </div>
 
     <div class="max-w-5xl mx-auto bg-white border border-gray-300 rounded-2xl shadow-xl p-8">

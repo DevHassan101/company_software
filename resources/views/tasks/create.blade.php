@@ -8,8 +8,10 @@
         <div class="capitalize text-lg font-bold">
             <h1>create task</h1>
         </div>
-        <a
-            href="{{ route('task.index') }}"class="text-black hover:text-white capitalize border border-black hover:bg-black focus:ring-4 focus:outline-none rounded-lg text-sm px-5 py-2.5 text-center">back</a>
+         <a href="{{ route('task.index') }}"
+            class="px-4 py-2 text-sm font-medium rounded-lg border border-black text-black-700 hover:bg-black capitalize hover:text-white transition">
+            back
+        </a>
     </div>
 
     <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">

@@ -23,10 +23,12 @@
     <div class="flex justify-between items-center my-3">
         <div class="capitalize text-lg font-bold">
             <h1>all users</h1>
-            
+
         </div>
-        <a
-            href="{{ route('user.create') }}"class="text-black hover:text-white capitalize border border-black hover:bg-black focus:ring-4 focus:outline-none rounded-lg text-sm px-5 py-2.5 text-center">add</a>
+        <a href="{{ route('user.create') }}"
+            class="px-4 py-2 text-sm font-medium rounded-lg border border-black text-black-700 hover:bg-black capitalize hover:text-white transition">
+            add
+        </a>
     </div>
 
     @if (session()->has('message'))
@@ -58,7 +60,7 @@
                     </th>
 
                     <th
-                        class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                        class="px-5 py-3 text-xs font-semibold tracking-wider text-center text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
                         Action
                     </th>
 
@@ -84,35 +86,34 @@
                                 {{ $user->roles->first()?->name ?? 'N/A' }}
                             </p>
                         </td>
-                         <td class="p-5 text-right bg-white border-b border-gray-200 flex flex-end">
-                            <a
-                                href="{{ route('user.edit', $user->id) }}" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800 capitalize">edit</a>
-                            <a
-                                href="{{ route('user.show', $user->id) }}" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800 capitalize">show</a>
-                                <form action="{{ route('user.destroy', $user->id) }}" method="post">
-                                @csrf
-                                @method('DELETE')
-                                <button
-                                  class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900 capitalize">Delete</button>
-                            </form>
+                        <td class="border-gray-200 bg-white p-5">
+                            <div class="flex items-center justify-center gap-4 mb-4">
+                                <a href="{{ route('user.edit', $user->id) }}"
+                                    class="px-4 py-2 text-sm font-medium rounded-lg border border-green-700 text-green-700 hover:bg-green-700 hover:text-white transition">
+                                    Edit
+                                </a>
+
+                                <a href="{{ route('user.show', $user->id) }}"
+                                    class="px-4 py-2 text-sm font-medium capitalize rounded-lg border border-orange-700 text-orange-700 hover:bg-orange-700 hover:text-white transition">view</a>
+
+                                <form action="{{ route('user.destroy', $user->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="px-4 py-2 text-sm font-medium rounded-lg border border-red-700 text-red-700 hover:bg-red-700 hover:text-white transition">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+
                         </td>
-                        {{-- <td class="m-5 flex text-sm bg-white border-b border-gray-200">
-                            <a
-                                href="{{ route('user.edit', $user->id) }}"class="text-black hover:text-white capitalize border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none rounded-lg text-sm px-5 py-2.5 text-center">add</a>
-                            <form action="{{ route('user.destroy', $user->id) }}" method="post">
-                                @csrf
-                                @method('DELETE')
-                                <button
-                                    class="bg-red-600 text-white rounded-lg capitalize text-lg px-4 py-3">delete</button>
-                            </form>
-                        </td> --}}
                     </tr>
                 @endforeach
 
 
             </tbody>
         </table>
-        
+
 
         <div class="flex flex-col items-center px-5 py-5 bg-white border-t xs:flex-row xs:justify-between">
             {{ $users->links() }}
