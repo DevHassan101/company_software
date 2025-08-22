@@ -29,79 +29,90 @@
     </div>
 
     <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
-        <form class="bg-white rounded px-8 pt-6 pb-8 mb-4" action="{{ route('client.update', $client->id) }}" method="post"
-            enctype="multipart/form-data">
+        <form class="bg-white rounded px-8 pt-6 pb-8 mb-4" action="{{ route('client.update', $client->id) }}"
+            method="post" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-                    Name
-                </label>
-                <input
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="username" name="name" value="{{ $client->name }}" type="text" placeholder="Enter Username">
-                @error('name')
-                    <span class="text-red-500">{{ $message }}</span>
-                @enderror
-            </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-                    Company Name
-                </label>
-                <input
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="company_name" name="company_name" value="{{ $client->company_name }}" type="text" placeholder="Enter Company Name">
-                @error('company_name')
-                    <span class="text-red-500">{{ $message }}</span>
-                @enderror
-            </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="Email">
-                    Email
-                </label>
-                <input
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="Email" name="email" type="text" value="{{ $client->email }}" placeholder="Enter Email">
-                @error('email')
-                    <span class="text-red-500">{{ $message }}</span>
-                @enderror
+
+            <div class="grid grid-cols-2 gap-2">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                        Name
+                    </label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="username" name="name" value="{{ $client->name }}" type="text"
+                        placeholder="Enter Username">
+                    @error('name')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                        Company Name
+                    </label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="company_name" name="company_name" value="{{ $client->company_name }}" type="text"
+                        placeholder="Enter Company Name">
+                    @error('company_name')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
+                </div>
             </div>
 
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
-                    Phone
-                </label>
-                <input
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="phone" name="phone" value="{{ $client->phone }}" type="number" placeholder="Enter Phone">
-                @error('phone')
-                    <span class="text-red-500">{{ $message }}</span>
-                @enderror
-            </div>
+            <div class="grid grid-cols-4 gap-2">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="Email">
+                        Email
+                    </label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="Email" name="email" type="text" value="{{ $client->email }}"
+                        placeholder="Enter Email">
+                    @error('email')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
+                </div>
 
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
-                    Whatsapp
-                </label>
-                <input
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="whatsapp" name="whatsapp" value="{{ $client->whatsapp }}" type="number" placeholder="Enter Whatsapp">
-                @error('whatsapp')
-                    <span class="text-red-500">{{ $message }}</span>
-                @enderror
-            </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
+                        Phone
+                    </label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="phone" name="phone" value="{{ $client->phone }}" type="number"
+                        placeholder="Enter Phone">
+                    @error('phone')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
+                </div>
 
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
-                    Profile Picture
-                </label>
-                <input
-                    class="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="profile" name="profile" type="file">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
+                        Whatsapp
+                    </label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="whatsapp" name="whatsapp" value="{{ $client->whatsapp }}" type="number"
+                        placeholder="Enter Whatsapp">
+                    @error('whatsapp')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
+                        Profile Picture
+                    </label>
+                    <input
+                        class="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="profile" name="profile" type="file">
                     <img src="{{ asset($client->profile) }}" alt="">
-                @error('profile')
-                    <span class="text-red-500">{{ $message }}</span>
-                @enderror
+                    @error('profile')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
+                </div>
             </div>
 
             <div class="mb-4">

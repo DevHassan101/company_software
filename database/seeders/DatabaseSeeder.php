@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        $roles = ['admin', 'user', 'super admin'];
+        $roles = ['super admin', 'admin', 'user'];
         foreach ($roles as $role) {
             Role::create([
                 'guard_name' => "web",
@@ -27,10 +27,26 @@ class DatabaseSeeder extends Seeder
 
         $users = [
             [
-                "name" => "Admin",
-                "email" => "admin@gmail.com",
+                "name" => "Hassan Shaikh",
+                "email" => "hassan@gmail.com",
                 "password" => Hash::make("password"),
-                "role" => "admin"
+                "role" => "super admin",
+                "designation" => "founder",
+                "salary" => 40000
+            ],
+            [
+                "name" => "Hammad Sherani",
+                "email" => "hammad@gmail.com",
+                "password" => Hash::make("password"),
+                "role" => "admin",
+                'designation' => 20000
+            ],
+            [
+                "name" => "Daniyal",
+                "email" => "daniyal@gmail.com",
+                "password" => Hash::make("password"),
+                "role" => "user",
+                'designation' => 10000
             ],
         ];
 
@@ -38,8 +54,7 @@ class DatabaseSeeder extends Seeder
             $newUser = User::create([
                 'name' => $user['name'],
                 'email' => $user['email'],
-                'password' => Hash::make($user['password']),
-
+                'password' => $user['password'],
             ]);
             $newUser->assignRole($user['role']);
         }

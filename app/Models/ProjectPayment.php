@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectPayment extends Model
 {
@@ -17,7 +18,16 @@ class ProjectPayment extends Model
         'created_by'
     ];
 
-    public function project(){
-        return $this->hasMany(Project::class);
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'project_id');
+    }
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->created_by = Auth::id();
+        });
     }
 }

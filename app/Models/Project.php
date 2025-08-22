@@ -27,19 +27,25 @@ class Project extends Model
         return $this->belongsTo(Client::class, 'client_id');
     }
 
-    public function project_task(){
+    public function projectTask(){
         return $this->belongsTo(ProjectTask::class, 'id');
     }
 
-    public function project_payment(){
-        return $this->belongsTo(ProjectPayment::class, 'id');
+    public function projectPayments()
+    {
+        return $this->hasMany(ProjectPayment::class, 'project_id');
     }
-
-    public function project_feedback(){
+    
+    public function projectFeedback(){
         return $this->belongsTo(ProjectFeedback::class, 'id');
     }
+    
+    public function projectIssue(){
 
-    public function project_issue(){
         return $this->belongsTo(ProjectIssue::class, 'id');
+    }
+
+    public function getPaidAmountAttribute(){
+        return $this->projectPayments()->sum('amount');
     }
 }

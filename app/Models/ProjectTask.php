@@ -19,11 +19,17 @@ class ProjectTask extends Model
         'created_by'
     ];
 
-    public function project(){
-        return $this->hasMany(Project::class);
+    // public function project(){
+    //     return $this->hasMany(Project::class);
+    // }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'project_id');
     }
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class, 'user_id');
     }
 }

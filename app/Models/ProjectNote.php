@@ -16,9 +16,14 @@ class ProjectNote extends Model
         'media'
     ];
 
+    // public function project()
+    // {
+    //     return $this->hasMany(Project::class);
+    // }
+
     public function project()
     {
-        return $this->hasMany(Project::class);
+        return $this->belongsTo(Project::class, 'project_id');
     }
 
     public function user()

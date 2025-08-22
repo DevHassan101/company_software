@@ -20,6 +20,7 @@
         </div>
     </div> --}}
 
+
     <div class="flex justify-between items-center my-3">
         <div class="capitalize text-lg font-bold">
             <h1>create project</h1>
@@ -38,7 +39,7 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="username" name="name" type="text" placeholder="Enter Username">
+                        id="username" name="name" type="text" placeholder="Enter Project">
                     @error('name')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror

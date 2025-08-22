@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -21,7 +22,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'password'
+        'password',
+        // 'salary',
     ];
 
     /**
@@ -47,15 +49,19 @@ class User extends Authenticatable
         return $this->belongsTo(Project::class);
     }
 
-    public function project_notes(){
+    public function projectNotes(){
         return $this->belongsTo(ProjectNote::class);
     }
 
-    public function project_task(){
+    public function projectTask(){
         return $this->belongsTo(ProjectTask::class);
     }
 
-    public function project_user(){
+    public function projectUser(){
         return $this->belongsTo(ProjectUser::class);
+    }
+
+    public function userInfo(){
+        return $this->hasOne(UserInfo::class);
     }
 }

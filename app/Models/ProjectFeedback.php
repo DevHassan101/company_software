@@ -17,7 +17,12 @@ class ProjectFeedback extends Model
         'status'
     ];
 
-    public function project(){
-        return $this->hasMany(Project::class);
+    // public function project(){
+    //     return $this->hasMany(Project::class);
+    // }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'project_id');
     }
 }

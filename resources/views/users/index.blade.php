@@ -23,6 +23,7 @@
     <div class="flex justify-between items-center my-3">
         <div class="capitalize text-lg font-bold">
             <h1>all users</h1>
+            
         </div>
         <a
             href="{{ route('user.create') }}"class="text-black hover:text-white capitalize border border-black hover:bg-black focus:ring-4 focus:outline-none rounded-lg text-sm px-5 py-2.5 text-center">add</a>
@@ -86,6 +87,8 @@
                          <td class="p-5 text-right bg-white border-b border-gray-200 flex flex-end">
                             <a
                                 href="{{ route('user.edit', $user->id) }}" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800 capitalize">edit</a>
+                            <a
+                                href="{{ route('user.show', $user->id) }}" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800 capitalize">show</a>
                                 <form action="{{ route('user.destroy', $user->id) }}" method="post">
                                 @csrf
                                 @method('DELETE')
@@ -109,6 +112,7 @@
 
             </tbody>
         </table>
+        
 
         <div class="flex flex-col items-center px-5 py-5 bg-white border-t xs:flex-row xs:justify-between">
             {{ $users->links() }}

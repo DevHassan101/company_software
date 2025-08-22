@@ -4,6 +4,8 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Contracts\Role;
 
@@ -30,14 +32,22 @@ Route::middleware('auth')->group(function () {
     Route::view('about', 'about')->name('about');
 
     Route::resource('user', UserController::class);
+    Route::get('user/{id}/show', [UserController::class, 'show'])->name('user.show');
     Route::resource('client', ClientController::class);
     Route::resource('project', ProjectController::class);
+    Route::resource('payment', PaymentController::class);
+    Route::get('/task',[TaskController::class, 'index'])->name('task.index');
+    Route::get('/task/create',[TaskController::class, 'create'])->name('task.create');
+    Route::post('/task/store',[TaskController::class, 'store'])->name('task.store');
+    Route::get('/task/{id}/edit',[TaskController::class, 'edit'])->name('task.edit');
+    Route::put('/task/{id}update',[TaskController::class, 'update'])->name('task.update');
+    Route::delete('/task/{id}/delete',[TaskController::class, 'destroy'])->name('task.destroy');
     Route::post('project/{projectId}/notes', [ProjectController::class, 'storeNote'])->name('project.store-note');
-    Route::post('project/tasks', [ProjectController::class, 'storeTask'])->name('project.store-task');
+    Route::post('project/{projectId}/tasks', [ProjectController::class, 'storeTask'])->name('project.store-task');
     Route::post('project/users', [ProjectController::class, 'storeUser'])->name('project.store-user');
     Route::post('project/payment', [ProjectController::class, 'storePayment'])->name('project.store-payment');
-    Route::post('project/feedback', [ProjectController::class, 'storeFeedback'])->name('project.store-feedback');
-    Route::post('project/Issue', [ProjectController::class, 'storeIssue'])->name('project.store-issue');
+    Route::post('project/{projectId}/feedback', [ProjectController::class, 'storeFeedback'])->name('project.store-feedback');
+    Route::post('project/{projectId}/Issue', [ProjectController::class, 'storeIssue'])->name('project.store-issue');
     // Route::get('user', [UserController::class, 'index'])->name('users.index');
     // Route::get('/user/create', [UserController::class, 'create'])->name('users.create');
     // Route::post('/user', [UserController::class, 'store'])->name('user.store');

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->decimal('salary')->default(0);
+            $table->enum('designation', config('designations'));
             $table->rememberToken();
             $table->timestamps();
         });

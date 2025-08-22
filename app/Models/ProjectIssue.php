@@ -17,7 +17,17 @@ class ProjectIssue extends Model
     ];
 
 
-    public function project(){
-        return $this->hasMany(Project::class);
+    // public function project(){
+    //     return $this->hasMany(Project::class);
+    // }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'project_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }
