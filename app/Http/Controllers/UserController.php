@@ -14,13 +14,13 @@ class UserController extends Controller
     {
         $users = User::with('roles')->paginate();
         $roles = Role::all();
-        return view('users.index', compact('users', 'roles'));
+        return view('pages.users.index', compact('users', 'roles'));
     }
 
     public function create()
     {
         $roles = Role::all();
-        return view('users.create', compact('roles'));
+        return view('pages.users.create', compact('roles'));
     }
 
     public function store(Request $request)
@@ -77,7 +77,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::with('userInfo')->find($id);
-        return view('users.view', compact('user'));
+        return view('pages.users.view', compact('user'));
     }
 
     public function edit($id)
@@ -85,7 +85,7 @@ class UserController extends Controller
         $user = User::with('userInfo')->findOrFail($id);
         $roles = Role::all();
 
-        return view('users.edit', compact('user', 'roles'));
+        return view('pages.users.edit', compact('user', 'roles'));
     }
 
     public function update(Request $request, $id)

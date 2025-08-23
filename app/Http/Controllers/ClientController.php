@@ -13,7 +13,7 @@ class ClientController extends Controller
     public function index()
     {
         $clients = Client::orderBy('name', 'DESC')->paginate(10);
-        return view('clients.index', compact('clients'));
+        return view('pages.clients.index', compact('clients'));
     }
 
     /**
@@ -21,7 +21,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        return view('clients.create');
+        return view('pages.clients.create');
     }
 
     /**
@@ -58,7 +58,7 @@ class ClientController extends Controller
     public function show(Client $client)
     {   
         // dd($client);
-        return view('clients.show', compact('client'));
+        return view('pages.clients.show', compact('client'));
     }
 
     /**
@@ -68,7 +68,7 @@ class ClientController extends Controller
     {
         $client = Client::findOrFail($id);
 
-        return view('clients.edit', compact('client'));
+        return view('pages.clients.edit', compact('client'));
     }
 
     /**
@@ -103,9 +103,6 @@ class ClientController extends Controller
         }
 
         $client->update($validation);
-
-        // dd($client);
-        // return view('clients.index');
         return redirect()->route('client.index')->with('message', 'Client Updated Successfully');
     }
 

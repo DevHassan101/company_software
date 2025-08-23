@@ -1,19 +1,63 @@
+<style>
+    .project {
+        display: block;
+        width: 100%;
+        overflow: hidden;
+        line-height: 1.5rem;
+        text-align: justify;
+        max-height: 4.5rem;
+        padding-left: 24px;
+        padding-right: 24px;
+        transition: all 0.3s ease;
+    }
+
+    .project.expanded {
+        max-height: 200px;
+        overflow: scroll;
+    }
+</style>
+
+
 <x-app-layout>
     <x-slot name="header">
         {{ __('Projects') }}
     </x-slot>
-
 
     <div class="flex justify-between items-center my-3">
         <div class="capitalize text-lg font-bold">
             <h1>projects view</h1>
         </div>
         <a href="{{ route('project.index') }}"
-            class="text-black hover:text-white capitalize border border-black hover:bg-black focus:ring-4 focus:outline-none rounded-lg text-sm px-5 py-2.5 text-center">back</a>
+            class="px-4 py-2 text-sm font-medium rounded-lg border border-black text-black-700 hover:bg-black capitalize hover:text-white transition">
+            back
+        </a>
     </div>
 
-    {{-- <h4>{{ $project->description }}</h4>
-    <h4>{{ $project->requirments }}</h4> --}}
+    <div class="flex justify-between gap-4  my-6 py-5 border-b-4">
+        <div class="w-1/2 bg-white p-5 rounded-md" >
+            <h4 class="mb-2 capitalize font-bold text-gray-800 mx-6">Description</h4>
+            <div class="relative">
+                <p class="project text-gray-600" id="desc">
+                    {{ $project->description }}
+                </p>
+                <button onclick="toggleText('desc', this)" class="mx-6 hover:underline mt-1 block text-sm font-medium">
+                    Show more
+                </button>
+            </div>
+        </div>
+        
+        <div class="w-1/2 bg-white p-5 rounded-md">
+            <h4 class="mb-2 capitalize font-bold text-gray-800 mx-6">Requirements</h4>
+            <div class="relative">
+                <p class="project text-gray-600" id="req">
+                    {{ $project->requirments }}
+                </p>
+                <button onclick="toggleText('req', this)" class="mx-6 hover:underline mt-1 block text-sm font-medium">
+                    Show more
+                </button>
+            </div>
+        </div>
+    </div>
 
     @if (session()->has('message'))
         <div class="alert alert-success bg-green-600 text-white my-3 p-5">
@@ -951,6 +995,12 @@
             toggleModal('view-issue-modal');
         }
         // project show all issues fn end
+
+        function toggleText(id, btn) {
+            let text = document.getElementById(id);
+            text.classList.toggle("expanded");
+            btn.textContent = text.classList.contains("expanded") ? "Show less" : "Show more";
+        }
     </script>
 
 </x-app-layout>

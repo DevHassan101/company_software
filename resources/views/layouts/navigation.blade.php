@@ -92,12 +92,36 @@
                 </x-slot>
                 {{ __('Payment') }}
             </x-nav-link>
+
+            <x-nav-link href="{{ route('expense.index') }}" :active="request()->routeIs('expense.index')">
+                <x-slot name="icon">
+                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path
+                            d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z">
+                        </path>
+                    </svg>
+                </x-slot>
+                {{ __('Expense') }}
+            </x-nav-link>
+
+            <x-nav-link href="{{ route('salary.index') }}" :active="request()->routeIs('salary.index')">
+                <x-slot name="icon">
+                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path
+                            d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z">
+                        </path>
+                    </svg>
+                </x-slot>
+                {{ __('Salary') }}
+            </x-nav-link>
         {{-- @endrole --}}
 
 
 
         {{-- @role('user') --}}
-            <x-nav-link href="{{ route('user.index') }}" :active="request()->routeIs('user.index')">
+            {{-- <x-nav-link href="{{ route('user.index') }}" :active="request()->routeIs('user.index')">
                 <x-slot name="icon">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
@@ -107,7 +131,7 @@
                     </svg>
                 </x-slot>
                 {{ __('Users') }}
-            </x-nav-link>
+            </x-nav-link> --}}
         {{-- @endrole --}}
 
     </nav>

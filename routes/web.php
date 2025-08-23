@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Contracts\Role;
@@ -36,6 +38,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('client', ClientController::class);
     Route::resource('project', ProjectController::class);
     Route::resource('payment', PaymentController::class);
+    Route::resource('expense', ExpenseController::class);
+    Route::resource('salary', SalaryController::class);
     Route::get('/task',[TaskController::class, 'index'])->name('task.index');
     Route::get('/task/create',[TaskController::class, 'create'])->name('task.create');
     Route::post('/task/store',[TaskController::class, 'store'])->name('task.store');

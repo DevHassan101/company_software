@@ -16,7 +16,7 @@ class PaymentController extends Controller
     {
         $payments = ProjectPayment::with('project')->latest()->paginate(10);
         // return $payments;
-        return view('payments.index', compact('payments'));
+        return view('pages.payments.index', compact('payments'));
     }
 
     /**
@@ -25,7 +25,7 @@ class PaymentController extends Controller
     public function create()
     {
         $projects = Project::all();
-        return view('payments.create', compact('projects'));
+        return view('pages.payments.create', compact('projects'));
     }
 
     /**
@@ -62,9 +62,10 @@ class PaymentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(ProjectPayment $payment)
     {
-        //
+        // return $payment;
+        return view('pages.payments.view', compact('payment'));
     }
 
     /**
@@ -73,7 +74,7 @@ class PaymentController extends Controller
     public function edit(ProjectPayment $payment)
     {
         $projects = Project::all();
-        return view('payments.edit', compact('payment', 'projects'));
+        return view('pages.payments.edit', compact('payment', 'projects'));
     }
 
 

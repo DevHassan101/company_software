@@ -8,7 +8,9 @@
             <h1>all project</h1>
         </div>
         <a href="{{ route('project.create') }}"
-            class="text-black hover:text-white capitalize border border-black hover:bg-black focus:ring-4 focus:outline-none rounded-lg text-sm px-5 py-2.5 text-center">add</a>
+            class="px-4 py-2 text-sm font-medium rounded-lg border border-black text-black-700 hover:bg-black capitalize hover:text-white transition">
+            add
+        </a>
     </div>
 
     @if (session()->has('message'))
@@ -67,7 +69,7 @@
                                 </div>
                             </div>
                         </td>
-                        
+
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                             <a href="mailto:{{ $project->email }}" class="text-gray-900 whitespace-no-wrap"><b>Start
                                     Date: </b> {{ $project->started_at }}</a>
@@ -78,17 +80,21 @@
                         <td class="border-gray-200 bg-white p-5">
                             <div class="text-right flex flex-end">
 
-            
-
                                 <a href="{{ route('project.edit', $project->id) }}"
-                                    class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800  focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800 capitalize">edit</a>
+                                    class="px-4 py-2 text-sm font-medium rounded-lg border border-green-700 text-green-700 hover:bg-green-700 hover:text-white transition">
+                                    Edit
+                                </a>
+
                                 <a href="{{ route('project.show', $project->id) }}"
-                                    class="text-orange-700 hover:text-white border border-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-orange-500 dark:text-orange-500 dark:hover:text-white dark:hover:bg-orange-600 dark:focus:ring-orange-800 capitalize">view</a>
-                                <form action="{{ route('project.destroy', $project->id) }}" method="post">
+                                    class="px-4 py-2 text-sm font-medium capitalize rounded-lg border border-orange-700 text-orange-700 hover:bg-orange-700 hover:text-white transition">view</a>
+
+                                <form action="{{ route('project.destroy', $project->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button
-                                        class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900 capitalize">Delete</button>
+                                    <button type="submit"
+                                        class="px-4 py-2 text-sm font-medium rounded-lg border border-red-700 text-red-700 hover:bg-red-700 hover:text-white transition">
+                                        Delete
+                                    </button>
                                 </form>
                             </div>
                         </td>

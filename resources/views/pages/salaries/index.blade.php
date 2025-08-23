@@ -1,15 +1,15 @@
 <x-app-layout>
     <x-slot name="header">
-        {{ __('Payment') }}
+        {{ __('Expenses') }}
     </x-slot>
 
     <div class="flex justify-between items-center my-3">
         <div class="capitalize text-lg font-bold">
-            <h1>all payments</h1>
-      
+            <h1>all salaries</h1>
+
         </div>
-        <a href="{{ route('payment.create') }}"
-            class="text-black hover:text-white capitalize border border-black hover:bg-black focus:ring-4 focus:outline-none rounded-lg text-sm px-5 py-2.5 text-center">
+        <a href="{{ route('salary.create') }}"
+            class="px-4 py-2 text-sm font-medium rounded-lg border border-black text-black-700 hover:bg-black capitalize hover:text-white transition">
             add
         </a>
 
@@ -31,12 +31,16 @@
                     </th>
                     <th
                         class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                        Project Details
+                        User
                     </th>
 
                     <th
                         class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                        Media
+                        Paid For
+                    </th>
+                    <th
+                        class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                        Amount
                     </th>
 
                     <th
@@ -46,6 +50,11 @@
 
                     <th
                         class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                        receipt
+                    </th>
+
+                    <th
+                        class="px-5 py-3 text-xs font-semibold tracking-wider text-center text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
                         Action
                     </th>
 
@@ -55,56 +64,61 @@
                 @php
                     $i = 0;
                 @endphp
-                @foreach ($payments as $payment)
+                @foreach ($salaries as $salary)
                     <tr>
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                             <p class="text-gray-900 whitespace-no-wrap">{{ ++$i }}</p>
                         </td>
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                            {{ $salary->users->name ?? 'N/A' }}
+                        </td>
+                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                            {{ $salary->paid_for }}
+                        </td>
+                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                             <div>
                                 <p class="text-gray-900 whitespace-no-wrap">
-                                    <b>Title: </b>{{ $payment->project->name }}
-                                </p>
-
-                                <p class="text-gray-900 whitespace-no-wrap"><b>Project Amount:
-                                    </b>{{ $payment->amount }}</p>
-                                <p class="text-gray-900 whitespace-no-wrap capitalize"> <b>project budget:</b>
-                                    </b>{{ $payment->project->budget }}</p>
-                                </p>
-                                <p class="text-gray-900 whitespace-no-wrap capitalize"> <b>paid amount:</b>
-                                    </b>{{ $payment->project->paid_amount }}</p>
+                                    {{ $salary->amount }}
                                 </p>
                             </div>
                         </td>
                         @php
-                            $medias = json_decode($payment->media, true);
+                            $receipts = json_decode($salary->receipt, true);
                         @endphp
 
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            @if ($medias && count($medias) > 0)
+                            {{ $salary->description }}
+                        </td>
+
+                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                            @if ($receipts && count($receipts) > 0)
                                 <div class="flex">
-                                    @foreach ($medias as $media)
+                                    @foreach ($receipts as $receipt)
                                         <div>
-                                            <img src="{{ asset($media) }}" alt="image not found" class="w-28 h-28" />
+                                            <img src="{{ asset($receipt) }}" alt="image not found" class="w-16 h-16" />
                                         </div>
                                     @endforeach
                                 </div>
                             @endif
                         </td>
 
-                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            <p class="text-gray-900 whitespace-no-wrap">{{ $payment->note }}</p>
-                        </td>
-
                         <td class="border-gray-200 bg-white p-5">
-                            <div class="text-right flex flex-end">
-                                <a href="{{ route('payment.edit', $payment->id) }}"
-                                    class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800  focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800 capitalize">edit</a>
-                                <form action="{{ route('payment.destroy', $payment->id) }}" method="post">
+                            <div class="flex items-center justify-center gap-4 mb-4">
+                                <a href="{{ route('salary.edit', $salary->id) }}"
+                                    class="px-4 py-2 text-sm font-medium rounded-lg border border-green-700 text-green-700 hover:bg-green-700 hover:text-white transition">
+                                    Edit
+                                </a>
+
+                                <a href="{{ route('salary.show', $salary->id) }}"
+                                    class="px-4 py-2 text-sm font-medium capitalize rounded-lg border border-orange-700 text-orange-700 hover:bg-orange-700 hover:text-white transition">view</a>
+
+                                <form action="{{ route('salary.destroy', $salary->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button
-                                        class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900 capitalize">Delete</button>
+                                    <button type="submit"
+                                        class="px-4 py-2 text-sm font-medium rounded-lg border border-red-700 text-red-700 hover:bg-red-700 hover:text-white transition">
+                                        Delete
+                                    </button>
                                 </form>
                             </div>
                         </td>
@@ -115,7 +129,7 @@
             </tbody>
         </table>
         <div class="flex flex-col items-center px-5 py-5 bg-white border-t xs:flex-row xs:justify-between">
-            {{ $payments->links() }}
+            {{ $salaries->links() }}
         </div>
     </div>
 

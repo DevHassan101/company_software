@@ -15,7 +15,7 @@ class TaskController extends Controller
     public function index()
     {
         $projectTasks = ProjectTask::with('project', 'user')->paginate(10);
-        return view('tasks.index', compact('projectTasks'));
+        return view('pages.tasks.index', compact('projectTasks'));
     }
 
     /**
@@ -25,7 +25,7 @@ class TaskController extends Controller
     {
         $users = User::all();
         $projects = Project::all();
-        return view('tasks.create', compact('users', 'projects'));
+        return view('pages.tasks.create', compact('users', 'projects'));
     }
 
     /**
@@ -56,7 +56,7 @@ class TaskController extends Controller
     public function show(string $id)
     {
         $projectTask = ProjectTask::findOrFail($id);
-        return view('tasks.show', compact('projectTask'));
+        return view('pages.tasks.show', compact('projectTask'));
     }
 
     /**
@@ -67,7 +67,7 @@ class TaskController extends Controller
         $projectTask = ProjectTask::findOrFail($id);
         $users = User::all();
         $projects = Project::all();
-        return view('tasks.edit', compact('projectTask', 'users', 'projects'));
+        return view('pages.tasks.edit', compact('projectTask', 'users', 'projects'));
     }
 
     /**

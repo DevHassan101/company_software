@@ -6,31 +6,32 @@
 
     <div class="flex justify-between items-center my-3">
         <div class="capitalize text-lg font-bold">
-            <h1>create payment</h1>
+            <h1>edit payment</h1>
         </div>
-        <a
-            href="{{ route('payment.index') }}"class="text-black hover:text-white capitalize border border-black hover:bg-black focus:ring-4 focus:outline-none rounded-lg text-sm px-5 py-2.5 text-center">back</a>
+        <a href="{{ route('payment.index') }}"
+            class="px-4 py-2 text-sm font-medium rounded-lg border border-black text-black-700 hover:bg-black capitalize hover:text-white transition">
+            back
+        </a>
     </div>
 
     <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
-        <form class="bg-white rounded px-8 pt-6 pb-8 mb-4" action="{{ route('payment.store') }}" method="post"
-            enctype="multipart/form-data">
+        <form class="bg-white rounded px-8 pt-6 pb-8 mb-4" action="{{ route('payment.update', $payment->id) }}"
+            method="post" enctype="multipart/form-data">
             @csrf
+            @method('PUT')
 
             <div class="grid grid-cols-3 gap-2">
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="project_id">
-                        Project
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
+                        project
                     </label>
-                    <select id="project_id" name="project_id"
-                        class="border border-gray-300 rounded w-full py-1 text-black">
+                    <select name="project_id" class="border border-gray-300 rounded w-full py-1.5 text-black">
                         <option value="select one">select one</option>
                         @foreach ($projects as $project)
-                            <option value="{{ $project->id }}" data-budget="{{ $project->budget }}"
-                                data-paid-amount="{{ $project->paidAmount }}">{{ $project->name }}</option>
+                            <option value="{{ $project->id }}" {{ $project->id == $project->id ? 'selected' : '' }}>
+                                {{ $project->name }}</option>
                         @endforeach
                     </select>
-                    <span id="amount_info" class="mt-3 font-semibold"></span>
                     @error('project_id')
                         {{ $message }}
                     @enderror
@@ -42,7 +43,8 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="amount" name="amount" type="number" placeholder="Enter amount">
+                        id="amount" name="amount" type="number" value="{{ $payment->amount }}"
+                        placeholder="Enter amount">
                     @error('amount')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -52,9 +54,21 @@
                     <label class="block text-gray-700 text-sm font-bold mb-2 " for="media">
                         Upload Media
                     </label>
+                    @php
+                        $medias = json_decode($payment->media, true);
+                    @endphp
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="media" name="media[]" multiple type="file">
+                    @if ($medias && count($medias) > 0)
+                        <div class="flex">
+                            @foreach ($medias as $media)
+                                <div>
+                                    <img src="{{ asset($media) }}" alt="image not found" class="w-28 h-28" />
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
                     @error('media')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -64,29 +78,18 @@
             <div class="mb-4">
                 <label for="note" class="block mb-1 font-medium capitalize text-black">note</label>
                 <textarea id="note" name="note" rows="6" placeholder="Write note here"
-                    class="w-full p-2 border rounded-md text-black dark:border-gray-500"></textarea>
+                    class="w-full p-2 border rounded-md text-black dark:border-gray-500">{{ $payment->note }}</textarea>
             </div>
 
             <div class="flex items-center justify-between">
                 <button
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                    Create
+                    Update
                 </button>
             </div>
 
         </form>
 
     </div>
-    <script>
-        document.getElementById('project_id').addEventListener('change', function(e) {
-            e.preventDefault();
 
-            let selectedOption = this.options[this.selectedIndex];
-            let budget = selectedOption.dataset.budget;
-            let paidAmount = selectedOption.dataset.paidAmount;
-
-            document.getElementById('amount_info').innerText = 
-            "Budget: " + budget + " | Paid: " + paidAmount;
-        });
-    </script>
 </x-app-layout>

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('profile');
             $table->longText('about');
             $table->string('reference');
+            $table->enum('category', ['sale', 'agency', 'reference']);
             $table->timestamps();
         });
     }

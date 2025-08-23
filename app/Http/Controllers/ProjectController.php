@@ -21,7 +21,7 @@ class ProjectController extends Controller
     public function index()
     {
         $projects = Project::with('client')->paginate(10);
-        return view('projects.index', compact('projects'));
+        return view('pages.projects.index', compact('projects'));
     }
 
     /**
@@ -32,7 +32,7 @@ class ProjectController extends Controller
         $clients = Client::all();
         $users = User::all();
 
-        return view('projects.create', compact('clients', 'users'));
+        return view('pages.projects.create', compact('clients', 'users'));
     }
 
     /**
@@ -87,7 +87,7 @@ class ProjectController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('projects.view', compact('project', 'users', 'projectNotes', 'projectTasks', 'projectFeedbacks', 'projectIssues'));
+        return view('pages.projects.view', compact('project', 'users', 'projectNotes', 'projectTasks', 'projectFeedbacks', 'projectIssues'));
     }
 
     /**
@@ -99,7 +99,7 @@ class ProjectController extends Controller
         $project = Project::findOrFail($id);
         $clients = Client::all();
         $users = User::all();
-        return view('projects.edit', compact('project', 'clients', 'users'));
+        return view('pages.projects.edit', compact('project', 'clients', 'users'));
     }
 
     /**
