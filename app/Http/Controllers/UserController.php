@@ -10,12 +10,18 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::with('roles')->paginate();
+        $users = User::with('roles')->paginate(10);
+
+        if ($request->ajax()) {
+            return response()->json($users);
+        }
+
         $roles = Role::all();
         return view('pages.users.index', compact('users', 'roles'));
     }
+
 
     public function create()
     {

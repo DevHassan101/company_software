@@ -6,7 +6,6 @@
     <div class="flex justify-between items-center my-3">
         <div class="capitalize text-lg font-bold">
             <h1>all users</h1>
-
         </div>
         <a href="{{ route('user.create') }}"
             class="px-4 py-2 text-sm font-medium rounded-lg border border-black text-black-700 hover:bg-black capitalize hover:text-white transition">
@@ -19,6 +18,7 @@
             {{ session()->get('message') }}
         </div>
     @endif
+
 
     <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
         <table class="min-w-full leading-normal">
@@ -49,58 +49,70 @@
 
                 </tr>
             </thead>
-            <tbody>
-                @php
-                    $i = 0;
-                @endphp
-                @foreach ($users as $user)
-                    <tr>
-                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            <p class="text-gray-900 whitespace-no-wrap">{{ ++$i }}</p>
-                        </td>
-                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            <p class="text-gray-900 whitespace-no-wrap">{{ $user->name }}</p>
-                        </td>
-                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            <p class="text-gray-900 whitespace-no-wrap">{{ $user->email }}</p>
-                        </td>
-                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            <p class="text-gray-900 whitespace-no-wrap">
-                                {{ $user->roles->first()?->name ?? 'N/A' }}
-                            </p>
-                        </td>
-                        <td class="border-gray-200 bg-white p-5">
-                            <div class="flex items-center justify-center gap-4 mb-4">
-                                <a href="{{ route('user.edit', $user->id) }}"
-                                    class="px-4 py-2 text-sm font-medium rounded-lg border border-green-700 text-green-700 hover:bg-green-700 hover:text-white transition">
-                                    Edit
-                                </a>
-
-                                <a href="{{ route('user.show', $user->id) }}"
-                                    class="px-4 py-2 text-sm font-medium capitalize rounded-lg border border-orange-700 text-orange-700 hover:bg-orange-700 hover:text-white transition">view</a>
-
-                                <form action="{{ route('user.destroy', $user->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        class="px-4 py-2 text-sm font-medium rounded-lg border border-red-700 text-red-700 hover:bg-red-700 hover:text-white transition">
-                                        Delete
-                                    </button>
-                                </form>
-                            </div>
-
-                        </td>
-                    </tr>
-                @endforeach
-
+            <tbody id="user-table-body">
 
             </tbody>
         </table>
 
 
-        <div class="flex flex-col items-center px-5 py-5 bg-white border-t xs:flex-row xs:justify-between">
-            {{ $users->links() }}
-        </div>
+        <div id="pagination-links" class="flex justify-end m-4"></div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            fetchUsers();
+
+            function fetchUsers(page = 1) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/user?page=' + page,
+                    dataType: 'json',
+                    success: function(response) {
+                        let users = response.data;
+                        let tbody = '';
+                        let i = 0;
+                        users.forEach(user => {
+                            tbody += `
+            <tr>
+                <td class="px-5 py-5 text-md bg-white border-b border-gray-200">${++i}</td>
+                <td class="px-5 py-5 text-md bg-white border-b border-gray-200">${user.name}</td>
+                <td class="px-5 py-5 text-md bg-white border-b border-gray-200">${user.email}</td>
+                <td class="px-5 py-5 text-md bg-white border-b border-gray-200">${user.roles[0] ? user.roles[0].name : 'N/A'}</td>
+                <td class="px-5 py-5 text-md bg-white border-b border-gray-200">
+                    <div class="flex items-center justify-center gap-4 mb-4">
+                    <a href="/user/${user.id}/edit" class="px-4 py-2 text-sm font-medium rounded-lg border border-green-700 text-green-700 hover:bg-green-700 hover:text-white transition">Edit</a>
+                    <a href="/user/${user.id}" class="px-4 py-2 text-sm font-medium rounded-lg border border-orange-700 text-orange-700 hover:bg-orange-700 hover:text-white transition">View</a>
+                    <form action="/user/${user.id}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="px-4 py-2 text-sm font-medium rounded-lg border border-red-700 text-red-700 hover:bg-red-700 hover:text-white transition">Delete</button>
+                    </form>
+                     </div>
+                </td>
+            </tr>
+        `;
+                        });
+
+                        $("#user-table-body").html(tbody);
+                        let pagination = response.links.map(link => {
+                            return `<button class="pagination-link px-3 py-1 border m-1 ${link.active ? 'bg-black text-white' : ''}" data-page="${link.url ? new URL(link.url).searchParams.get('page') : ''}">${link.label}</button>`;
+                        }).join('');
+
+                        $("#pagination-links").html(pagination);
+                    },
+                    error: function() {
+                        console.log('Data not found');
+                    }
+                });
+            }
+            $(document).on("click", ".pagination-link", function() {
+                let page = $(this).data("page");
+                if (page) {
+                    fetchUsers(page);
+                }
+            });
+        });
+    </script>
+
 
 </x-app-layout>

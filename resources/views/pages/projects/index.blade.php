@@ -47,7 +47,7 @@
 
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="project-table-body">
                 @php
                     $i = 0;
                 @endphp
@@ -108,6 +108,24 @@
             {{ $projects->links() }}
         </div>
     </div>
+
+    <script>
+        $(document).ready(function () {
+            fetchProjects();
+            
+            function fetchProjects(page = 1){
+                $.ajax({
+                    type: "method",
+                    url: "url",
+                    data: "data",
+                    dataType: "dataType",
+                    success: function (response) {
+                        
+                    }
+                });
+            } 
+        });
+    </script>
 
 
 </x-app-layout>

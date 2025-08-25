@@ -18,9 +18,13 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $projects = Project::with('client')->paginate(10);
+
+        if ($request->ajax()) {
+            return response()->json();
+        }
         return view('pages.projects.index', compact('projects'));
     }
 

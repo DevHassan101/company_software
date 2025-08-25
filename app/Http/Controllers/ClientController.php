@@ -10,9 +10,20 @@ class ClientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $clients = Client::orderBy('name', 'DESC')->paginate(10);
+
+        if ($request->ajax()) {
+            $html = view('pages.clients.table', compact('clients'))->render();
+            $records = $clients;
+            $pagination = view('pages.appends.pagination', compact('records'))->render();
+            return response()->json([
+                'error' => false,
+                'html' => $html,
+                'pagination' => $pagination
+            ]);
+        }
         return view('pages.clients.index', compact('clients'));
     }
 
@@ -56,7 +67,7 @@ class ClientController extends Controller
      * Display the specified resource.
      */
     public function show(Client $client)
-    {   
+    {
         // dd($client);
         return view('pages.clients.show', compact('client'));
     }
@@ -76,7 +87,7 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+
         $client = Client::findOrFail($id);
 
         $validation = $request->validate([
