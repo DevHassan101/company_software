@@ -43,10 +43,11 @@
                     </button>
                 </form>
             </div>
-
         </td>
-
+        
     </tr>
+    
+
 @empty
     <tr>
         <td colspan="4">
@@ -56,3 +57,5 @@
         </td>
     </tr>
 @endforelse
+
+
