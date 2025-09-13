@@ -66,8 +66,8 @@
                             return
                         } else {
                             $("#client-table-body").html(response.html);
-                            $("#pagination-links").html(response.pagination); 
-
+                            $("#pagination-links").html(response.pagination);
+                            
                         }
                     },
                     error: function() {
@@ -76,12 +76,10 @@
                 });
             }
 
-
             
             $(document).on("click", "#pagination-links", function(event) {
                 event.preventDefault();
                 let page = $(this).data("page");
-                
                 if (page) {
                     fetchClients(page);
                 }

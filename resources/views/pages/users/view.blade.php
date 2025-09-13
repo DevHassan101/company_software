@@ -45,7 +45,11 @@
             </div>
             <div>
                 <p class="font-semibold text-gray-700">Salary</p>
-                <p class="text-gray-600">{{ $user->salary }}</p>
+                <p class="text-gray-600">{{ $user->userInfo->salary }}</p>
+            </div>
+            <div>
+                <p class="font-semibold text-gray-700">designation</p>
+                <p class="text-gray-600">{{ $user->userInfo->designation }}</p>
             </div>
             <div>
                 <p class="font-semibold text-gray-700">Gender</p>

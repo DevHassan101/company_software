@@ -23,7 +23,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        // 'salary',
+        'salary',
+        'designation'
     ];
 
     /**
@@ -45,27 +46,33 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function project(){
+    public function project()
+    {
         return $this->belongsTo(Project::class);
     }
 
-    public function projectNotes(){
+    public function projectNotes()
+    {
         return $this->belongsTo(ProjectNote::class);
     }
 
-    public function projectTask(){
+    public function projectTask()
+    {
         return $this->belongsTo(ProjectTask::class);
     }
 
-    public function projectUser(){
+    public function projectUser()
+    {
         return $this->belongsTo(ProjectUser::class);
     }
 
-    public function userInfo(){
+    public function userInfo()
+    {
         return $this->hasOne(UserInfo::class);
     }
 
-    public function expenses(){
+    public function expenses()
+    {
         return $this->hasMany(Expense::class);
     }
 }

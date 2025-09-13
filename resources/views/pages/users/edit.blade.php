@@ -14,48 +14,44 @@
     </div>
 
     <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
-        <form class="bg-white rounded px-8 pt-6 pb-8 mb-4" action="{{ route('user.update', $user->id) }}" method="post"
+        <form class="bg-white rounded px-6 md:px-8 pt-6 pb-8 mb-4" action="{{ route('user.store') }}" method="post"
             enctype="multipart/form-data">
             @csrf
-            @method('PUT')
-            <div class="grid grid-cols-2 gap-4">
 
+            <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-                        Username
+                        Username <span class="text-red-500">*</span>
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="username" name="name" type="text" value="{{ $user->name }}"
-                        placeholder="Enter Username">
+                        id="username" name="name" type="text" placeholder="Enter Username">
                     @error('name')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
 
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
-                        First Name
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="fname">
+                        First Name <span class="text-red-500">*</span>
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="Password" name="fname" type="text" value="{{ $user->userInfo?->fname }}"
-                        placeholder="Enter fname">
+                        id="fname" name="fname" type="text" placeholder="Enter First Name">
                     @error('fname')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
             </div>
 
-            <div class="grid grid-cols-3 gap-4">
+            <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="Email">
-                        Email
+                        Email <span class="text-red-500">*</span>
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="Email" name="email" type="text" value="{{ $user->email }}"
-                        placeholder="Enter Email">
+                        id="Email" name="email" type="text" placeholder="Enter Email">
                     @error('email')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -63,12 +59,11 @@
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="phone">
-                        Phone Number
+                        Phone Number <span class="text-red-500">*</span>
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="phone" name="phone" type="number" value="{{ $user->userInfo?->phone }}"
-                        placeholder="Enter phone">
+                        id="phone" name="phone" type="number" placeholder="Enter phone">
                     @error('phone')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -76,46 +71,38 @@
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
-                        Password
+                        Password <span class="text-red-500">*</span>
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="Password" name="password" type="password" placeholder="Enter New Password">
-
+                        id="Password" name="password" type="password" placeholder="Enter Password">
                     @error('password')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
             </div>
 
-            <div class="grid grid-cols-3 gap-4">
-
+            <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="Email">
-                        Date of Birth
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="dob">
+                        Date of Birth <span class="text-red-500">*</span>
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="dob" name="dob" type="date" value="{{ $user->userInfo?->dob }}"
-                        placeholder="">
+                        id="dob" name="dob" type="date">
                     @error('dob')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
 
-
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="gender">
-                        Select Gender
+                    <label class="block text-gray-700 text-sm font-bold mb-2">
+                        Select Gender <span class="text-red-500">*</span>
                     </label>
-                    <select name="gender" id="gender" class="border border-gray-300 w-full rounded">
+                    <select name="gender" class="border border-gray-300 w-full rounded py-2 px-3">
                         <option value="">Select One</option>
-                        <option value="male"
-                            {{ old('gender', optional($user->userInfo)->gender) == 'male' ? 'selected' : '' }}>Male
-                        </option>
-                        <option value="female"
-                            {{ old('gender', optional($user->userInfo)->gender) == 'female' ? 'selected' : '' }}>Female
-                        </option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
                     </select>
                     @error('gender')
                         <span class="text-red-500">{{ $message }}</span>
@@ -124,41 +111,45 @@
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="profile">
-                        Profile
+                        Profile <span class="text-red-500">*</span>
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="profile" name="profile" type="file">
-                    <img src="{{ asset($user->userInfo?->profile) }}" alt="">
+                    <img src="{{ asset($user->userInfo?->profile) }}" alt=""
+                        class="mt-2 max-w-full h-24 object-cover rounded">
+                    @error('profile')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
                     @error('profile')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
             </div>
 
-            <div class="grid grid-cols-3 gap-4">
-
+            <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="cnic">
-                        Cnic <span class="text-red-500">*</span>
+                        CNIC <span class="text-red-500">*</span>
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="cnic" name="cnic" type="number" value="{{ $user->userInfo?->cnic }}"
-                        placeholder="Enter Cnic">
+                        id="cnic" name="cnic" type="number" placeholder="Enter CNIC">
                     @error('cnic')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
+
                 </div>
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="cnic_frnt">
-                        Cnic Front Photo
+                        CNIC Front Photo <span class="text-red-500">*</span>
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="cnic_frnt" name="cnic_frnt" type="file">
-                    <img src="{{ asset($user->userInfo?->cnic_frnt) }}" alt="image not found">
+                    <img src="{{ asset($user->userInfo?->cnic_frnt) }}" alt="image not found"
+                        class="mt-2 max-w-full h-24 object-cover rounded">
                     @error('cnic_frnt')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -166,57 +157,65 @@
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="cnic_back">
-                        Cnic Back Photo
+                        CNIC Back Photo <span class="text-red-500">*</span>
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="cnic_back" name="cnic_back" type="file">
-                    <img src="{{ asset($user->userInfo?->cnic_back) }}" alt="image not found">
+                    <img src="{{ asset($user->userInfo?->cnic_back) }}" alt="image not found"
+                        class="mt-2 max-w-full h-24 object-cover rounded">
                     @error('cnic_back')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
             </div>
 
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="role">
-                    Select Role
-                </label>
-                <select name="role" class="border w-full border-gray-300 rounded px-2 py-1">
-                    @foreach ($roles as $role)
-                        <option value="{{ $role->name }}"
-                            {{ $user->getRoleNames()->contains($role->name) ? 'selected' : '' }}>
-                            {{ ucfirst($role->name) }}
-                        </option>
-                    @endforeach
-                </select>
+            <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="salary">
+                        Salary <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="salary" name="salary" type="number" placeholder="Enter salary">
+                    @error('salary')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
+                </div>
 
-                @error('role')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                @enderror
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="designation">
+                        designation <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="designation" name="designation" type="text" placeholder="Enter First Name">
+                    @error('designation')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
+                </div>
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="About">
-                    Address
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="address">
+                    Address <span class="text-red-500">*</span>
                 </label>
-                <textarea id="message" rows="4"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Write here..." name="address">{{ $user->userInfo?->address }}</textarea>
-
+                <textarea id="address" rows="4"
+                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Write here..." name="address"></textarea>
                 @error('address')
                     <span class="text-red-500">{{ $message }}</span>
                 @enderror
             </div>
 
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-start">
                 <button
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline">
                     Update
                 </button>
             </div>
         </form>
-
     </div>
+
 
 </x-app-layout>

@@ -24,6 +24,8 @@ return new class extends Migration
             $table->text('address');
             $table->string('cnic_frnt');
             $table->string('cnic_back');
+            $table->decimal('salary');
+            $table->string('designation');
             $table->timestamps();
         });
     }

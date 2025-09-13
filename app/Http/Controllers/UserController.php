@@ -25,8 +25,7 @@ class UserController extends Controller
 
     public function create()
     {
-        $roles = Role::all();
-        return view('pages.users.create', compact('roles'));
+        return view('pages.users.create');
     }
 
     public function store(Request $request)
@@ -43,9 +42,11 @@ class UserController extends Controller
             'cnic' => 'required',
             'cnic_frnt' => 'required',
             'cnic_back' => 'required',
+            'salary' => 'required',
+            'designation' => 'required',
             'address' => 'required',
-            'role' => 'required|exists:roles,name'
         ]);
+        
 
         if ($request->hasFile('profile')) {
             $image = $request->file('profile');
@@ -75,7 +76,7 @@ class UserController extends Controller
         $user = User::create($validation);
         $validation['user_id'] = $user->id;
         UserInfo::create($validation);
-        $user->assignRole($request->role);
+        $user->assignRole('user');
 
         return redirect()->route('user.index')->with('message', 'User Created Successfully');
     }
@@ -89,13 +90,14 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::with('userInfo')->findOrFail($id);
-        $roles = Role::all();
 
-        return view('pages.users.edit', compact('user', 'roles'));
+        return view('pages.users.edit', compact('user'));
     }
 
     public function update(Request $request, $id)
     {
+
+        
         $user = User::with('userInfo')->findOrFail($id);
         $validation = $request->validate([
             'name' => 'nullable',
@@ -110,7 +112,8 @@ class UserController extends Controller
             'cnic_frnt' => 'nullable',
             'cnic_back' => 'nullable',
             'address' => 'nullable',
-            'role' => 'nullable|exists:roles,name'
+            'salary' => 'required',
+            'designation' => 'required',
         ]);
 
 
@@ -161,7 +164,6 @@ class UserController extends Controller
         $validation['user_id'] = $user->id;
         $user->update($validation);
 
-        $user->syncRoles([$request->role]);
         UserInfo::where('user_id', $id)->firstOrFail()->update($validation);
 
         return redirect()->route('user.index')->with('message', 'User updated successfully!');

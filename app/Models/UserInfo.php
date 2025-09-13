@@ -19,7 +19,8 @@ class UserInfo extends Model
         'phone',
         'address',
         'cnic_frnt',
-        'cnic_back'
+        'cnic_back',
+        
     ];
 
     public function user(){
