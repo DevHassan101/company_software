@@ -14,12 +14,6 @@
 
     </div>
 
-    @if (session()->has('message'))
-        <div class="alert alert-success bg-green-600 text-white my-3 p-5">
-            {{ session()->get('message') }}
-        </div>
-    @endif
-
     <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
         <table class="min-w-full leading-normal">
             <thead>
@@ -144,7 +138,7 @@
                         alert(response.message);
                         return;
                     }
-                    console.log("Status changed successfully");                    
+                    console.log("Status changed successfully");
                 },
                 error: function(msg) {
                     console.log('data is not send');
@@ -152,4 +146,14 @@
             });
         });
     </script>
+    @if (session('success'))
+        @push('script')
+            <script>
+                Toast.fire({
+                    icon: "success",
+                    title: "{{ session('success') }}"
+                });
+            </script>
+        @endpush
+    @endif
 </x-app-layout>

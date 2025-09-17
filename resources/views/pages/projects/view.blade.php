@@ -34,7 +34,7 @@
     </div>
 
     <div class="flex justify-between gap-4  my-6 py-5 border-b-4">
-        <div class="w-1/2 bg-white p-5 rounded-md" >
+        <div class="w-1/2 bg-white p-5 rounded-md">
             <h4 class="mb-2 capitalize font-bold text-gray-800 mx-6">Description</h4>
             <div class="relative">
                 <p class="project text-gray-600" id="desc">
@@ -45,7 +45,7 @@
                 </button>
             </div>
         </div>
-        
+
         <div class="w-1/2 bg-white p-5 rounded-md">
             <h4 class="mb-2 capitalize font-bold text-gray-800 mx-6">Requirements</h4>
             <div class="relative">
@@ -59,11 +59,7 @@
         </div>
     </div>
 
-    @if (session()->has('message'))
-        <div class="alert alert-success bg-green-600 text-white my-3 p-5">
-            {{ session()->get('message') }}
-        </div>
-    @endif
+
 
     <div class="grid grid-cols-4 gap-4">
         <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
@@ -890,7 +886,7 @@
                 document.getElementById('modal-note-creator').innerText = `Created By: ${creatorName}`;
             }
 
-            toggleModal('view-note-modal');
+            toggleModal('view-task-modal');
         }
         // project show all tasks fn end
 
@@ -1002,5 +998,16 @@
             btn.textContent = text.classList.contains("expanded") ? "Show less" : "Show more";
         }
     </script>
+
+    @if (session('success'))
+        @push('script')
+            <script>
+                Toast.fire({
+                    icon: "success",
+                    title: "{{ session('success') }}"
+                });
+            </script>
+        @endpush
+    @endif
 
 </x-app-layout>

@@ -16,7 +16,7 @@
     <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
         <form class="bg-white rounded px-8 pt-6 pb-8 mb-4" action="{{ route('project.store') }}" method="post">
             @csrf
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
                         Name
@@ -28,17 +28,6 @@
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
-                {{-- <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
-                        Created By
-                    </label>
-                    <input
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="created_by" name="created_by" type="text" placeholder="Enter created_by">
-                    @error('created_by')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
-                </div> --}}
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
@@ -53,7 +42,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
                         Select Client
@@ -85,7 +74,7 @@
             </div>
 
 
-            <div class="grid grid-cols-3 gap-4">
+            <div class="grid sm:grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
                         Start Date

@@ -57,7 +57,7 @@ class SalaryController extends Controller
 
         Expense::create($validation);
 
-        return redirect()->route('salary.index')->with('message', 'Salary Created Successfully');
+        return redirect()->route('salary.index')->with('success', 'Salary Created Successfully');
     }
 
     /**
@@ -107,7 +107,7 @@ class SalaryController extends Controller
 
         $salary->update($validation);
 
-        return redirect()->route('salary.index')->with('message', 'Salary Updated Successfully');
+        return redirect()->route('salary.index')->with('success', 'Salary Updated Successfully');
     }
 
     /**
@@ -117,6 +117,6 @@ class SalaryController extends Controller
     {
         $salary->delete();
 
-        return redirect()->route('salary.index')->with('message', 'Salary Deleted Successfully');
+        return redirect()->route('salary.index')->with('success', 'Salary Deleted Successfully');
     }
 }

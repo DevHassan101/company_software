@@ -56,7 +56,7 @@ class PaymentController extends Controller
 
         ProjectPayment::create($validation);
 
-        return redirect()->route('payment.index')->with('message', 'Payment Created Successfully');
+        return redirect()->route('payment.index')->with('success', 'Payment Created Successfully');
     }
 
     /**
@@ -82,11 +82,12 @@ class PaymentController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, ProjectPayment $payment)
-    {
+    {   
+
         $validation = $request->validate([
-            'project_id' => 'required',
-            'amount' => 'integer',
-            'note' => 'required|string|max:255',
+            'project_id' => 'nullable',
+            'amount' => 'nullable',
+            'note' => 'nullable|string|max:255',
             'media' => 'nullable'
         ]);
 
@@ -108,7 +109,7 @@ class PaymentController extends Controller
 
         $payment->update($validation);
 
-        return redirect()->route('payment.index')->with('message', 'Payment Updated Successfully');
+        return redirect()->route('payment.index')->with('success', 'Payment Updated Successfully');
     }
 
 
@@ -119,6 +120,6 @@ class PaymentController extends Controller
     {
         $payment->delete();
 
-        return redirect()->route('payment.index')->with('message', 'Payment Deleted Successfully');
+        return redirect()->route('payment.index')->with('success', 'Payment Deleted Successfully');
     }
 }

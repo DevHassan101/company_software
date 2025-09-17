@@ -89,7 +89,7 @@ class TaskController extends Controller
         $validation['created_by'] = auth()->id();
 
         $projectTask->update($validation);
-        return redirect()->route('task.index')->with('message', 'Task Updated Successfully');
+        return redirect()->route('task.index')->with('success', 'Task Updated Successfully');
     }
 
     /**
@@ -99,7 +99,7 @@ class TaskController extends Controller
     {
         $projectTask = ProjectTask::findOrFail($id);
         $projectTask->delete();
-        return redirect()->route('task.index')->with('message', 'Task Deleted Successfully');
+        return redirect()->route('task.index')->with('success', 'Task Deleted Successfully');
     }
 
     public function updateStatus(Request $request, $id)
@@ -116,7 +116,7 @@ class TaskController extends Controller
                 ]);
             }
 
-            return redirect()->route('task.index')->with('message', 'Status Updated Successfully');
+            return redirect()->route('task.index')->with('success', 'Status Updated Successfully');
         } catch (\Throwable $th) {
             return response()->json([
                 'error' => true,

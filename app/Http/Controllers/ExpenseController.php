@@ -54,7 +54,7 @@ class ExpenseController extends Controller
         Expense::create($validation);
 
         return redirect()->route('expense.index')
-            ->with('message', 'Expense Created Successfully');
+            ->with('success', 'Expense Created Successfully');
     }
 
     /**
@@ -103,7 +103,7 @@ class ExpenseController extends Controller
 
         $expense->update($validation);
 
-        return redirect()->route('expense.index')->with('message', 'Expense Updated Successfully');
+        return redirect()->route('expense.index')->with('success', 'Expense Updated Successfully');
     }
 
     /**
@@ -113,6 +113,6 @@ class ExpenseController extends Controller
     {
         $expense->delete();
         return redirect()->route('expense.index')
-            ->with('message', 'Expense Deleted Successfully');
+            ->with('success', 'Expense Deleted Successfully');
     }
 }

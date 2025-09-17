@@ -70,7 +70,6 @@
                         <option value="completed">completed</option>
                         <option value="rejected">rejected</option>
                         <option value="failed">failed</option>
-
                     </select>
                     @error('status')
                         {{ $message }}

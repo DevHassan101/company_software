@@ -26,7 +26,8 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="username" name="name" type="text" placeholder="Enter Username">
+                        id="username" name="name" value="{{ old('name') }}" type="text"
+                        placeholder="Enter Username">
                     @error('name')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -38,7 +39,8 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="fname" name="fname" type="text" placeholder="Enter First Name">
+                        id="fname" name="fname" value="{{ old('fname') }}" type="text"
+                        placeholder="Enter First Name">
                     @error('fname')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -52,7 +54,8 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="Email" name="email" type="text" placeholder="Enter Email">
+                        id="Email" name="email" value="{{ old('email') }}" type="text"
+                        placeholder="Enter Email">
                     @error('email')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -64,7 +67,8 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="phone" name="phone" type="number" placeholder="Enter phone">
+                        id="phone" name="phone" value="{{ old('phone') }}" type="number"
+                        placeholder="Enter phone">
                     @error('phone')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -90,7 +94,7 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="dob" name="dob" type="date">
+                        id="dob" name="dob" value="{{ old('dob') }}" type="date">
                     @error('dob')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -130,7 +134,8 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="cnic" name="cnic" type="number" placeholder="Enter CNIC">
+                        id="cnic" name="cnic" value="{{ old('cnic') }}" type="number"
+                        placeholder="Enter CNIC">
                     @error('cnic')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -142,7 +147,7 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="cnic_frnt" name="cnic_frnt" type="file">
+                        id="cnic_frnt" name="cnic_frnt" value="{{ old('cnic_frnt') }}" type="file">
                     @error('cnic_frnt')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -154,7 +159,7 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="cnic_back" name="cnic_back" type="file">
+                        id="cnic_back" name="cnic_back" value="{{ old('cnic_back') }}" type="file">
                     @error('cnic_back')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -168,23 +173,43 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="salary" name="salary" type="number" placeholder="Enter salary">
+                        id="salary" name="salary" value="{{ old('salary') }}" type="number"
+                        placeholder="Enter salary">
                     @error('salary')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
 
+
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="designation">
-                        designation  <span class="text-red-500">*</span>
+                    <label class="block text-gray-700 text-sm font-bold mb-2">
+                        Select Designation
                     </label>
-                    <input
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="designation" name="designation" type="text" placeholder="Enter First Name">
+                    <select name="designation" class="border border-gray-300 rounded w-full py-1 text-black">
+                        <option value="">select one</option>
+                        <option value="founder" @selected(old('designation') == 'founder')>founder</option>
+                        <option value="co-founder" @selected(old('designation') == 'co-founder')>co founder</option>
+                        <option value="human-resource" @selected(old('designation') == 'human-resource')>human resource</option>
+                        <option value="project-manager" @selected(old('designation') == 'project-manager')>project manager</option>
+                        <option value="team-lead" @selected(old('designation') == 'team-lead')>team lead</option>
+                        <option value="QA" @selected(old('designation') == 'QA')>QA</option>
+                        <option value="frontend-developer" @selected(old('designation') == 'frontend-developer')>frontend developer</option>
+                        <option value="backend-developer" @selected(old('designation') == 'backend-developer')>backend developer</option>
+                        <option value="full-stack-web-developer" @selected(old('designation') == 'full-stack-web-developer')>full stack web developer
+                        </option>
+                        <option value="android-developer" @selected(old('designation') == 'android-developer')>android developer</option>
+                        <option value="ios-developer" @selected(old('designation') == 'ios-developer')>ios developer</option>
+                        <option value="full-stack-app-developer" @selected(old('designation') == 'full-stack-app-developer')>full stack app developer
+                        </option>
+                        <option value="graphic-designer" @selected(old('designation') == 'graphic-designer')>graphic designer</option>
+                        <option value="video-editor" @selected(old('designation') == 'video-editor')>video editor</option>
+                        <option value="seo" @selected(old('designation') == 'seo')>seo</option>
+                    </select>
                     @error('designation')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
+
             </div>
 
             <div class="mb-4">
@@ -193,7 +218,7 @@
                 </label>
                 <textarea id="address" rows="4"
                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Write here..." name="address"></textarea>
+                    placeholder="Write here..." name="address">{{ old('address') }}</textarea>
                 @error('address')
                     <span class="text-red-500">{{ $message }}</span>
                 @enderror

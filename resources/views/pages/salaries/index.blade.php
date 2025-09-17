@@ -15,12 +15,6 @@
 
     </div>
 
-    @if (session()->has('message'))
-        <div class="alert alert-success bg-green-600 text-white my-3 p-5">
-            {{ session()->get('message') }}
-        </div>
-    @endif
-
     <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
         <table class="min-w-full leading-normal">
             <thead>
@@ -73,7 +67,7 @@
                             {{ $salary->users->name ?? 'N/A' }}
                         </td>
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            {{ $salary->paid_for }}
+                            {{ $salary->paid_for ?? 'N/A' }}
                         </td>
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                             <div>
@@ -87,7 +81,7 @@
                         @endphp
 
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            {{ $salary->description }}
+                            {{ $salary->description ?? 'N/A' }}
                         </td>
 
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
@@ -95,7 +89,7 @@
                                 <div class="flex">
                                     @foreach ($receipts as $receipt)
                                         <div>
-                                            <img src="{{ asset($receipt) }}" alt="image not found" class="w-16 h-16" />
+                                            <img src="{{ asset($receipt) ?? N/A }}" alt="image not found" class="w-16 h-16" />
                                         </div>
                                     @endforeach
                                 </div>
@@ -133,5 +127,14 @@
         </div>
     </div>
 
-
+    @if (session('success'))
+        @push('script')
+            <script>
+                Toast.fire({
+                    icon: "success",
+                    title: "{{ session('success') }}"
+                });
+            </script>
+        @endpush
+    @endif
 </x-app-layout>

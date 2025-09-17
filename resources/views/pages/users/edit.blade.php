@@ -14,10 +14,10 @@
     </div>
 
     <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
-        <form class="bg-white rounded px-6 md:px-8 pt-6 pb-8 mb-4" action="{{ route('user.store') }}" method="post"
+        <form class="bg-white rounded px-6 md:px-8 pt-6 pb-8 mb-4" action="{{ route('user.update', $user->id) }}" method="post"
             enctype="multipart/form-data">
             @csrf
-
+            @method('PUT')
             <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
@@ -25,7 +25,8 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="username" name="name" type="text" placeholder="Enter Username">
+                        id="username" name="name" value="{{ $user->name }}" type="text"
+                        placeholder="Enter Username">
                     @error('name')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -37,7 +38,8 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="fname" name="fname" type="text" placeholder="Enter First Name">
+                        id="fname" name="fname" value="{{ $user->userInfo->fname }}" type="text"
+                        placeholder="Enter First Name">
                     @error('fname')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -51,7 +53,8 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="Email" name="email" type="text" placeholder="Enter Email">
+                        id="Email" name="email" value="{{ $user->email }}" type="text"
+                        placeholder="Enter Email">
                     @error('email')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -63,7 +66,8 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="phone" name="phone" type="number" placeholder="Enter phone">
+                        id="phone" name="phone" value="{{ $user->userInfo->phone }}" type="number"
+                        placeholder="Enter phone">
                     @error('phone')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -89,7 +93,7 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="dob" name="dob" type="date">
+                        id="dob" name="dob" value="{{ $user->userInfo?->dob }}" type="date">
                     @error('dob')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -99,11 +103,12 @@
                     <label class="block text-gray-700 text-sm font-bold mb-2">
                         Select Gender <span class="text-red-500">*</span>
                     </label>
-                    <select name="gender" class="border border-gray-300 w-full rounded py-2 px-3">
-                        <option value="">Select One</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
+                    <select name="gender" class="rounded w-full py-1.5 px-2 text-black">
+                        <option value="">select one</option>
+                        <option value="male" @selected($user->userInfo->gender == 'male')>male</option>
+                        <option value="female" @selected($user->userInfo->gender == 'female')>female</option>
                     </select>
+                
                     @error('gender')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -134,7 +139,7 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="cnic" name="cnic" type="number" placeholder="Enter CNIC">
+                        id="cnic" name="cnic" type="number" value="{{ $user->userInfo->cnic }}" placeholder="Enter CNIC">
                     @error('cnic')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -148,7 +153,7 @@
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="cnic_frnt" name="cnic_frnt" type="file">
-                    <img src="{{ asset($user->userInfo?->cnic_frnt) }}" alt="image not found"
+                    <img src="{{ asset($user->userInfo->cnic_frnt) }}" alt="image not found"
                         class="mt-2 max-w-full h-24 object-cover rounded">
                     @error('cnic_frnt')
                         <span class="text-red-500">{{ $message }}</span>
@@ -162,7 +167,7 @@
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="cnic_back" name="cnic_back" type="file">
-                    <img src="{{ asset($user->userInfo?->cnic_back) }}" alt="image not found"
+                    <img src="{{ asset($user->userInfo->cnic_back) }}" alt="image not found"
                         class="mt-2 max-w-full h-24 object-cover rounded">
                     @error('cnic_back')
                         <span class="text-red-500">{{ $message }}</span>
@@ -177,21 +182,37 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="salary" name="salary" type="number" placeholder="Enter salary">
+                        id="salary" name="salary" value="{{ $user->salary }}" type="number"
+                        placeholder="Enter salary">
                     @error('salary')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
 
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="designation">
-                        designation <span class="text-red-500">*</span>
+                    <label class="block text-gray-700 text-sm font-bold mb-2">
+                        Select Designation
                     </label>
-                    <input
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="designation" name="designation" type="text" placeholder="Enter First Name">
+                    <select name="designation" class="border border-gray-300 rounded w-full py-1 text-black">
+                        <option value="">select one</option>
+                         <option value="founder" @selected($user->designation == 'founder')>founder</option>
+                        <option value="co-founder" @selected($user->designation == 'co-founder')>co founder</option>
+                        <option value="human-resource" @selected($user->designation == 'human-resource')>human resource</option>
+                        <option value="project-manager" @selected($user->designation == 'project-manager')>project manager</option>
+                        <option value="team-lead" @selected($user->designation == 'team-lead')>team lead</option>
+                        <option value="QA" @selected($user->designation == 'QA')>QA</option>
+                        <option value="frontend-developer" @selected($user->designation == 'frontend-developer')>frontend developer</option>
+                        <option value="backend-developer" @selected($user->designation == 'backend-developer')>backend developer</option>
+                        <option value="full-stack-web-developer" @selected($user->designation == 'full-stack-web-developer')>full stack web developer</option>
+                        <option value="android-developer" @selected($user->designation == 'android-developer')>android-developer</option>
+                        <option value="ios-developer" @selected($user->designation == 'ios-developer')>ios developer</option>
+                        <option value="full-stack-app-developer" @selected($user->designation == 'full-stack-app-developer')>full stack app developer</option>
+                        <option value="graphic-designer" @selected($user->designation == 'graphic-designer')>graphic designer</option>
+                        <option value="video-editor" @selected($user->designation == 'video-editor')>video editor</option>
+                        <option value="seo" @selected($user->designation == 'seo')>seo</option>
+                    </select>
                     @error('designation')
-                        <span class="text-red-500">{{ $message }}</span>
+                        {{ $message }}
                     @enderror
                 </div>
             </div>
@@ -202,7 +223,7 @@
                 </label>
                 <textarea id="address" rows="4"
                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Write here..." name="address"></textarea>
+                    placeholder="Write here..." name="address">{{ $user->userInfo->address }}</textarea>
                 @error('address')
                     <span class="text-red-500">{{ $message }}</span>
                 @enderror

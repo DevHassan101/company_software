@@ -13,12 +13,6 @@
         </a>
     </div>
 
-    @if (session()->has('message'))
-        <div class="alert alert-success bg-green-600 text-white my-3 p-5">
-            {{ session()->get('message') }}
-        </div>
-    @endif
-
     <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
         <table class="min-w-full leading-normal">
             <thead>
@@ -63,9 +57,9 @@
                             <div class="flex gap-2 items-center">
                                 <div>
                                     <p class="text-gray-900 whitespace-no-wrap"><b>Client Name:
-                                        </b>{{ $project->client->name }}</p>
+                                        </b>{{ $project->client?->name }}</p>
                                     <p class="text-gray-900 whitespace-no-wrap"><b>Client Email:
-                                        </b>{{ $project->client->email }}</p>
+                                        </b>{{ $project->client?->email }}</p>
                                 </div>
                             </div>
                         </td>
@@ -78,7 +72,7 @@
                         </td>
 
                         <td class="border-gray-200 bg-white p-5">
-                            <div class="text-right flex flex-end">
+                            <div class="text-right flex flex-end gap-4 mb-4">
 
                                 <a href="{{ route('project.edit', $project->id) }}"
                                     class="px-4 py-2 text-sm font-medium rounded-lg border border-green-700 text-green-700 hover:bg-green-700 hover:text-white transition">
@@ -126,6 +120,17 @@
             } 
         });
     </script>
+
+     @if (session('success'))
+        @push('script')
+            <script>
+                Toast.fire({
+                    icon: "success",
+                    title: "{{ session('success') }}"
+                });
+            </script>
+        @endpush
+    @endif
 
 
 </x-app-layout>

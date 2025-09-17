@@ -3,18 +3,21 @@
         {{ __('Users') }}
     </x-slot>
 
-    <div class="flex justify-between items-center my-6">
-        <h1 class="text-2xl font-bold text-gray-800">User Information</h1>
+    <div class="flex justify-between items-start sm:items-center flex-row sm:my-6 my-6">
+        <h1 class="text-xl sm:text-2xl font-bold text-gray-800 mt-1 sm:mb-0">User Information</h1>
         <a href="{{ route('user.index') }}"
             class="px-4 py-2 text-sm font-medium rounded-lg border border-black text-black-700 hover:bg-black capitalize hover:text-white transition">
             back
         </a>
     </div>
 
-    <div class="max-w-5xl mx-auto bg-white border border-gray-300 rounded-2xl shadow-xl p-8">
-        <div class="flex items-center space-x-6 border-b pb-6 mb-6">
+
+    <div class="max-w-5xl mx-auto bg-white border border-gray-300 rounded-2xl shadow-xl p-6 md:p-8">
+
+        <div
+            class="flex flex-col md:flex-row items-start space-x-0 space-y-6 md:space-y-0 md:space-x-6 border-b pb-6 mb-6 md:text-left">
             <img src="{{ asset($user->userInfo?->profile) }}" alt="Profile Image"
-                class="w-32 h-32 rounded-full border object-cover shadow-md">
+                class="w-24 h-24 md:w-32 md:h-32 rounded-full border object-cover shadow-md">
             <div>
                 <h2 class="text-3xl font-bold text-gray-900 capitalize">{{ $user->name }}</h2>
                 <p class="text-gray-500">Designation: {{ $user->designation }}</p>
@@ -45,11 +48,11 @@
             </div>
             <div>
                 <p class="font-semibold text-gray-700">Salary</p>
-                <p class="text-gray-600">{{ $user->userInfo->salary }}</p>
+                <p class="text-gray-600">{{ $user->salary ?? 'N/A' }}</p>
             </div>
             <div>
                 <p class="font-semibold text-gray-700">designation</p>
-                <p class="text-gray-600">{{ $user->userInfo->designation }}</p>
+                <p class="text-gray-600">{{ $user->designation ?? 'N/A' }}</p>
             </div>
             <div>
                 <p class="font-semibold text-gray-700">Gender</p>
@@ -73,4 +76,6 @@
             </div>
         </div>
     </div>
+
+
 </x-app-layout>

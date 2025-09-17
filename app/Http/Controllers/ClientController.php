@@ -60,7 +60,7 @@ class ClientController extends Controller
 
         Client::create($validation);
 
-        return redirect()->route('client.index')->with('message', 'Client Created Successfully');
+        return redirect()->route('client.index')->with('success', 'Client Created Successfully');
     }
 
     /**
@@ -114,7 +114,7 @@ class ClientController extends Controller
         }
 
         $client->update($validation);
-        return redirect()->route('client.index')->with('message', 'Client Updated Successfully');
+        return redirect()->route('client.index')->with('success', 'Client Updated Successfully');
     }
 
 
@@ -127,6 +127,6 @@ class ClientController extends Controller
 
         $client->delete();
 
-        return redirect()->route('client.index')->with('message', 'Client Deleted Successfully');
+        return redirect()->route('client.index')->with('success', 'Client Deleted Successfully');
     }
 }

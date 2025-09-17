@@ -60,7 +60,7 @@ class ProjectController extends Controller
 
         Project::create($validation);
 
-        return redirect()->route('project.index')->with('message', 'Project Created Successfully');
+        return redirect()->route('project.index')->with('success', 'Project Created Successfully');
     }
 
     /**
@@ -127,7 +127,7 @@ class ProjectController extends Controller
 
         $project->update($validation);
 
-        return redirect()->route('project.index')->with('message', 'Project Updated Successfully');
+        return redirect()->route('project.index')->with('success', 'Project Updated Successfully');
     }
 
 
@@ -140,7 +140,7 @@ class ProjectController extends Controller
 
         $project->delete();
 
-        return redirect()->route('project.index')->with('message', 'Project Created Successfully');
+        return redirect()->route('project.index')->with('success', 'Project Deleted Successfully');
     }
 
 
@@ -169,7 +169,7 @@ class ProjectController extends Controller
 
         ProjectNote::create($validation);
 
-        return redirect()->route('project.show', ['project' => $project])->with('message', 'Project Notes Created Successfully');
+        return redirect()->route('project.show', ['project' => $project])->with('success', 'Project Notes Created Successfully');
     }
 
 
@@ -192,7 +192,7 @@ class ProjectController extends Controller
         ProjectTask::create($validation);
 
         return redirect()->route('project.show', ['project' => $projectId])
-            ->with('message', 'Project Task Created Successfully');
+            ->with('success', 'Project Task Created Successfully');
     }
 
     // project tasks function end
@@ -259,7 +259,7 @@ class ProjectController extends Controller
         ProjectFeedback::create($validation);
 
         return redirect()->route('project.show', ['project' => $project])
-            ->with('message', 'Project Feedback Created Successfully');
+            ->with('success', 'Project Feedback Created Successfully');
     }
 
     // project feedback function end
@@ -292,7 +292,7 @@ class ProjectController extends Controller
 
         return redirect()
             ->route('project.show', ['project' => $project])
-            ->with('message', 'Project Issue Created Successfully');
+            ->with('success', 'Project Issue Created Successfully');
     }
 
 
@@ -325,4 +325,6 @@ class ProjectController extends Controller
     //     return redirect()->route('project.show', ['project' => $project])->with('message', 'Project Issue Created Successfully');
     // }
     // project issue function end
+
+    
 }

@@ -9,6 +9,8 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Project;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use Spatie\Permission\Contracts\Role;
 
 /*
@@ -27,7 +29,10 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $projectCount = Project::count();
+    return view('dashboard', [
+        'projectCount' => $projectCount
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -40,14 +45,14 @@ Route::middleware('auth')->group(function () {
     Route::resource('payment', PaymentController::class);
     Route::resource('expense', ExpenseController::class);
     Route::resource('salary', SalaryController::class);
-    Route::get('/task',[TaskController::class, 'index'])->name('task.index');
-    Route::get('/task/create',[TaskController::class, 'create'])->name('task.create');
-    Route::post('/task/store',[TaskController::class, 'store'])->name('task.store');
-    Route::get('/task/{id}/show',[TaskController::class, 'show'])->name('task.show');
-    Route::get('/task/{id}/edit',[TaskController::class, 'edit'])->name('task.edit');
-    Route::put('/task/{id}update',[TaskController::class, 'update'])->name('task.update');
-    Route::put('/task/{id}/status',[TaskController::class, 'updateStatus'])->name('task.status');
-    Route::delete('/task/{id}/delete',[TaskController::class, 'destroy'])->name('task.destroy');
+    Route::get('/task', [TaskController::class, 'index'])->name('task.index');
+    Route::get('/task/create', [TaskController::class, 'create'])->name('task.create');
+    Route::post('/task/store', [TaskController::class, 'store'])->name('task.store');
+    Route::get('/task/{id}/show', [TaskController::class, 'show'])->name('task.show');
+    Route::get('/task/{id}/edit', [TaskController::class, 'edit'])->name('task.edit');
+    Route::put('/task/{id}update', [TaskController::class, 'update'])->name('task.update');
+    Route::put('/task/{id}/status', [TaskController::class, 'updateStatus'])->name('task.status');
+    Route::delete('/task/{id}/delete', [TaskController::class, 'destroy'])->name('task.destroy');
     Route::post('project/{projectId}/notes', [ProjectController::class, 'storeNote'])->name('project.store-note');
     Route::post('project/{projectId}/tasks', [ProjectController::class, 'storeTask'])->name('project.store-task');
     Route::post('project/users', [ProjectController::class, 'storeUser'])->name('project.store-user');
@@ -63,4 +68,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

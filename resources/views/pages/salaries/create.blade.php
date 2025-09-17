@@ -31,7 +31,7 @@
                         @endforeach
                     </select>
                     @error('user_id')
-                        {{ $message }}
+                        <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
 

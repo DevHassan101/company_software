@@ -74,7 +74,6 @@
                     <label class="block text-gray-700 text-sm font-bold mb-2">
                         Select Status
                     </label>
-
                     <select name="status" class="border border-gray-300 rounded w-full py-1 text-black">
                         <option value="">select one</option>
                         <option value="pending" @selected($projectTask->status)>pending</option>
@@ -82,7 +81,6 @@
                         <option value="completed" @selected($projectTask->status)>completed</option>
                         <option value="rejected" @selected($projectTask->status)>rejected</option>
                         <option value="failed" @selected($projectTask->status)>failed</option>
-
                     </select>
                     @error('status')
                         {{ $message }}

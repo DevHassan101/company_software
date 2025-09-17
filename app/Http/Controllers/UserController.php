@@ -13,7 +13,6 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = User::with('roles')->paginate(10);
-
         if ($request->ajax()) {
             return response()->json($users);
         }
@@ -30,6 +29,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        // return $request;
         $validation = $request->validate([
             'name' => 'required',
             'email' => 'required|unique:users,email',
@@ -78,7 +78,7 @@ class UserController extends Controller
         UserInfo::create($validation);
         $user->assignRole('user');
 
-        return redirect()->route('user.index')->with('message', 'User Created Successfully');
+        return redirect()->route('user.index')->with('success', 'User Created Successfully');
     }
 
     public function show($id)
@@ -166,7 +166,7 @@ class UserController extends Controller
 
         UserInfo::where('user_id', $id)->firstOrFail()->update($validation);
 
-        return redirect()->route('user.index')->with('message', 'User updated successfully!');
+        return redirect()->route('user.index')->with('success', 'User updated successfully!');
     }
 
     public function destroy($id)
@@ -174,6 +174,6 @@ class UserController extends Controller
         $user = User::Find($id);
         $user->delete();
 
-        return redirect()->route('user.index')->with('message', 'User Deleted successfully!');
+        return redirect()->route('user.index')->with('success', 'User Deleted successfully!');
     }
 }

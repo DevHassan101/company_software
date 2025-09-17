@@ -18,7 +18,7 @@
             method="post">
             @csrf
             @method('PUT')
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
                         Name
@@ -45,7 +45,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
                         Select Client
@@ -81,7 +81,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-3 gap-4">
+            <div class="grid sm:grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
                         Start Date

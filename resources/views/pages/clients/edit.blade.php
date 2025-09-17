@@ -20,7 +20,7 @@
             @csrf
             @method('PUT')
 
-            <div class="grid grid-cols-2 gap-2">
+            <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
                         Name
@@ -47,7 +47,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-4 gap-2">
+            <div class="grid sm:grid-cols-1 md:grid-cols-4 gap-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="Email">
                         Email

@@ -53,7 +53,21 @@
 
     <script>
         $(document).ready(function() {
+
             fetchClients();
+
+
+            $(document).on("click", "#pagination-links a", function(event) {
+                event.preventDefault();
+
+                let url = $(this).attr("href");
+
+                let page = url.split('page=')[1];
+
+                if (page) {
+                    fetchClients(page);
+                }
+            });
 
             function fetchClients(page = 1) {
                 $.ajax({
@@ -63,29 +77,30 @@
                     success: function(response) {
                         if (response.error) {
                             alert(response.message);
-                            return
                         } else {
+
                             $("#client-table-body").html(response.html);
+
                             $("#pagination-links").html(response.pagination);
-                            
                         }
                     },
                     error: function() {
-                        console.log('Data not found');
+                        console.log('Error: Data could not be fetched.');
                     }
                 });
             }
-
-            
-            $(document).on("click", "#pagination-links", function(event) {
-                event.preventDefault();
-                let page = $(this).data("page");
-                if (page) {
-                    fetchClients(page);
-                }
-            });
         });
     </script>
 
+     @if (session('success'))
+        @push('script')
+            <script>
+                Toast.fire({
+                    icon: "success",
+                    title: "{{ session('success') }}"
+                });
+            </script>
+        @endpush
+    @endif
 
 </x-app-layout>
