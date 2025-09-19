@@ -8,6 +8,8 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\user\UserDashboardController;
+use App\Http\Controllers\user\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Project;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -67,5 +69,14 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('test', [UserDashboardController::class, 'index'])->name('user.dashboard');
+Route::get('user/profile-settings', [UserDashboardController::class, 'profileSettings'])->name('user.profile-settings.index');
+Route::put('user/update-profile', [UserDashboardController::class, 'updateProfile'])->name('user.update-profile');
+    // Route::get('user/login', [AuthController::class, 'login'])->name('user.login');
+    // Route::post('signin', [AuthController::class, 'signin'])->name('user.signin');
+// Route::middleware(['user'])->group(function(){
+
+// });
 
 require __DIR__ . '/auth.php';

@@ -46,11 +46,6 @@
 
                     <th
                         class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                        Media
-                    </th>
-
-                    <th
-                        class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
                         Amount
                     </th>
 
@@ -68,36 +63,21 @@
                 @endphp
                 @foreach ($payments as $payment)
                     <tr>
-                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200 whitespace-nowrap">
                             <p class="text-gray-900 whitespace-no-wrap">{{ ++$i }}</p>
                         </td>
-                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200 whitespace-nowrap">
                             <div>
                                 <p class="text-gray-900 whitespace-no-wrap">
                                     <b>Title: </b>{{ $payment->project->name }}
                                 </p>
                             </div>
                         </td>
-                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200 whitespace-nowrap">
                             <p class="text-gray-900 whitespace-no-wrap">{{ $payment->project->budget }}</p>
                         </td>
-                        @php
-                            $medias = json_decode($payment->media, true);
-                        @endphp
 
-                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            @if ($medias && count($medias) > 0)
-                                <div class="flex">
-                                    @foreach ($medias as $media)
-                                        <div>
-                                            <img src="{{ asset($media) }}" alt="image not found" class="w-28 h-28" />
-                                        </div>
-                                    @endforeach
-                                </div>
-                            @endif
-                        </td>
-
-                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200 whitespace-nowrap">
                             <div>
 
                                 <p class="text-gray-900 whitespace-no-wrap"><b>Project Amount:
@@ -109,7 +89,7 @@
                             </div>
                         </td>
 
-                        <td class="border-gray-200 bg-white p-5">
+                        <td class="px-5 py-5 text-md bg-white border-b border-gray-200">
                             <div class="flex items-center justify-center gap-4 mb-4">
                                 <a href="{{ route('payment.edit', $payment->id) }}"
                                     class="px-4 py-2 text-sm font-medium rounded-lg border border-green-700 text-green-700 hover:bg-green-700 hover:text-white transition">
@@ -134,7 +114,7 @@
                 @endforeach
 
             </tbody>
-            
+
         </table>
         <div class="flex flex-col w-full items-center justify-between px-5 py-5 bg-white border-t sm:flex-row">
             {{ $payments->links() }}

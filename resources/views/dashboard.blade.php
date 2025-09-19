@@ -10,39 +10,34 @@
     </div>
 
     <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6 mt-6">
-        
-        <div
-            class="bg-white overflow-hidden shadow-lg rounded-xl transition-all duration-300 hover:shadow-2xl hover:scale-[1.02]">
+
+        <div class="bg-white overflow-hidden shadow-lg rounded-xl">
             <div class="p-6">
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-xl font-semibold text-gray-800">Total Projects</h3>
                 </div>
                 <p class="text-5xl font-bold text-indigo-700 leading-tight">{{ $projectCount }}</p>
-                <p class="text-sm text-gray-500 mt-2">Number of ongoing and completed projects.</p>
+                <p class="text-sm text-gray-500 mt-2">List of number of projects.</p>
             </div>
         </div>
 
-        <div
-            class="bg-white overflow-hidden shadow-lg rounded-xl transition-all duration-300 hover:shadow-2xl hover:scale-[1.02]">
+                <div class="bg-white overflow-hidden shadow-lg rounded-xl">
             <div class="p-6">
                 <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-xl font-semibold text-gray-800">Payments</h3>
-                   
+                    <h3 class="text-xl font-semibold text-gray-800">Total Payments</h3>
                 </div>
-                <p class="text-3xl font-bold text-green-700">12,345</p>
-                <p class="text-sm text-gray-500 mt-2">Total payments</p>
+                <p class="text-5xl font-bold text-indigo-700 leading-tight">12,345</p>
+                <p class="text-sm text-gray-500 mt-2">List of number of payments.</p>
             </div>
         </div>
 
-        <div
-            class="bg-white overflow-hidden shadow-lg rounded-xl transition-all duration-300 hover:shadow-2xl hover:scale-[1.02]">
+                <div class="bg-white overflow-hidden shadow-lg rounded-xl">
             <div class="p-6">
                 <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-xl font-semibold text-gray-800">Salary</h3>
-                  
+                    <h3 class="text-xl font-semibold text-gray-800">Total Salary</h3>
                 </div>
-                <p class="text-3xl font-bold text-red-700">5,678</p> 
-                <p class="text-sm text-gray-500 mt-2">Total salary</p> 
+                <p class="text-5xl font-bold text-indigo-700 leading-tight">5,678</p>
+                <p class="text-sm text-gray-500 mt-2">List of number of Salary.</p>
             </div>
         </div>
     </div>

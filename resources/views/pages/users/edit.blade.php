@@ -79,7 +79,7 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="Password" name="password" value="{{ $user->password }}" type="password" placeholder="Enter Password">
+                        id="Password" name="password" type="password" placeholder="Enter Password">
                     @error('password')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror

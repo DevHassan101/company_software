@@ -71,7 +71,7 @@
                                 </b>{{ $project->delivery_date }}</p>
                         </td>
 
-                        <td class="border-gray-200 bg-white p-5">
+                        <td class="px-5 py-5 text-md bg-white border-b border-gray-200">
                             <div class="text-right flex flex-end gap-4 mb-4">
 
                                 <a href="{{ route('project.edit', $project->id) }}"
@@ -98,7 +98,7 @@
 
             </tbody>
         </table>
-        <div class="flex flex-col items-center px-5 py-5 bg-white border-t xs:flex-row xs:justify-between">
+        <div class="flex flex-col px-5 py-5 bg-white border-t xs:flex-row xs:justify-between">
             {{ $projects->links() }}
         </div>
     </div>

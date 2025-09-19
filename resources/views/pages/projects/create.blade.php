@@ -35,7 +35,7 @@
                     </label>
                     <input
                         class="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="budget" name="budget" value="{{ old('budget') }}" type="number">
+                        id="budget" name="budget" value="{{ old('budget') }}" placeholder="Enter Budge" type="number">
                     @error('budget')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror

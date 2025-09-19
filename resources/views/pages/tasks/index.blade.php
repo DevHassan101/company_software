@@ -45,27 +45,27 @@
                 @endphp
                 @foreach ($projectTasks as $projectTask)
                     <tr>
-                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200 whitespace-nowrap">
                             <p class="text-gray-900 whitespace-no-wrap">{{ ++$i }}</p>
                         </td>
-                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200 whitespace-nowrap">
                             <div>
                                 <p class="text-gray-900 whitespace-no-wrap"><b>Title: </b>{{ $projectTask->title }}</p>
-                                <p class="text-gray-900 whitespace-no-wrap"><b>Project Name:
+                                <p class="text-gray-900 whitespace-no-wrap"><b>Name:
                                     </b>{{ $projectTask->project->name }}</p>
                             </div>
                         </td>
 
-                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200 whitespace-nowrap">
                             <div>
                                 <p class="text-gray-900 whitespace-no-wrap"><b>User: </b>{{ $projectTask->user->name }}
                                 </p>
-                                <p class="text-gray-900 whitespace-no-wrap"><b>Project status:
+                                <p class="text-gray-900 whitespace-no-wrap"><b>status:
                                     </b>{{ $projectTask->status }}</p>
                             </div>
                         </td>
 
-                        <td class="border-gray-200 bg-white p-5">
+                        <td class="px-5 py-5 text-md bg-white border-b border-gray-200">
                             <div class="flex items-center justify-center gap-4 mb-4">
 
                                 <label class="sr-only" for="status-{{ $projectTask->id }}">Select Status</label>

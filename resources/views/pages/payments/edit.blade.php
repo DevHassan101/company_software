@@ -29,11 +29,13 @@
                         class="border border-gray-300 rounded w-full py-1.5 text-black">
                         <option value="">select one</option>
                         @foreach ($projects as $project)
-                            <option value="{{ $project->id }}" @selected(old('project_id', $payment->project_id) == $project->id)>
+                            <option data-budget="{{ $project->budget }}" data-paid-amount="{{ $project->paidAmount }}" value="{{ $project->id }}"
+                                @selected(old('project_id', $payment->project_id) == $project->id)>
                                 {{ $project->name }}
                             </option>
                         @endforeach
                     </select>
+                    <span id="amount_info" class="mt-3 font-semibold"></span>
                     @error('project_id')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -47,6 +49,7 @@
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="amount" name="amount" type="number" value="{{ old('amount', $payment->amount) }}"
                         placeholder="Enter amount">
+
                     @error('amount')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -90,9 +93,17 @@
                 </button>
             </div>
         </form>
-
-
-
     </div>
+    <script>
+        document.getElementById('project_id').addEventListener('change', function(e) {
+            e.preventDefault();
 
+            let selectedOption = this.options[this.selectedIndex];
+            let budget = selectedOption.dataset.budget;
+            let paidAmount = selectedOption.dataset.paidAmount;
+
+            document.getElementById('amount_info').innerText =
+                "Budget: " + budget + " | Paid: " + paidAmount;
+        });
+    </script>
 </x-app-layout>
