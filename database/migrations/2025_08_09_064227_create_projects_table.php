@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // seodoses
-            $table->text('description'); // 
-            $table->longText('requirments'); // client requirment
-            $table->unsignedBigInteger('client_id'); // client
-            $table->date('started_at'); // team kam krna start =krygi
-            $table->date('delivered_at'); // deliver wali din
-            $table->date('delivery_date'); // client ki delivery date
-            $table->unsignedBigInteger('admin_id'); // 
-            $table->unsignedBigInteger('created_by'); // 
-            $table->decimal('budget')->default(0); // 
+            $table->string('name');
+            $table->text('description')->nullable(); 
+            $table->longText('requirments')->nullable();
+            $table->unsignedBigInteger('client_id');
+            $table->date('started_at');
+            $table->date('delivered_at');
+            $table->date('delivery_date');
+            $table->unsignedBigInteger('admin_id');  
+            $table->unsignedBigInteger('created_by');  
+            $table->decimal('budget')->default(0);  
             $table->timestamps();
         });
     }

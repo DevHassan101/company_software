@@ -79,7 +79,7 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="Password" name="password" type="password" placeholder="Enter Password">
+                        id="Password" name="password" value="{{ $user->password }}" type="password" placeholder="Enter Password">
                     @error('password')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -193,7 +193,7 @@
                     <label class="block text-gray-700 text-sm font-bold mb-2">
                         Select Designation
                     </label>
-                    <select name="designation" class="border border-gray-300 rounded w-full py-1 text-black">
+                    <select name="designation" class="border border-gray-900 rounded w-full py-1.5 text-black">
                         <option value="">select one</option>
                          <option value="founder" @selected($user->designation == 'founder')>founder</option>
                         <option value="co-founder" @selected($user->designation == 'co-founder')>co founder</option>

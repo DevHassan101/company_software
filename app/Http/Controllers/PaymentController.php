@@ -35,7 +35,7 @@ class PaymentController extends Controller
     {
         $validation = $request->validate([
             'project_id' => 'required',
-            'amount' => 'integer',
+            'amount' => 'required|integer',
             'note' => 'required|string|max:255',
             'media' => 'required'
         ]);
@@ -85,9 +85,9 @@ class PaymentController extends Controller
     {   
 
         $validation = $request->validate([
-            'project_id' => 'nullable',
-            'amount' => 'nullable',
-            'note' => 'nullable|string|max:255',
+            'project_id' => 'required',
+            'amount' => 'required',
+            'note' => 'nullable',
             'media' => 'nullable'
         ]);
 

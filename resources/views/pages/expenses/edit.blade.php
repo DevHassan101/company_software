@@ -19,7 +19,7 @@
             method="post" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-            <div class="grid grid-cols-3 gap-2">
+            <div class="grid sm:grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
                         Amount

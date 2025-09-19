@@ -15,9 +15,9 @@
 
     </div>
 
-    <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
-        <table class="min-w-full leading-normal">
-            <thead>
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left rtl:text-right">
+            <thead class="text-xs text-white uppercase bg-gray-50">
                 <tr>
                     <th
                         class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
@@ -120,7 +120,7 @@
         </div>
     </div>
 
- @if (session('success'))
+    @if (session('success'))
         @push('script')
             <script>
                 Toast.fire({

@@ -19,10 +19,10 @@
             method="post" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-            <div class="grid grid-cols-2 gap-2">
+            <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
-                        Title
+                        Title <span class="text-red-500">*</span>
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -35,9 +35,9 @@
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
-                        project
+                        project <span class="text-red-500">*</span>
                     </label>
-                    <select name="project_id" class="border border-gray-300 rounded w-full py-1 text-black">
+                    <select name="project_id" class="border border-gray-900 rounded w-full py-1.5 text-black">
                         <option value="select one">select one</option>
                         @foreach ($projects as $project)
                             <option value="{{ $project->id }}"
@@ -54,9 +54,9 @@
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
-                        Select User
+                        Select User <span class="text-red-500">*</span>
                     </label>
-                    <select name="user_id" class="border border-gray-300 rounded w-full py-1 text-black">
+                    <select name="user_id" class="border border-gray-900 rounded w-full py-1.5 text-black">
                         <option value="select one">select one</option>
                         @foreach ($users as $user)
                             <option value="{{ $user->id }}"
@@ -72,9 +72,9 @@
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2">
-                        Select Status
+                        Select Status <span class="text-red-500">*</span>
                     </label>
-                    <select name="status" class="border border-gray-300 rounded w-full py-1 text-black">
+                    <select name="status" class="border border-gray-900 rounded w-full py-1.5 text-black">
                         <option value="">select one</option>
                         <option value="pending" @selected($projectTask->status)>pending</option>
                         <option value="ongoing" @selected($projectTask->status)>ongoing</option>

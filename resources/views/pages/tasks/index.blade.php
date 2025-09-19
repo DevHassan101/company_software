@@ -14,9 +14,9 @@
 
     </div>
 
-    <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
-        <table class="min-w-full leading-normal">
-            <thead>
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left rtl:text-right">
+            <thead class="text-xs text-white uppercase bg-gray-50">
                 <tr>
                     <th
                         class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
@@ -30,11 +30,6 @@
                     <th
                         class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
                         Project Details
-                    </th>
-
-                    <th
-                        class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                        Description
                     </th>
 
                     <th
@@ -68,10 +63,6 @@
                                 <p class="text-gray-900 whitespace-no-wrap"><b>Project status:
                                     </b>{{ $projectTask->status }}</p>
                             </div>
-                        </td>
-                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            <p class="text-gray-900 whitespace-no-wrap">
-                                {{ \Illuminate\Support\Str::words($projectTask->description, 6, '...') }}</p>
                         </td>
 
                         <td class="border-gray-200 bg-white p-5">

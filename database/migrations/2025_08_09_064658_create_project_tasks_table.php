@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             // $table->foreign('user_id')->on('users')->references('id')->onUpdate('cascade')->onDelete('cascade');
             $table->string('title');
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->enum('status', ['pending','ongoing','completed','rejected','failed']);
             $table->unsignedBigInteger('created_by');
             $table->timestamps();

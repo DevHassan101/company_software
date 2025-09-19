@@ -41,7 +41,7 @@
                     @if ($medias && count($medias) > 0)
                         @foreach ($medias as $media)
                             <img src="{{ asset($media) }}" alt="image not found"
-                                class="w-32 h-32 rounded-full border object-cover shadow-md">
+                                class="w-32 h-32 border shadow-md">
                         @endforeach
                     @endif
                 </div>

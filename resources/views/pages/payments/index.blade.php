@@ -27,9 +27,9 @@
 
     </div>
 
-    <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
-        <table class="min-w-full leading-normal">
-            <thead>
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left rtl:text-right">
+            <thead class="text-xs text-white uppercase bg-gray-50">
                 <tr>
                     <th
                         class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
@@ -54,10 +54,6 @@
                         Amount
                     </th>
 
-                    {{-- <th
-                        class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                        Description
-                    </th> --}}
 
                     <th
                         class="px-5 py-3 text-xs font-semibold tracking-wider text-center text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
@@ -94,7 +90,7 @@
                                 <div class="flex">
                                     @foreach ($medias as $media)
                                         <div>
-                                            <img src="{{ asset($media) }}" alt="image not found" class="w-16 h-16" />
+                                            <img src="{{ asset($media) }}" alt="image not found" class="w-28 h-28" />
                                         </div>
                                     @endforeach
                                 </div>
@@ -112,10 +108,6 @@
                                 </p>
                             </div>
                         </td>
-
-                        {{-- <td class="px-5 py-5 text-sm bg-white border-b border-gray-200 ">
-                            <p class="text-gray-900 whitespace-no-wrap description">{{ $payment->note }}</p>
-                        </td> --}}
 
                         <td class="border-gray-200 bg-white p-5">
                             <div class="flex items-center justify-center gap-4 mb-4">
@@ -142,10 +134,12 @@
                 @endforeach
 
             </tbody>
+            
         </table>
-        <div class="flex flex-col items-center px-5 py-5 bg-white border-t xs:flex-row xs:justify-between">
+        <div class="flex flex-col w-full items-center justify-between px-5 py-5 bg-white border-t sm:flex-row">
             {{ $payments->links() }}
         </div>
+
     </div>
 
     @if (session('success'))

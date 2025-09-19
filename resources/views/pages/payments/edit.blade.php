@@ -20,30 +20,32 @@
             @csrf
             @method('PUT')
 
-            <div class="grid grid-cols-3 gap-2">
+            <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
-                        project
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="project_id">
+                        Project <span class="text-red-500">*</span>
                     </label>
-                    <select name="project_id" class="border border-gray-300 rounded w-full py-1.5 text-black">
-                        <option value="select one">select one</option>
+                    <select name="project_id" id="project_id"
+                        class="border border-gray-300 rounded w-full py-1.5 text-black">
+                        <option value="">select one</option>
                         @foreach ($projects as $project)
-                            <option value="{{ $project->id }}" {{ $project->id == $project->id ? 'selected' : '' }}>
-                                {{ $project->name }}</option>
+                            <option value="{{ $project->id }}" @selected(old('project_id', $payment->project_id) == $project->id)>
+                                {{ $project->name }}
+                            </option>
                         @endforeach
                     </select>
                     @error('project_id')
-                        {{ $message }}
+                        <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
 
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
-                        Amount
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="amount">
+                        Amount <span class="text-red-500">*</span>
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="amount" name="amount" type="number" value="{{ $payment->amount }}"
+                        id="amount" name="amount" type="number" value="{{ old('amount', $payment->amount) }}"
                         placeholder="Enter amount">
                     @error('amount')
                         <span class="text-red-500">{{ $message }}</span>
@@ -51,8 +53,8 @@
                 </div>
 
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2 " for="media">
-                        Upload Media
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="media">
+                        Upload Media <span class="text-red-500">*</span>
                     </label>
                     @php
                         $medias = json_decode($payment->media, true);
@@ -69,7 +71,7 @@
                             @endforeach
                         </div>
                     @endif
-                    @error('media')
+                    @error('media.*')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
@@ -87,8 +89,9 @@
                     Update
                 </button>
             </div>
-
         </form>
+
+
 
     </div>
 

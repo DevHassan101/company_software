@@ -19,32 +19,35 @@
             enctype="multipart/form-data">
             @csrf
 
-            <div class="grid grid-cols-3 gap-2">
+            <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="project_id">
-                        Project
+                        Project <span class="text-red-500">*</span>
                     </label>
                     <select id="project_id" name="project_id"
-                        class="border border-gray-300 rounded w-full py-1 text-black">
+                        class="border border-gray-900 rounded w-full py-1.5 text-black">
                         <option value="select one">select one</option>
                         @foreach ($projects as $project)
                             <option value="{{ $project->id }}" data-budget="{{ $project->budget }}"
-                                data-paid-amount="{{ $project->paidAmount }}">{{ $project->name }}</option>
+                                data-paid-amount="{{ $project->paidAmount }}" @selected(old('project_id') == $project->id)>
+                                {{ $project->name }}
+                            </option>
                         @endforeach
                     </select>
                     <span id="amount_info" class="mt-3 font-semibold"></span>
                     @error('project_id')
-                        {{ $message }}
+                        <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
-                        Amount
+                        Amount <span class="text-red-500">*</span>
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="amount" name="amount" type="number" placeholder="Enter amount">
+                        id="amount" name="amount" value="{{ old('amount') }}" type="number"
+                        placeholder="Enter amount">
                     @error('amount')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -52,7 +55,7 @@
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2 " for="media">
-                        Upload Media
+                        Upload Media <span class="text-red-500">*</span>
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -66,7 +69,7 @@
             <div class="mb-4">
                 <label for="note" class="block mb-1 font-medium capitalize text-black">note</label>
                 <textarea id="note" name="note" rows="6" placeholder="Write note here"
-                    class="w-full p-2 border rounded-md text-black dark:border-gray-500"></textarea>
+                    class="w-full p-2 border rounded-md text-black dark:border-gray-500">{{ old('note') }}</textarea>
             </div>
 
             <div class="flex items-center justify-between">
@@ -87,8 +90,8 @@
             let budget = selectedOption.dataset.budget;
             let paidAmount = selectedOption.dataset.paidAmount;
 
-            document.getElementById('amount_info').innerText = 
-            "Budget: " + budget + " | Paid: " + paidAmount;
+            document.getElementById('amount_info').innerText =
+                "Budget: " + budget + " | Paid: " + paidAmount;
         });
     </script>
 </x-app-layout>

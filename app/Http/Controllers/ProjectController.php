@@ -46,8 +46,8 @@ class ProjectController extends Controller
     {
         $validation = $request->validate([
             'name' => 'required|min:3',
-            'description' => 'required',
-            'requirments' => 'required',
+            'description' => 'nullable',
+            'requirments' => 'nullable',
             'client_id' => 'required|integer',
             'started_at' => 'required|date',
             'delivered_at' => 'required|date',
@@ -77,9 +77,11 @@ class ProjectController extends Controller
             ->get();
 
         $projectTasks = ProjectTask::where('project_id', $id)
-            ->with('user', 'project')
+            ->with('user', 'project', 'createdBy')
             ->orderBy('created_at', 'desc')
             ->get();
+
+            // return $projectTasks;
 
         $projectFeedbacks = ProjectFeedback::where('project_id', $id)
             ->with('project')
@@ -115,8 +117,8 @@ class ProjectController extends Controller
 
         $validation = $request->validate([
             'name' => 'required|min:3',
-            'description' => 'required',
-            'requirments' => 'required',
+            'description' => 'nullable',
+            'requirments' => 'nullable',
             'client_id' => 'required|integer',
             'started_at' => 'required|date',
             'delivered_at' => 'required|date',
@@ -178,6 +180,7 @@ class ProjectController extends Controller
     // project tasks function start
     public function storeTask(Request $request, $projectId)
     {
+
         $validation = $request->validate([
             'user_id' => 'required',
             'title' => 'required',
@@ -196,40 +199,6 @@ class ProjectController extends Controller
     }
 
     // project tasks function end
-
-    // project users function start
-    // public function storeUser(Request $request)
-    // {
-    //     $validation = $request([
-    //         'project_id' => 'required',
-    //         'user_id' => 'required',
-    //     ]);
-
-    //     $project = Project::findOrFail($request->project_id);
-    //     $validation['created_by'] = auth()->id();
-    //     ProjectUser::create($validation);
-    //     return redirect()->route('project.show', ['project' => $project])->with('message', 'Project Notes Created Successfully');
-    // }
-    // project users function end
-
-    // project payment function start
-    // public function storePayment(Request $request)
-    // {
-    //     $validation = $request->validate([
-    //         'project_id' => 'required',
-    //         'amount' => 'required',
-    //         'note' => 'required',
-    //         'media' => 'required',
-    //     ]);
-
-    //     $project = Project::findOrFail($request->project_id);
-    //     $validation['created_by'] = auth()->id();
-
-    //     ProjectPayment::create($validation);
-
-    //     return redirect()->route('project.show', ['project' => $project])->with('message', 'Project Notes Created Successfully');
-    // }
-    // project payment function end
 
     // project feedback function start
     public function storeFeedback(Request $request, $projectId)
@@ -294,37 +263,6 @@ class ProjectController extends Controller
             ->route('project.show', ['project' => $project])
             ->with('success', 'Project Issue Created Successfully');
     }
-
-
-    // public function storeIssue(Request $request, $projectId)
-    // {
-
-    //     $validation = $request->validate([
-    //         'note' => 'required',
-    //         'media' => 'required'
-    //     ]);
-
-    //     $project = Project::findOrFail($request->project_id);
-    //     $validation['created_by'] = auth()->id();
-    //     $validation['project_id'] = $projectId;
-
-    //     $mediaPaths = [];
-
-    //     if ($request->hasFile('media')) {
-    //         foreach ($request->file('media') as $file) {
-    //             $name_gen = hexdec(uniqid()) . '.' . $file->getClientOriginalExtension();
-    //             $file->move('uploads/project/issue', $name_gen);
-    //             $mediaPaths[] = 'uploads/project/issue/' . $name_gen;
-    //         }
-    //     }
-
-    //     $validation['media'] = json_encode($mediaPaths);
-
-    //     ProjectIssue::create($validation);
-
-    //     return redirect()->route('project.show', ['project' => $project])->with('message', 'Project Issue Created Successfully');
-    // }
-    // project issue function end
 
     
 }

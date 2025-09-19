@@ -80,7 +80,7 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="Password" name="password" type="password" placeholder="Enter Password">
+                        id="Password" name="password" value="{{ old('password') }}" type="password" placeholder="Enter Password">
                     @error('password')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -104,10 +104,11 @@
                     <label class="block text-gray-700 text-sm font-bold mb-2">
                         Select Gender <span class="text-red-500">*</span>
                     </label>
-                    <select name="gender" class="border border-gray-300 w-full rounded py-2 px-3">
+                    <select name="gender" class="border border-gray-900 w-full rounded py-1.5">
                         <option value="">Select One</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
+                         <option value="male" @selected(old('gender') == 'male')>male</option>
+                         <option value="female" @selected(old('gender') == 'female')>female</option>
+          
                     </select>
                     @error('gender')
                         <span class="text-red-500">{{ $message }}</span>
@@ -185,7 +186,7 @@
                     <label class="block text-gray-700 text-sm font-bold mb-2">
                         Select Designation
                     </label>
-                    <select name="designation" class="border border-gray-300 rounded w-full py-1 text-black">
+                    <select name="designation" class="border border-gray-900 rounded w-full py-1.5 text-black">
                         <option value="">select one</option>
                         <option value="founder" @selected(old('designation') == 'founder')>founder</option>
                         <option value="co-founder" @selected(old('designation') == 'co-founder')>co founder</option>
