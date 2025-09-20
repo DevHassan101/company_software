@@ -32,5 +32,30 @@
             </x-slot>
             {{ __('User Dashboard') }}
         </x-nav-link>
+        @if (auth()->user()->hasRole('user'))
+            <x-nav-link href="{{ route('getProject.index') }}" :active="request()->routeIs('getProject.index')">
+                <x-slot name="icon">
+                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path
+                            d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z">
+                        </path>
+                    </svg>
+                </x-slot>
+                {{ __('Project') }}
+            </x-nav-link>
+
+            <x-nav-link href="{{ route('getTask.index') }}" :active="request()->routeIs('getTask.index')">
+                <x-slot name="icon">
+                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path
+                            d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z">
+                        </path>
+                    </svg>
+                </x-slot>
+                {{ __('Task') }}
+            </x-nav-link>
+        @endif
     </nav>
 </div>

@@ -48,4 +48,8 @@ class Project extends Model
     public function getPaidAmountAttribute(){
         return $this->projectPayments()->sum('amount');
     }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

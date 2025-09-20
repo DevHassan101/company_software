@@ -46,9 +46,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function project()
+    public function projects()
     {
-        return $this->belongsTo(Project::class);
+        return $this->hasMany(Project::class, 'admin_id');
     }
 
     public function projectNotes()
@@ -56,9 +56,9 @@ class User extends Authenticatable
         return $this->belongsTo(ProjectNote::class);
     }
 
-    public function projectTask()
+    public function projectTasks()
     {
-        return $this->belongsTo(ProjectTask::class);
+        return $this->hasMany(ProjectTask::class);
     }
 
     public function projectUser()
@@ -74,5 +74,15 @@ class User extends Authenticatable
     public function expenses()
     {
         return $this->hasMany(Expense::class);
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'super admin';
+    }
+
+    public function isUser()
+    {
+        return $this->role === 'user';
     }
 }

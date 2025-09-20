@@ -11,12 +11,12 @@
         <x-dropdown>
             <x-slot name="trigger">
                 <button @click="dropdownOpen = ! dropdownOpen" class="relative block overflow-hidden">
-                    {{-- {{ Auth::user()->name }} --}}
+                    {{ Auth::user()->name }}
                 </button>
             </x-slot>
 
             <x-slot name="content">
-                <x-dropdown-link href="{{ route('profile.edit') }}">
+                <x-dropdown-link href="{{ route('user.profile-settings.edit') }}">
                     {{ __('Profile') }}
                 </x-dropdown-link>
 

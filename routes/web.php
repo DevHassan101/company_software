@@ -9,9 +9,10 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\user\UserDashboardController;
-use App\Http\Controllers\user\AuthController;
+use App\Models\Client;
 use Illuminate\Support\Facades\Route;
 use App\Models\Project;
+use App\Models\User;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use Spatie\Permission\Contracts\Role;
 
@@ -31,10 +32,17 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
+    
     $projectCount = Project::count();
+    $clientCount = Client::count();
+    $userCount = User::count();
     return view('dashboard', [
-        'projectCount' => $projectCount
+        'projectCount' => $projectCount,
+        'clientCount' => $clientCount,
+        'userCount' => $userCount
     ]);
+
+
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -71,12 +79,15 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('test', [UserDashboardController::class, 'index'])->name('user.dashboard');
-Route::get('user/profile-settings', [UserDashboardController::class, 'profileSettings'])->name('user.profile-settings.index');
+Route::get('getProject', [UserDashboardController::class, 'getProjects'])->name('getProject.index');
+Route::get('showProject/{project}', [UserDashboardController::class, 'showProjects'])->name('showProject.show');
+Route::get('getTask', [UserDashboardController::class, 'getTasks'])->name('getTask.index');
+Route::get('showTask/{projectTask}', [UserDashboardController::class, 'showTask'])->name('showTask.show');
+Route::get('profile-settings', [UserDashboardController::class, 'profileSettings'])->name('user.profile-settings.edit');
 Route::put('user/update-profile', [UserDashboardController::class, 'updateProfile'])->name('user.update-profile');
-    // Route::get('user/login', [AuthController::class, 'login'])->name('user.login');
-    // Route::post('signin', [AuthController::class, 'signin'])->name('user.signin');
-// Route::middleware(['user'])->group(function(){
+Route::put('userUpdate', [UserDashboardController::class, 'userUpdate'])->name('userUpdate.update');
+Route::put('updatePassword', [UserDashboardController::class, 'updatePassword'])->name('updatePassword.update');
+Route::delete('userDelete', [UserDashboardController::class, 'userDelete'])->name('userDelete.delete');
 
-// });
 
 require __DIR__ . '/auth.php';

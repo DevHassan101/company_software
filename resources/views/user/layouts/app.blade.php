@@ -14,7 +14,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
@@ -33,13 +33,12 @@
 
             <main class="overflow-y-auto overflow-x-hidden flex-1 bg-slate-200">
                 <div class="container px-6 py-8 mx-auto">
-                   
-                    {{-- {{ $slot }} --}}
-
+                    @yield('content')
                 </div>
             </main>
         </div>
     </div>
+
 </body>
 <script>
     const Toast = Swal.mixin({
