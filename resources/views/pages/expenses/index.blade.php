@@ -25,16 +25,16 @@
                     </th>
                     <th
                         class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                        Type
+                    </th>
+                    <th
+                        class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
                         Amount
                     </th>
 
                     <th
                         class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
                         receipt
-                    </th>
-                    <th
-                        class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                        Type
                     </th>
 
                     <th
@@ -59,6 +59,9 @@
                             <p class="text-gray-900 whitespace-no-wrap">{{ ++$i }}</p>
                         </td>
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                            {{ $expense->type }}
+                        </td>
+                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                             <div>
                                 <p class="text-gray-900 whitespace-no-wrap">
                                     {{ $expense->amount }}
@@ -79,10 +82,6 @@
                                     @endforeach
                                 </div>
                             @endif
-                        </td>
-
-                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            {{ $expense->type }}
                         </td>
 
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
@@ -115,7 +114,7 @@
 
             </tbody>
         </table>
-        <div class="flex flex-col items-center px-5 py-5 bg-white border-t xs:flex-row xs:justify-between">
+        <div>
             {{ $expenses->links() }}
         </div>
     </div>

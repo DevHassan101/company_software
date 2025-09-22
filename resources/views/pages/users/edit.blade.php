@@ -103,7 +103,7 @@
                     <label class="block text-gray-700 text-sm font-bold mb-2">
                         Select Gender <span class="text-red-500">*</span>
                     </label>
-                    <select name="gender" class="rounded w-full py-1.5 px-2 text-black">
+                    <select name="gender" class="rounded w-full py-1.5 px-2 capitalize text-black">
                         <option value="">select one</option>
                         <option value="male" @selected($user->userInfo->gender == 'male')>male</option>
                         <option value="female" @selected($user->userInfo->gender == 'female')>female</option>
@@ -193,7 +193,7 @@
                     <label class="block text-gray-700 text-sm font-bold mb-2">
                         Select Designation
                     </label>
-                    <select name="designation" class="border border-gray-900 rounded w-full py-1.5 text-black">
+                    <select name="designation" class="border capitalize border-gray-900 rounded w-full py-1.5 text-black">
                         <option value="">select one</option>
                          <option value="founder" @selected($user->designation == 'founder')>founder</option>
                         <option value="co-founder" @selected($user->designation == 'co-founder')>co founder</option>

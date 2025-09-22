@@ -36,8 +36,8 @@ class PaymentController extends Controller
         $validation = $request->validate([
             'project_id' => 'required',
             'amount' => 'required|integer',
-            'note' => 'required|string|max:255',
-            'media' => 'required'
+            'note' => 'nullable',
+            'media' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
         $validation['created_by'] = auth()->id();
@@ -88,7 +88,7 @@ class PaymentController extends Controller
             'project_id' => 'required',
             'amount' => 'required',
             'note' => 'nullable',
-            'media' => 'nullable'
+            'media' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
         $validation['created_by'] = auth()->id();

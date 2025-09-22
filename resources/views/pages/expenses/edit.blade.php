@@ -20,24 +20,12 @@
             @csrf
             @method('PUT')
             <div class="grid sm:grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
-                        Amount
-                    </label>
-                    <input
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="amount" name="amount" type="number" value="{{ $expense->amount }}"
-                        placeholder="Enter amount">
-                    @error('amount')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
-                </div>
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2">
                         Select Type
                     </label>
-                    <select name="type" class="border border-gray-300 rounded w-full py-1 text-black">
+                    <select name="type" class="border border-gray-900 rounded w-full py-2 text-black">
                         <option value="">select one</option>
 
                         <option value="utility-bill" @selected($expense->type == 'utility-bill')>utility-bill</option>
@@ -54,6 +42,19 @@
                     </select>
                     @error('type')
                         {{ $message }}
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
+                        Amount
+                    </label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="amount" name="amount" type="number" value="{{ $expense->amount }}"
+                        placeholder="Enter amount">
+                    @error('amount')
+                        <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
 

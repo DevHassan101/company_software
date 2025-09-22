@@ -307,7 +307,7 @@
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="user_id">
                         Select User <span class="text-red-500">*</span>
                     </label>
-                    <select name="user_id" id="user_id" class="border border-gray-300 rounded w-full py-1 text-black">
+                    <select name="user_id" id="user_id" class="border border-gray-900 rounded w-full py-2 text-black">
                         <option value="">select one</option>
                         @foreach ($users as $user)
                             <option value="{{ $user->id }}" @selected(old('user_id') == $user->id)>
@@ -335,7 +335,7 @@
                     <label class="block text-gray-700 text-sm font-bold mb-2">
                         Select Status <span class="text-red-500">*</span>
                     </label>
-                    <select name="status" class="border border-gray-300 rounded w-full py-1 text-black">
+                    <select name="status" class="border border-gray-900 rounded w-full py-2 text-black">
                         <option value="">select one</option>
                         <option value="pending" @selected(old('status') == 'pending')>pending</option>
                         <option value="ongoing" @selected(old('status') == 'ongoing')>ongoing</option>
@@ -414,7 +414,7 @@
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
                         Select Status <span class="text-red-500">*</span>
                     </label>
-                    <select name="status" class="border border-gray-300 rounded w-full py-1 text-black">
+                    <select name="status" class="border border-gray-900 rounded w-full py-2 text-black">
                         <option value="">select one</option>
                         <option value="pending" @selected(old('status') == 'pending')>pending</option>
                         <option value="ongoing" @selected(old('status') == 'ongoing')>ongoing</option>

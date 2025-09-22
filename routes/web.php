@@ -46,8 +46,6 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::view('about', 'about')->name('about');
-
     Route::resource('user', UserController::class);
     Route::get('user/{id}/show', [UserController::class, 'show'])->name('user.show');
     Route::resource('client', ClientController::class);

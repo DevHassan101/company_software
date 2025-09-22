@@ -19,7 +19,7 @@
             method="post" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-            <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid sm:grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
                         Title <span class="text-red-500">*</span>
@@ -66,23 +66,6 @@
                         @endforeach
                     </select>
                     @error('user_id')
-                        {{ $message }}
-                    @enderror
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2">
-                        Select Status <span class="text-red-500">*</span>
-                    </label>
-                    <select name="status" class="border border-gray-900 rounded w-full py-1.5 text-black">
-                        <option value="">select one</option>
-                        <option value="pending" @selected($projectTask->status)>pending</option>
-                        <option value="ongoing" @selected($projectTask->status)>ongoing</option>
-                        <option value="completed" @selected($projectTask->status)>completed</option>
-                        <option value="rejected" @selected($projectTask->status)>rejected</option>
-                        <option value="failed" @selected($projectTask->status)>failed</option>
-                    </select>
-                    @error('status')
                         {{ $message }}
                     @enderror
                 </div>

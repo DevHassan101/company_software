@@ -21,6 +21,29 @@
 
             <div class="grid sm:grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">
+                        Select Type <span class="text-red-500">*</span>
+                    </label>
+                    <select name="type" class="border border-gray-900 capitalize rounded w-full py-1.5 text-black">
+                        <option value="">select one</option>
+                        <option value="utility-bill" @selected(old('type') == 'utility-bill')>utility bill</option>
+                        <option value="asset" @selected(old('type') == 'asset')>asset</option>
+                        <option value="marketing" @selected(old('type') == 'marketing')>marketing</option>
+                        <option value="sale" @selected(old('type') == 'sale')>sale</option>
+                        <option value="domain-server" @selected(old('type') == 'domain-server')>domain server</option>
+                        <option value="ai" @selected(old('type') == 'ai')>ai</option>
+                        <option value="refreshment" @selected(old('type') == 'refreshment')>refreshment</option>
+                        <option value="furniture-maintaineance" @selected(old('type') == 'furniture-maintaineance')>furniture maintaineance
+                        </option>
+                        <option value="other" @selected(old('type') == 'other')>other</option>
+
+                    </select>
+                    @error('type')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
                         Amount <span class="text-red-500">*</span>
                     </label>
@@ -45,27 +68,6 @@
                     @enderror
                 </div>
 
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2">
-                        Select Type <span class="text-red-500">*</span>
-                    </label>
-                    <select name="type" class="border border-gray-900 rounded w-full py-1.5 text-black">
-                        <option value="">select one</option>
-                        <option value="utility-bill" @selected(old('type') == 'utility-bill')>utility bill</option>
-                        <option value="asset" @selected(old('type') == 'asset')>asset</option>
-                        <option value="marketing" @selected(old('type') == 'marketing')>marketing</option>
-                        <option value="sale" @selected(old('type') == 'sale')>sale</option>
-                        <option value="domain-server" @selected(old('type') == 'domain-server')>domain server</option>
-                        <option value="ai" @selected(old('type') == 'ai')>ai</option>
-                        <option value="refreshment" @selected(old('type') == 'refreshment')>refreshment</option>
-                        <option value="furniture-maintaineance" @selected(old('type') == 'furniture-maintaineance')>furniture maintaineance</option>
-                        <option value="other" @selected(old('type') == 'other')>other</option>
-
-                    </select>
-                    @error('type')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
-                </div>
             </div>
 
             <div class="mb-4">

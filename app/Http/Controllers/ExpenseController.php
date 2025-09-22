@@ -34,7 +34,8 @@ class ExpenseController extends Controller
             'amount' => 'required|integer',
             'receipt' => 'nullable',
             'description' => 'nullable|string',
-            'type' => 'required'
+            'type' => 'required',
+            'paid_on' => 'nullable'
         ]);
 
         $validation['added_by'] = auth()->id();

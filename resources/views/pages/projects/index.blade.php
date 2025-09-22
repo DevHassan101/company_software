@@ -56,9 +56,9 @@
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                             <div class="flex gap-2 items-center">
                                 <div>
-                                    <p class="text-gray-900 whitespace-no-wrap"><b>Client Name:
+                                    <p class="text-gray-900 whitespace-no-wrap"><b>Name:
                                         </b>{{ $project->client?->name }}</p>
-                                    <p class="text-gray-900 whitespace-no-wrap"><b>Client Email:
+                                    <p class="text-gray-900 whitespace-no-wrap"><b>Email:
                                         </b>{{ $project->client?->email }}</p>
                                 </div>
                             </div>
@@ -98,7 +98,7 @@
 
             </tbody>
         </table>
-        <div class="flex flex-col px-5 py-5 bg-white border-t xs:flex-row xs:justify-between">
+        <div>
             {{ $projects->links() }}
         </div>
     </div>

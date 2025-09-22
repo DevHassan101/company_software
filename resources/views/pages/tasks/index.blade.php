@@ -56,21 +56,36 @@
                             </div>
                         </td>
 
-                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200 whitespace-nowrap">
+                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200 whitespace-nowrap"
+                            id="status-display-{{ $projectTask->id }}">
                             <div>
                                 <p class="text-gray-900 whitespace-no-wrap"><b>User: </b>{{ $projectTask->user->name }}
                                 </p>
                                 <p class="text-gray-900 whitespace-no-wrap"><b>status:
-                                    </b>{{ $projectTask->status }}</p>
+                                        @if ($projectTask->status == 'completed')
+                                            <span
+                                                class="bg-green-100 text-white text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">completed</span>
+                                        @elseif ($projectTask->status == 'pending')
+                                            <span
+                                                class="bg-yellow-100 text-white text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">pending</span>
+                                        @elseif ($projectTask->status == 'ongoing')
+                                            <span
+                                                class="bg-indigo-100 text-white text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300">ongoing</span>
+                                        @elseif ($projectTask->status == 'rejected')
+                                            <span
+                                                class="bg-pink-100 text-white text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300">rejected</span>
+                                        @elseif ($projectTask->status == 'failed')
+                                            <span
+                                                class="bg-red-100 text-white text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">failed</span>
+                                        @endif
                             </div>
                         </td>
 
                         <td class="px-5 py-5 text-md bg-white border-b border-gray-200">
                             <div class="flex items-center justify-center gap-4 mb-4">
-
                                 <label class="sr-only" for="status-{{ $projectTask->id }}">Select Status</label>
                                 <select name="status" data-id="{{ $projectTask->id }}"
-                                    class="border status border-gray-300 rounded py-1 text-black focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                                    class="border status border-gray-900 rounded py-2 text-black focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                                     <option value="">Select one</option>
                                     <option value="pending" @selected($projectTask->status == 'pending')>Pending</option>
                                     <option value="ongoing" @selected($projectTask->status == 'ongoing')>Ongoing</option>
@@ -105,7 +120,7 @@
 
             </tbody>
         </table>
-        <div class="flex flex-col items-center px-5 py-5 bg-white border-t xs:flex-row xs:justify-between">
+        <div>
             {{ $projectTasks->links() }}
         </div>
     </div>
@@ -114,29 +129,46 @@
         $('.status').change(function(e) {
             e.preventDefault();
             const id = $(this).data('id');
+            const newStatus = $(this).find('option:selected').val();
+
             $.ajax({
                 type: "PUT",
                 url: "/task/" + id + "/status",
                 data: {
-                    status: $(this).find('option:selected').val(),
+                    status: newStatus,
                 },
                 headers: {
                     'x-csrf-token': "{{ csrf_token() }}"
                 },
-
                 success: function(response) {
                     if (response.error) {
-                        alert(response.message);
+                        Toast.fire({
+                            icon: "error",
+                            title: response.message
+                        });
                         return;
                     }
+                    Toast.fire({
+                        icon: "success",
+                        title: response.message 
+                    });
+
                     console.log("Status changed successfully");
+                    const newStatusHtml = getStatusBadgeHtml(newStatus);
+                    $(`#status-display-${id} div p:last-child`).html(`<b>status: </b>${newStatusHtml}`);
                 },
                 error: function(msg) {
-                    console.log('data is not send');
+                    console.log('Data was not sent successfully');
+                    Toast.fire({
+                        icon: "error",
+                        title: "Something went wrong. Please try again."
+                    });
                 }
             });
         });
     </script>
+
+
     @if (session('success'))
         @push('script')
             <script>

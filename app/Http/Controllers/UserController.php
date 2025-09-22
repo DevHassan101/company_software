@@ -31,19 +31,19 @@ class UserController extends Controller
     {
         $validation = $request->validate([
             'name' => 'required',
-            'email' => 'required|unique:users,email',
+            'email' => 'nullable|unique:users,email',
             'password' => 'required|min:8',
             'fname' => 'required',
             'dob' => 'required',
             'phone' => 'required',
             'gender' => 'required',
-            'profile' => 'required',
-            'cnic' => 'required',
-            'cnic_frnt' => 'required',
-            'cnic_back' => 'required',
+            'profile' => 'nullable',
+            'cnic' => 'nullable',
+            'cnic_frnt' => 'nullable',
+            'cnic_back' => 'nullable',
             'salary' => 'required',
             'designation' => 'required',
-            'address' => 'required',
+            'address' => 'nullable',
         ]);
         
 

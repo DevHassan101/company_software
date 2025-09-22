@@ -23,7 +23,8 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="username" name="name" value="{{ old('name') }}" type="text" placeholder="Enter Project">
+                        id="username" name="name" value="{{ old('name') }}" type="text"
+                        placeholder="Enter Project">
                     @error('name')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -31,14 +32,12 @@
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
-                        Budget <span class="text-red-500">*</span>
+                        Budget
                     </label>
                     <input
                         class="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="budget" name="budget" value="{{ old('budget') }}" placeholder="Enter Budge" type="number">
-                    @error('budget')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
+                        id="budget" name="budget" value="{{ old('budget') }}" placeholder="Enter Budge"
+                        type="number">
                 </div>
             </div>
 
@@ -144,5 +143,6 @@
         </form>
 
     </div>
+
 
 </x-app-layout>

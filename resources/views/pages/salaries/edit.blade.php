@@ -24,7 +24,7 @@
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
                         Select User <span class="text-red-500">*</span>
                     </label>
-                    <select name="user_id" class="border border-gray-300 rounded w-full py-1 text-black">
+                    <select name="user_id" class="border border-gray-900 rounded w-full py-2 text-black">
                         <option value="select one">select one</option>
                         @foreach ($users as $user)
                             <option value="{{ $user->id }}" {{ $user->id == $salary->user_id ? 'selected' : '' }}>

@@ -33,6 +33,10 @@ class ProjectTask extends Model
         return $this->belongsTo(User::class, 'admin_id');
     }
 
+    public function assign() {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by');

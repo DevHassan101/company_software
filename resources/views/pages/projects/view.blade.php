@@ -33,6 +33,17 @@
         </a>
     </div>
 
+    <div class="grid sm:grid-cols-1 md:grid-cols-1 gap-4 mb-4">
+        <div class=" bg-white p-5 rounded-md">
+            <h4 class="mb-2 capitalize font-bold text-gray-800 mx-6">Title</h4>
+            <div class="relative">
+                <p class="project text-gray-600">
+                    {{ $project->name }}
+                </p>
+            </div>
+        </div>
+    </div>
+
     <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div class=" bg-white p-5 rounded-md">
             <h4 class="mb-2 capitalize font-bold text-gray-800 mx-6">Description</h4>
@@ -61,7 +72,7 @@
 
 
     <div class="grid sm:grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-        <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
+        <div class="inline-block overflow-hidden min-w-full rounded-lg">
             <div class="py-4 bg-white border-b-4 border-green-600 capitalize text-gray-600 font-bold">
                 <div class="flex justify-between items-center px-4">
                     <div>
@@ -96,7 +107,7 @@
             </div>
         </div>
 
-        <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
+        <div class="inline-block overflow-hidden min-w-full rounded-lg">
             <div class="py-4 bg-white border-b-4 border-blue-600 capitalize text-gray-600 font-bold">
                 <div class="flex justify-between items-center px-4">
                     <div>
@@ -121,7 +132,7 @@
                                 </div>
                                 <div>
                                     <i class="fa-solid fa-eye cursor-pointer mt-4"
-                                        onclick="showTask('{{ addslashes($task->description) }}', '{{ addslashes(json_encode($task->media ? json_decode($task->media) : [])) }}', '{{ addslashes($task->project->name ?? '') }}', '{{ addslashes($task->createdBy->name ?? '') }}')">
+                                        onclick="showTask('{{ addslashes($task->description) }}', '{{ addslashes(json_encode($task->media ? json_decode($task->media) : [])) }}', '{{ addslashes($task->project->name ?? '') }}', '{{ addslashes($task->createdBy->name ?? '') }}', '{{ addslashes($task->status) }}')">
                                     </i>
 
                                 </div>
@@ -134,7 +145,7 @@
         </div>
 
         {{-- feedback --}}
-        <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
+        <div class="inline-block overflow-hidden min-w-full rounded-lg">
             <div class="py-4 bg-white border-b-4 border-purple-500 capitalize text-gray-600 font-bold">
                 <div class="flex justify-between items-center px-4">
                     <div>
@@ -177,7 +188,7 @@
         </div>
 
         {{-- project issue --}}
-        <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
+        <div class="inline-block overflow-hidden min-w-full rounded-lg">
             <div class="py-4 bg-white border-b-4 border-yellow-500 capitalize text-gray-600 font-bold">
                 <div class="flex justify-between items-center px-4">
                     <div>
@@ -223,7 +234,8 @@
         <div class="bg-white rounded-lg shadow-lg max-w-3/4 w-full p-5 relative">
 
             <!-- Modal Header -->
-            <div class="flex justify-between items-center border-b border-gray-200 dark:border-gray-600 pb-3">
+            <div id="project-notes-modal"
+                class="flex justify-between items-center border-b border-gray-200 dark:border-gray-600 pb-3">
                 <h3 class="text-lg font-semibold text-black">Create Project Notes</h3>
                 <button type="button" onclick="projectNotes('crud-modal')" class="text-gray-400">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -234,7 +246,7 @@
             </div>
 
             <!-- Modal Body -->
-            <form class="mt-4 space-y-4 text-gray-900 dark:text-white"
+            <form id="create-project-notes-form" class="mt-4 space-y-4 text-gray-900 dark:text-white"
                 action="{{ route('project.store-note', ['projectId' => $project->id]) }}" method="post"
                 enctype="multipart/form-data">
                 @csrf
@@ -246,6 +258,9 @@
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="media" name="media[]" multiple type="file">
+                    @error('media')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
                 </div>
 
 
@@ -309,7 +324,7 @@
                         Select User <span class="text-red-500">*</span>
                     </label>
                     <select name="user_id" id="user_id"
-                        class="border border-gray-300 rounded w-full py-1 text-black">
+                        class="border border-gray-900 rounded w-full py-2 text-black">
                         <option value="">select one</option>
                         @foreach ($users as $user)
                             <option value="{{ $user->id }}" @selected(old('user_id') == $user->id)>
@@ -324,31 +339,9 @@
 
 
                 <div>
-                    <label for="description" class="block mb-1 font-medium capitalize text-black">description <span
-                            class="text-red-500">*</span></label>
+                    <label for="description" class="block mb-1 font-medium capitalize text-black">description </label>
                     <textarea id="note" name="description" rows="6" placeholder="Write note here"
                         class="w-full p-2 border rounded-md text-black dark:border-gray-500">{{ old('description') }}</textarea>
-                    @error('description')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2">
-                        Select Status <span class="text-red-500">*</span>
-                    </label>
-                    <select name="status" class="border border-gray-300 rounded w-full py-1 text-black">
-                        <option value="">select one</option>
-                        <option value="pending" @selected(old('status') == 'pending')>pending</option>
-                        <option value="ongoing" @selected(old('status') == 'ongoing')>ongoing</option>
-                        <option value="completed" @selected(old('status') == 'completed')>completed</option>
-                        <option value="rejected" @selected(old('status') == 'rejected')>rejected</option>
-                        <option value="failed" @selected(old('status') == 'failed')>failed</option>
-
-                    </select>
-                    @error('status')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
                 </div>
 
                 <button type="submit"
@@ -389,7 +382,7 @@
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="media">
-                        Upload Media <span class="text-red-500">*</span>
+                        Upload Media
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -404,26 +397,10 @@
 
                 <div>
                     <label for="note" class="block mb-1 font-medium capitalize text-black">note <span
-                            class="text-red-500">*</span></label>
+                            class="text-red-500">*</span> </label>
                     <textarea id="note" name="note" rows="6" placeholder="Write note here"
                         class="w-full p-2 border rounded-md text-black dark:border-gray-500">{{ old('note') }}</textarea>
                     @error('note')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
-                        Select Status <span class="text-red-500">*</span>
-                    </label>
-                    <select name="status" class="border border-gray-300 rounded w-full py-1 text-black">
-                        <option value="">select one</option>
-                        <option value="pending" @selected(old('status') == 'pending')>pending</option>
-                        <option value="ongoing" @selected(old('status') == 'ongoing')>ongoing</option>
-                        <option value="completed" @selected(old('status') == 'completed')>completed</option>
-                        <option value="onhold" @selected(old('status') == 'onhold')>onhold</option>
-                    </select>
-                    @error('status')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
@@ -462,14 +439,11 @@
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="media">
-                        Upload Media <span class="text-red-500">*</span>
+                        Upload Media
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="media" name="media[]" multiple type="file">
-                    @error('media')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
                 </div>
 
                 <div>
@@ -497,7 +471,7 @@
         <div class="bg-white rounded-lg shadow-lg max-w-3/4 w-full p-5 relative">
 
             <!-- Modal Header -->
-            <div class="flex justify-between items-center border-b pb-3">
+            <div class="flex justify-between items-center border-b pb-3 dark:border-gray-600">
                 <h3 class="text-lg font-semibold text-black">Note Details</h3>
                 <button type="button" onclick="toggleModal('view-note-modal')" class="text-gray-400">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
@@ -509,13 +483,11 @@
 
             <!-- Modal Body -->
             <div class="mt-4 space-y-4 text-gray-900">
-                <p class="font-bold">Project:</p>
+
                 <p id="modal-note-project" class="text-gray-700"></p>
 
-                <p class="font-bold">Note:</p>
                 <p id="modal-note-text" class="text-gray-700"></p>
 
-                <p class="font-bold">Media:</p>
                 <div id="modal-note-media"></div>
             </div>
         </div>
@@ -528,7 +500,7 @@
         <div class="bg-white rounded-lg shadow-lg max-w-3/4 w-full p-5 relative">
 
             <!-- Modal Header -->
-            <div class="flex justify-between items-center border-b pb-3">
+            <div class="flex justify-between items-center border-b pb-3 dark:border-gray-600">
                 <h3 class="text-lg font-semibold text-black">Task Details</h3>
                 <button type="button" onclick="showTask('view-task-modal')" class="text-gray-400">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
@@ -540,14 +512,13 @@
 
             <!-- Modal Body -->
             <div class="mt-4 space-y-4 text-gray-900">
-                <p class="font-bold">Project:</p>
                 <p id="modal-task-project" class="text-gray-700"></p>
 
-                <p class="font-bold">Note:</p>
                 <p id="modal-task-text" class="text-gray-700"></p>
 
-                <p class="font-bold">Created by:</p>
                 <div id="modal-task-created"></div>
+
+                <div id="modal-task-status"></div>
             </div>
         </div>
     </div>
@@ -559,7 +530,7 @@
         <div class="bg-white rounded-lg shadow-lg max-w-3/4 w-full p-5 relative">
 
             <!-- Modal Header -->
-            <div class="flex justify-between items-center border-b pb-3">
+            <div class="flex justify-between items-center border-b pb-3 dark:border-gray-600">
                 <h3 class="text-lg font-semibold text-black">Feedback Details</h3>
                 <button type="button" onclick="showFeedback('view-feedback-modal')" class="text-gray-400">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
@@ -571,9 +542,9 @@
 
             <!-- Modal Body -->
             <div class="mt-4 space-y-4 text-gray-900">
-                <p class="font-bold">Project:</p>
+
                 <p id="modal-feedback-project" class="text-gray-700"></p>
-                <p class="font-bold">Feedback:</p>
+
                 <p id="modal-feedback-text" class="text-gray-700"></p>
                 <div id="modal-feedback-media"></div>
 
@@ -590,7 +561,7 @@
         <div class="bg-white rounded-lg shadow-lg max-w-3/4  w-full p-5 relative">
 
             <!-- Modal Header -->
-            <div class="flex justify-between items-center border-b pb-3">
+            <div class="flex justify-between items-center border-b pb-3 dark:border-gray-600">
                 <h3 class="text-lg font-semibold text-black">Issue Details</h3>
                 <button type="button" onclick="toggleModal('view-issue-modal')" class="text-gray-400">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
@@ -602,13 +573,11 @@
 
             <!-- Modal Body -->
             <div class="mt-4 space-y-4 text-gray-900">
-                <p class="font-bold">Project:</p>
+
                 <p id="modal-issue-project" class="text-gray-700"></p>
 
-                <p class="font-bold">Issue:</p>
                 <p id="modal-issue-text" class="text-gray-700"></p>
 
-                <p class="font-bold">Media:</p>
                 <div id="modal-issue-media"></div>
 
                 <p id="modal-issue-creator" class="text-gray-700 font-semibold"></p>
@@ -730,9 +699,10 @@
             }
         }
 
-        function showTask(noteText, mediaPaths, projectName, creatorName) {
+        function showTask(noteText, mediaPaths, projectName, creatorName, status) {
             document.getElementById('modal-task-project').innerText = projectName;
             document.getElementById('modal-task-text').innerText = noteText;
+            document.getElementById('modal-task-status').innerText = status;
             document.getElementById('modal-task-created').innerText = creatorName ?
                 `Created By: ${creatorName}` :
                 '';
@@ -896,7 +866,20 @@
             text.classList.toggle("expanded");
             btn.textContent = text.classList.contains("expanded") ? "Show less" : "Show more";
         }
+
+
+        // valodation for task-modal
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     const hasValidationErrors = true;
+        //     if (hasValidationErrors) {
+        //         const taskModalStop = document.getElementById('task-modal');
+        //         if (taskModalStop) {
+        //             taskModalStop.classList.remove('hidden');
+        //         }
+        //     }
+        // });
     </script>
+
 
     @if (session('success'))
         @push('script')

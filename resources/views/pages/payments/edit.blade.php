@@ -26,7 +26,7 @@
                         Project <span class="text-red-500">*</span>
                     </label>
                     <select name="project_id" id="project_id"
-                        class="border border-gray-300 rounded w-full py-1.5 text-black">
+                        class="border border-gray-900 rounded w-full py-2 text-black">
                         <option value="">select one</option>
                         @foreach ($projects as $project)
                             <option data-budget="{{ $project->budget }}" data-paid-amount="{{ $project->paidAmount }}" value="{{ $project->id }}"

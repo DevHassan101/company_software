@@ -38,7 +38,6 @@ class TaskController extends Controller
             'user_id' => 'required',
             'title' => 'required',
             'description' => 'nullable',
-            'status' => 'required'
         ]);
 
         $validation['admin_id'] = auth()->id();
@@ -47,7 +46,7 @@ class TaskController extends Controller
         ProjectTask::create($validation);
 
         return redirect()->route('task.index')
-            ->with('message', 'Project Task Created Successfully');
+            ->with('success', 'Project Task Created Successfully');
     }
 
     /**
@@ -82,7 +81,6 @@ class TaskController extends Controller
             'user_id' => 'required',
             'title' => 'required',
             'description' => 'required',
-            'status' => 'required'
         ]);
 
         $validation['admin_id'] = auth()->id();
@@ -108,7 +106,6 @@ class TaskController extends Controller
 
             $projectTask = ProjectTask::findOrFail($id);
             $projectTask->update(['status' => $request->status]);
-
             if ($request->ajax()) {
                 return response()->json([
                     'error' => false,

@@ -43,8 +43,7 @@
 
             </tbody>
         </table>
-
-        <div id="pagination-links" class="flex flex-col px-5 py-5 bg-white border-t xs:flex-row xs:justify-between"></div>
+        <div id="pagination-links"></div>
     </div>
 
     <script>

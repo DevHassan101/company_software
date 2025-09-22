@@ -11,7 +11,7 @@
         </a>
     </div>
 
-    <div class="max-w-5xl mx-auto bg-white border border-gray-300 rounded-2xl shadow-xl p-8">
+    <div class="max-w-8xl mx-auto bg-white border border-gray-300 rounded-2xl shadow-xl p-8">
         <div class="flex items-center space-x-6 border-b pb-6 mb-6">
             <div>
                 <h2 class="text-2xl font-bold text-gray-900 capitalize">Added By: {{ $expense->user->name }}</h2>

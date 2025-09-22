@@ -53,7 +53,7 @@ class ProjectController extends Controller
             'delivered_at' => 'required|date',
             'delivery_date' => 'required|date',
             'admin_id' => 'required|integer',
-            'budget' => 'required|numeric',
+            'budget' => 'nullable|numeric',
         ]);
 
         $validation['created_by'] = auth()->id();
@@ -124,7 +124,7 @@ class ProjectController extends Controller
             'delivered_at' => 'required|date',
             'delivery_date' => 'required|date',
             'admin_id' => 'required|integer',
-            'budget' => 'required|numeric',
+            'budget' => 'nullable|numeric',
         ]);
 
         $project->update($validation);
@@ -151,7 +151,7 @@ class ProjectController extends Controller
     {
         $validation = $request->validate([
             'note' => 'required',
-            'media' => 'nullable',
+            'media' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         $project = Project::findOrFail($projectId);
         $validation['created_by'] = auth()->id();
@@ -184,8 +184,7 @@ class ProjectController extends Controller
         $validation = $request->validate([
             'user_id' => 'required',
             'title' => 'required',
-            'description' => 'required',
-            'status' => 'required'
+            'description' => 'nullable',
         ]);
 
         $validation['admin_id'] = auth()->id();
@@ -205,8 +204,7 @@ class ProjectController extends Controller
     {
         $validation = $request->validate([
             'note' => 'required',
-            'media.*' => 'required|file|mimes:jpg,jpeg,png,gif,mp4,avi|max:5120',
-            'status' => 'required'
+            'media' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $project = Project::findOrFail($projectId);
@@ -238,7 +236,7 @@ class ProjectController extends Controller
     {
         $validation = $request->validate([
             'note' => 'required',
-            'media' => 'required'
+            'media.*' => 'nullable|file|mimes:jpg,jpeg,png,gif,mp4,avi|max:5120',
         ]);
 
         $project = Project::findOrFail($projectId);

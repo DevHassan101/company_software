@@ -50,15 +50,12 @@
             <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="Email">
-                        Email <span class="text-red-500">*</span>
+                        Email
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="Email" name="email" value="{{ old('email') }}" type="text"
                         placeholder="Enter Email">
-                    @error('email')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
                 </div>
 
                 <div class="mb-4">
@@ -67,7 +64,7 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="phone" name="phone" value="{{ old('phone') }}" type="number"
+                        id="phone" name="phone" value="{{ old('phone') }}" type="text"
                         placeholder="Enter phone">
                     @error('phone')
                         <span class="text-red-500">{{ $message }}</span>
@@ -104,7 +101,7 @@
                     <label class="block text-gray-700 text-sm font-bold mb-2">
                         Select Gender <span class="text-red-500">*</span>
                     </label>
-                    <select name="gender" class="border border-gray-900 w-full rounded py-1.5">
+                    <select name="gender" class="border border-gray-900 w-full capitalize rounded py-1.5">
                         <option value="">Select One</option>
                          <option value="male" @selected(old('gender') == 'male')>male</option>
                          <option value="female" @selected(old('gender') == 'female')>female</option>
@@ -117,53 +114,41 @@
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="profile">
-                        Profile <span class="text-red-500">*</span>
+                        Profile
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="profile" name="profile" type="file">
-                    @error('profile')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
                 </div>
             </div>
 
             <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="cnic">
-                        CNIC <span class="text-red-500">*</span>
+                        CNIC
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="cnic" name="cnic" value="{{ old('cnic') }}" type="number"
                         placeholder="Enter CNIC">
-                    @error('cnic')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
                 </div>
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="cnic_frnt">
-                        CNIC Front Photo <span class="text-red-500">*</span>
+                        CNIC Front Photo
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="cnic_frnt" name="cnic_frnt" value="{{ old('cnic_frnt') }}" type="file">
-                    @error('cnic_frnt')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
                 </div>
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="cnic_back">
-                        CNIC Back Photo <span class="text-red-500">*</span>
+                        CNIC Back Photo
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="cnic_back" name="cnic_back" value="{{ old('cnic_back') }}" type="file">
-                    @error('cnic_back')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
                 </div>
             </div>
 
@@ -184,9 +169,9 @@
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2">
-                        Select Designation
+                        Select Designation <span class="text-red-500">*</span>
                     </label>
-                    <select name="designation" class="border border-gray-900 rounded w-full py-1.5 text-black">
+                    <select name="designation" class="border capitalize border-gray-900 rounded w-full py-1.5 text-black">
                         <option value="">select one</option>
                         <option value="founder" @selected(old('designation') == 'founder')>founder</option>
                         <option value="co-founder" @selected(old('designation') == 'co-founder')>co founder</option>
@@ -210,12 +195,11 @@
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
-
             </div>
 
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="address">
-                    Address <span class="text-red-500">*</span>
+                    Address
                 </label>
                 <textarea id="address" rows="4"
                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border focus:ring-blue-500 focus:border-blue-500"

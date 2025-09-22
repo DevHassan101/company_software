@@ -11,7 +11,7 @@
         </a>
     </div>
 
-    <div class="max-w-5xl mx-auto bg-white border border-gray-300 rounded-2xl shadow-xl p-6 md:p-8">
+    <div class="max-w-8xl mx-auto bg-white border border-gray-300 rounded-2xl shadow-xl p-6 md:p-8">
 
         <div
             class="flex flex-col md:flex-row items-start space-x-0 space-y-6 md:space-y-0 md:space-x-6 border-b pb-6 mb-6 md:text-left">

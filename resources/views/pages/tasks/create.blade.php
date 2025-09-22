@@ -18,7 +18,7 @@
         <form class="bg-white rounded px-8 pt-6 pb-8 mb-4" action="{{ route('task.store') }}" method="post"
             enctype="multipart/form-data">
             @csrf
-            <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid sm:grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
                         Title <span class="text-red-500">*</span>
@@ -34,12 +34,11 @@
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="project">
-                        project <span class="text-red-500">*</span>
+                        Project <span class="text-red-500">*</span>
                     </label>
                     <select name="project_id" class="border border-gray-900 rounded w-full py-1.5 text-black">
                         <option value="">select one</option>
                         @foreach ($projects as $project)
-
                             <option value="{{ $project->id }}" @selected(old('project_id') == $project->id)>{{ $project->name }}
                             </option>
                         @endforeach
@@ -57,30 +56,12 @@
                     <select name="user_id" class="border border-gray-900 rounded w-full py-1.5 text-black">
                         <option value="">select one</option>
                         @foreach ($users as $user)
-                      
                             <option value="{{ $user->id }}" @selected(old('user_id') == $user->id)>{{ $user->name }}
                             </option>
                         @endforeach
                     </select>
-              
-                    @error('user_id')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
-                </div>
 
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2">
-                        Select Status <span class="text-red-500">*</span>
-                    </label>
-                    <select name="status" class="border border-gray-900 rounded w-full py-1.5 text-black">
-                        <option value="">select one</option>
-                        <option value="pending" @selected(old('status') == 'pending')>pending</option>
-                        <option value="ongoing" @selected(old('status') == 'ongoing')>ongoing</option>
-                        <option value="completed" @selected(old('status') == 'completed')>completed</option>
-                        <option value="rejected" @selected(old('status') == 'rejected')>rejected</option>
-                        <option value="failed" @selected(old('status') == 'failed')>failed</option>
-                    </select>
-                    @error('status')
+                    @error('user_id')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>

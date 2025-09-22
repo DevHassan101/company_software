@@ -21,6 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->on('users')->references('id')->onUpdate('cascade')->onDelete('cascade');
             $table->enum('type', ['utility-bill', 'asset', 'marketing', 'sale', 'domain-server', 'ai', 'refreshment', 'furniture-maintaineance', 'other','salary'])->nullable();
+            $table->date('paid_on');
             $table->timestamps();
         });
     }

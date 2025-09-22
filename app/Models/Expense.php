@@ -17,6 +17,7 @@ class Expense extends Model
         'added_by',
         'user_id',
         'type',
+        'paid_on'
     ];
 
 

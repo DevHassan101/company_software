@@ -1,15 +1,3 @@
-{{-- <style>
-    .description {
-        display: block;
-        width: 70%;
-        overflow: hidden;
-        line-height: 1.5rem;
-        text-align: justify;
-        max-height: 4.5rem;
-    }
-</style> --}}
-
-
 <x-app-layout>
     <x-slot name="header">
         {{ __('Payment') }}
@@ -39,10 +27,6 @@
                         class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
                         Project Details
                     </th>
-                    <th
-                        class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                        budget
-                    </th>
 
                     <th
                         class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
@@ -71,21 +55,20 @@
                                 <p class="text-gray-900 whitespace-no-wrap">
                                     <b>Title: </b>{{ $payment->project->name }}
                                 </p>
+                                <p class="text-gray-900 whitespace-no-wrap">
+                                    <b>Budget: </b>{{ $payment->project->budget }}
+                                </p>
+
                             </div>
-                        </td>
-                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200 whitespace-nowrap">
-                            <p class="text-gray-900 whitespace-no-wrap">{{ $payment->project->budget }}</p>
                         </td>
 
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200 whitespace-nowrap">
                             <div>
-
-                                <p class="text-gray-900 whitespace-no-wrap"><b>Project Amount:
-                                    </b>{{ $payment->amount }}</p>
-
                                 <p class="text-gray-900 whitespace-no-wrap capitalize"> <b>paid amount:</b>
                                     </b>{{ $payment->project->paid_amount }}</p>
                                 </p>
+                                <p class="text-gray-900 whitespace-no-wrap"><b>Project Amount:
+                                    </b>{{ $payment->amount }}</p>
                             </div>
                         </td>
 
@@ -116,7 +99,7 @@
             </tbody>
 
         </table>
-        <div class="flex flex-col w-full items-center justify-between px-5 py-5 bg-white border-t sm:flex-row">
+        <div>
             {{ $payments->links() }}
         </div>
 
