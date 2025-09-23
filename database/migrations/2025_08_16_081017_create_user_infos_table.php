@@ -21,11 +21,9 @@ return new class extends Migration
             $table->string('profile');
             $table->string('cnic');
             $table->string('phone');
-            $table->text('address');
+            $table->text('address')->nullable();
             $table->string('cnic_frnt');
             $table->string('cnic_back');
-            $table->decimal('salary');
-            $table->string('designation');
             $table->timestamps();
         });
     }

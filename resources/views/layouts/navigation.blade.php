@@ -32,44 +32,43 @@
             </x-slot>
             {{ __('Dashboard') }}
         </x-nav-link>
+        @if (auth()->user()->hasRole('super admin'))
+            <x-nav-link href="{{ route('client.index') }}" :active="request()->routeIs('client.index')">
+                <x-slot name="icon">
+                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path
+                            d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z">
+                        </path>
+                    </svg>
+                </x-slot>
+                {{ __('Clients') }}
+            </x-nav-link>
 
-        <x-nav-link href="{{ route('client.index') }}" :active="request()->routeIs('client.index')">
-            <x-slot name="icon">
-                <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                    stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                    <path
-                        d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z">
-                    </path>
-                </svg>
-            </x-slot>
-            {{ __('Clients') }}
-        </x-nav-link>
+            <x-nav-link href="{{ route('project.index') }}" :active="request()->routeIs('project.index')">
+                <x-slot name="icon">
+                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path
+                            d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z">
+                        </path>
+                    </svg>
+                </x-slot>
+                {{ __('Project') }}
+            </x-nav-link>
 
-        <x-nav-link href="{{ route('project.index') }}" :active="request()->routeIs('project.index')">
-            <x-slot name="icon">
-                <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                    stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                    <path
-                        d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z">
-                    </path>
-                </svg>
-            </x-slot>
-            {{ __('Project') }}
-        </x-nav-link>
+            <x-nav-link href="{{ route('task.index') }}" :active="request()->routeIs('task.index')">
+                <x-slot name="icon">
+                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path
+                            d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z">
+                        </path>
+                    </svg>
+                </x-slot>
+                {{ __('Task') }}
+            </x-nav-link>
 
-        <x-nav-link href="{{ route('task.index') }}" :active="request()->routeIs('task.index')">
-            <x-slot name="icon">
-                <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                    stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                    <path
-                        d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z">
-                    </path>
-                </svg>
-            </x-slot>
-            {{ __('Task') }}
-        </x-nav-link>
-
-        @role('super admin')
             <x-nav-link href="{{ route('user.index') }}" :active="request()->routeIs('user.index')">
                 <x-slot name="icon">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -81,24 +80,22 @@
                 </x-slot>
                 {{ __('Users') }}
             </x-nav-link>
-        @endrole
-        <x-nav-link href="{{ route('payment.index') }}" :active="request()->routeIs('payment.index')">
-            <x-slot name="icon">
-                <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                    stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                    <path
-                        d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z">
-                    </path>
-                </svg>
-            </x-slot>
-            {{ __('Payment') }}
-        </x-nav-link>
+            <x-nav-link href="{{ route('payment.index') }}" :active="request()->routeIs('payment.index')">
+                <x-slot name="icon">
+                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path
+                            d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z">
+                        </path>
+                    </svg>
+                </x-slot>
+                {{ __('Payment') }}
+            </x-nav-link>
 
-        @role('super admin')
             <x-nav-link href="{{ route('expense.index') }}" :active="request()->routeIs('expense.index')">
                 <x-slot name="icon">
-                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                         <path
                             d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z">
                         </path>
@@ -109,8 +106,8 @@
 
             <x-nav-link href="{{ route('salary.index') }}" :active="request()->routeIs('salary.index')">
                 <x-slot name="icon">
-                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                         <path
                             d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z">
                         </path>
@@ -118,7 +115,6 @@
                 </x-slot>
                 {{ __('Salary') }}
             </x-nav-link>
-        @endrole
-
+        @endif
     </nav>
 </div>

@@ -43,7 +43,7 @@
                 @php
                     $i = 0;
                 @endphp
-                @foreach ($projectTasks as $projectTask)
+                @forelse ($projectTasks as $projectTask)
                     <tr>
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200 whitespace-nowrap">
                             <p class="text-gray-900 whitespace-no-wrap">{{ ++$i }}</p>
@@ -64,20 +64,21 @@
                                 <p class="text-gray-900 whitespace-no-wrap"><b>status:
                                         @if ($projectTask->status == 'completed')
                                             <span
-                                                class="bg-green-100 text-white text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">completed</span>
+                                                class="bg-green-100 text-green-100 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">completed</span>
                                         @elseif ($projectTask->status == 'pending')
                                             <span
-                                                class="bg-yellow-100 text-white text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">pending</span>
+                                                class="bg-yellow-100 text-yellow-100 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">pending</span>
                                         @elseif ($projectTask->status == 'ongoing')
                                             <span
-                                                class="bg-indigo-100 text-white text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300">ongoing</span>
+                                                class="bg-indigo-100 text-indigo-100 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300">ongoing</span>
                                         @elseif ($projectTask->status == 'rejected')
                                             <span
-                                                class="bg-pink-100 text-white text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300">rejected</span>
+                                                class="bg-pink-100 text-pink-100 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300">rejected</span>
                                         @elseif ($projectTask->status == 'failed')
                                             <span
-                                                class="bg-red-100 text-white text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">failed</span>
+                                                class="bg-red-100 text-red-100 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">failed</span>
                                         @endif
+                                    </b></p>
                             </div>
                         </td>
 
@@ -93,7 +94,6 @@
                                     <option value="rejected" @selected($projectTask->status == 'rejected')>Rejected</option>
                                     <option value="failed" @selected($projectTask->status == 'failed')>Failed</option>
                                 </select>
-
 
                                 <a href="{{ route('task.edit', $projectTask->id) }}"
                                     class="px-4 py-2 text-sm font-medium rounded-lg border border-green-700 text-green-700 hover:bg-green-700 hover:text-white transition">
@@ -112,12 +112,18 @@
                                     </button>
                                 </form>
                             </div>
-
                         </td>
 
                     </tr>
-                @endforeach
-
+                @empty
+                    <tr>
+                        <td colspan="4" class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                            <p class="text-center text-red-500">
+                                No record found
+                            </p>
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
         <div>
@@ -125,7 +131,38 @@
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        function getStatusBadgeHtml(status) {
+            let badgeHtml = '';
+            switch (status) {
+                case 'completed':
+                    badgeHtml =
+                        '<span class="bg-green-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">completed</span>';
+                    break;
+                case 'pending':
+                    badgeHtml =
+                        '<span class="bg-yellow-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">pending</span>';
+                    break;
+                case 'ongoing':
+                    badgeHtml =
+                        '<span class="bg-indigo-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300">ongoing</span>';
+                    break;
+                case 'rejected':
+                    badgeHtml =
+                        '<span class="bg-pink-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300">rejected</span>';
+                    break;
+                case 'failed':
+                    badgeHtml =
+                        '<span class="bg-red-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">failed</span>';
+                    break;
+                default:
+                    badgeHtml = '<span>' + status + '</span>';
+                    break;
+            }
+            return badgeHtml;
+        }
+
         $('.status').change(function(e) {
             e.preventDefault();
             const id = $(this).data('id');
@@ -138,7 +175,7 @@
                     status: newStatus,
                 },
                 headers: {
-                    'x-csrf-token': "{{ csrf_token() }}"
+                    'x-csrf-token': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
                     if (response.error) {
@@ -150,12 +187,12 @@
                     }
                     Toast.fire({
                         icon: "success",
-                        title: response.message 
+                        title: response.message
                     });
 
-                    console.log("Status changed successfully");
                     const newStatusHtml = getStatusBadgeHtml(newStatus);
-                    $(`#status-display-${id} div p:last-child`).html(`<b>status: </b>${newStatusHtml}`);
+
+                    $(`#status-display-${id} p:last-child span`).replaceWith(newStatusHtml);
                 },
                 error: function(msg) {
                     console.log('Data was not sent successfully');

@@ -48,7 +48,8 @@ class ClientController extends Controller
             'whatsapp' => 'nullable',
             'profile' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'about' => 'nullable',
-            'reference' => 'nullable'
+            'reference' => 'nullable',
+            'category' => 'nullable'
         ]);
 
         if ($request->hasFile('profile')) {
@@ -92,13 +93,14 @@ class ClientController extends Controller
 
         $validation = $request->validate([
             'name' => 'required|min:3',
-            'company_name' => 'required|min:5',
-            'email' => 'required',
-            'phone' => 'required',
-            'whatsapp' => 'required',
+            'company_name' => 'nullable|min:5',
+            'email' => 'nullable',
+            'phone' => 'nullable',
+            'whatsapp' => 'nullable',
             'profile' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'about' => 'nullable',
-            'reference' => 'nullable'
+            'reference' => 'nullable',
+            'category' => 'nullable'
         ]);
 
         if ($request->hasFile('profile')) {

@@ -48,8 +48,8 @@
             </tbody>
         </table>
 
-        <div id="pagination-links" class="flex justify-end m-4"></div>
     </div>
+    <div id="pagination-links" class="flex justify-end m-4"></div>
 
     <script>
         $(document).ready(function() {

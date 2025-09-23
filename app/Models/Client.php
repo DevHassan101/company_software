@@ -17,7 +17,8 @@ class Client extends Model
         'whatsapp',
         'profile',
         'about',
-        'reference'
+        'reference',
+        'category'
     ];
 
 

@@ -258,9 +258,6 @@
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="media" name="media[]" multiple type="file">
-                    @error('media')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
                 </div>
 
 
@@ -268,9 +265,10 @@
                     <label for="note" class="block mb-1 font-medium text-black capitalize">note <span
                             class="text-red-500">*</span> </label>
                     <textarea id="note" name="note" rows="4" placeholder="Write note here"
-                        class="w-full p-2 border rounded-md text-black dark:border-gray-500">{{ old('note') }}</textarea>
-                    @error('note')
-                        <span class="text-red-500">{{ $message }}</span>
+                        class="w-full p-2 border rounded-md text-black dark:border-gray-500 @error('note', 'noteErrors') border-red-500 @enderror">{{ old('note') }}</textarea>
+
+                    @error('note', 'noteErrors')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
                     @enderror
                 </div>
 
@@ -282,6 +280,7 @@
 
         </div>
     </div>
+
     {{-- /Project Notes  Modal --}}
 
 
@@ -313,9 +312,10 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="title" name="title" type="text" placeholder="Enter title">
-                    @error('title')
-                        <span class="text-red-500">{{ $message }}</span>
+                        id="title" name="title" type="text" placeholder="Enter title"
+                        value="{{ old('title') }}">
+                    @error('title', 'taskErrors')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
                     @enderror
                 </div>
 
@@ -332,8 +332,8 @@
                             </option>
                         @endforeach
                     </select>
-                    @error('user_id')
-                        <span class="text-red-500">{{ $message }}</span>
+                    @error('user_id', 'taskErrors')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
                     @enderror
                 </div>
 
@@ -342,6 +342,9 @@
                     <label for="description" class="block mb-1 font-medium capitalize text-black">description </label>
                     <textarea id="note" name="description" rows="6" placeholder="Write note here"
                         class="w-full p-2 border rounded-md text-black dark:border-gray-500">{{ old('description') }}</textarea>
+                    @error('description', 'taskErrors')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <button type="submit"
@@ -349,7 +352,6 @@
                     submit
                 </button>
             </form>
-
         </div>
     </div>
     {{-- /Project Tasks Modal --}}
@@ -378,8 +380,6 @@
                 enctype="multipart/form-data">
                 @csrf
 
-                <!-- resources/views/your-view.blade.php -->
-
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="media">
                         Upload Media
@@ -387,20 +387,14 @@
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="media" name="media[]" multiple type="file">
-
-                    @error('media')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
                 </div>
-
-
 
                 <div>
                     <label for="note" class="block mb-1 font-medium capitalize text-black">note <span
                             class="text-red-500">*</span> </label>
                     <textarea id="note" name="note" rows="6" placeholder="Write note here"
                         class="w-full p-2 border rounded-md text-black dark:border-gray-500">{{ old('note') }}</textarea>
-                    @error('note')
+                    @error('note', 'feedbackErrors')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
@@ -451,7 +445,7 @@
                             class="text-red-500">*</span></label>
                     <textarea id="note" name="note" rows="6" placeholder="Write note here"
                         class="w-full p-2 border rounded-md text-black dark:border-gray-500">{{ old('note') }}</textarea>
-                    @error('note')
+                    @error('note', 'issuekErrors')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
@@ -466,124 +460,157 @@
 
 
     {{-- Project Show Notes Modal --}}
+
     <div id="view-note-modal" tabindex="-1" aria-hidden="true"
-        class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-        <div class="bg-white rounded-lg shadow-lg max-w-3/4 w-full p-5 relative">
+        class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div
+            class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 relative backdrop-filter backdrop-blur-lg bg-opacity-70 border border-gray-200 animate-fade-in-up">
 
             <!-- Modal Header -->
-            <div class="flex justify-between items-center border-b pb-3 dark:border-gray-600">
-                <h3 class="text-lg font-semibold text-black">Note Details</h3>
-                <button type="button" onclick="toggleModal('view-note-modal')" class="text-gray-400">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <div class="flex justify-between items-center border-b pb-4 border-gray-200">
+                <h3 class="text-xl font-bold text-gray-800 tracking-tight">Note Details</h3>
+                <button type="button" onclick="toggleModal('view-note-modal')"
+                    class="text-gray-500 hover:text-gray-700 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             </div>
 
             <!-- Modal Body -->
-            <div class="mt-4 space-y-4 text-gray-900">
+            <div class="mt-5 space-y-4 text-gray-800">
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    {{-- <p class="font-semibold text-sm text-gray-600">Project:</p> --}}
+                    <p id="modal-note-project" class="text-sm"></p>
+                </div>
 
-                <p id="modal-note-project" class="text-gray-700"></p>
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    {{-- <p class="font-semibold text-sm text-gray-600">Note:</p> --}}
+                    <p id="modal-note-text" class="text-sm"></p>
+                </div>
 
-                <p id="modal-note-text" class="text-gray-700"></p>
-
-                <div id="modal-note-media"></div>
+                <div id="modal-note-media" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </div>
         </div>
     </div>
+
     {{-- /Project Show Notes  Modal --}}
 
     {{-- Project Tasks Show Modal --}}
+
     <div id="view-task-modal" tabindex="-1" aria-hidden="true"
-        class="hidden fixed inset-0 bg-black/50 flex z-50 items-center justify-center">
-        <div class="bg-white rounded-lg shadow-lg max-w-3/4 w-full p-5 relative">
+        class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div
+            class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 relative backdrop-filter backdrop-blur-lg bg-opacity-70 border border-gray-200 animate-fade-in-up">
 
             <!-- Modal Header -->
-            <div class="flex justify-between items-center border-b pb-3 dark:border-gray-600">
-                <h3 class="text-lg font-semibold text-black">Task Details</h3>
-                <button type="button" onclick="showTask('view-task-modal')" class="text-gray-400">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <div class="flex justify-between items-center border-b pb-4 border-gray-200">
+                <h3 class="text-xl font-bold text-gray-800 tracking-tight">Task Details</h3>
+                <button type="button" onclick="showTask('view-task-modal')"
+                    class="text-gray-500 hover:text-gray-700 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             </div>
 
             <!-- Modal Body -->
-            <div class="mt-4 space-y-4 text-gray-900">
-                <p id="modal-task-project" class="text-gray-700"></p>
+            <div class="mt-5 space-y-4 text-gray-800">
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    <p id="modal-task-project" class="text-gray-700"></p>
+                </div>
 
-                <p id="modal-task-text" class="text-gray-700"></p>
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    <p id="modal-task-text" class="text-gray-700"></p>
+                </div>
 
-                <div id="modal-task-created"></div>
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    <p id="modal-task-created" class="text-gray-700"></p>
+                </div>
 
-                <div id="modal-task-status"></div>
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    <p id="modal-task-status" class="text-gray-700"></p>
+                </div>
+
             </div>
         </div>
     </div>
+
     {{-- /Project Tasks Show Modal --}}
 
     {{-- Project Feedbacks Show Modal --}}
+
     <div id="view-feedback-modal" tabindex="-1" aria-hidden="true"
-        class="hidden fixed inset-0 bg-black/50 flex z-50 items-center justify-center">
-        <div class="bg-white rounded-lg shadow-lg max-w-3/4 w-full p-5 relative">
+        class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div
+            class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 relative backdrop-filter backdrop-blur-lg bg-opacity-70 border border-gray-200 animate-fade-in-up">
 
             <!-- Modal Header -->
-            <div class="flex justify-between items-center border-b pb-3 dark:border-gray-600">
-                <h3 class="text-lg font-semibold text-black">Feedback Details</h3>
-                <button type="button" onclick="showFeedback('view-feedback-modal')" class="text-gray-400">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <div class="flex justify-between items-center border-b pb-4 border-gray-200">
+                <h3 class="text-xl font-bold text-gray-800 tracking-tight">Feedback Details</h3>
+                <button type="button" onclick="showFeedback('view-feedback-modal')"
+                    class="text-gray-500 hover:text-gray-700 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             </div>
 
             <!-- Modal Body -->
-            <div class="mt-4 space-y-4 text-gray-900">
+            <div class="mt-5 space-y-4 text-gray-800">
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    <p id="modal-feedback-project" class="text-gray-700"></p>
+                </div>
 
-                <p id="modal-feedback-project" class="text-gray-700"></p>
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    <p id="modal-feedback-text" class="text-gray-700"></p>
+                </div>
 
-                <p id="modal-feedback-text" class="text-gray-700"></p>
                 <div id="modal-feedback-media"></div>
 
             </div>
         </div>
     </div>
+
     {{-- /Project Feedbacks Show Modal --}}
 
     {{-- Project Issue Show Modal --}}
 
-    <!-- Project Issues Modal -->
     <div id="view-issue-modal" tabindex="-1" aria-hidden="true"
-        class="hidden fixed inset-0 bg-black/50 flex z-50 items-center justify-center">
-        <div class="bg-white rounded-lg shadow-lg max-w-3/4  w-full p-5 relative">
+        class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div
+            class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 relative backdrop-filter backdrop-blur-lg bg-opacity-70 border border-gray-200 animate-fade-in-up">
 
             <!-- Modal Header -->
-            <div class="flex justify-between items-center border-b pb-3 dark:border-gray-600">
-                <h3 class="text-lg font-semibold text-black">Issue Details</h3>
-                <button type="button" onclick="toggleModal('view-issue-modal')" class="text-gray-400">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <div class="flex justify-between items-center border-b pb-4 border-gray-200">
+                <h3 class="text-xl font-bold text-gray-800 tracking-tight">Issue Details</h3>
+                <button type="button" onclick="issueModal('view-issue-modal')"
+                    class="text-gray-500 hover:text-gray-700 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             </div>
 
             <!-- Modal Body -->
-            <div class="mt-4 space-y-4 text-gray-900">
+            <div class="mt-5 space-y-4 text-gray-800">
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    <p id="modal-issue-project" class="text-gray-700"></p>
+                </div>
 
-                <p id="modal-issue-project" class="text-gray-700"></p>
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    <p id="modal-issue-text" class="text-gray-700"></p>
+                </div>
 
-                <p id="modal-issue-text" class="text-gray-700"></p>
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    <p id="modal-issue-creator" class="text-gray-700 font-semibold"></p>
+                </div>
 
                 <div id="modal-issue-media"></div>
-
-                <p id="modal-issue-creator" class="text-gray-700 font-semibold"></p>
             </div>
         </div>
     </div>
+
     {{-- /Project Issue Show Modal --}}
 
 
@@ -594,6 +621,11 @@
             if (!modal) return;
             modal.classList.toggle('hidden');
         }
+        @if ($errors->noteErrors->any())
+            document.addEventListener('DOMContentLoaded', function() {
+                projectNotes('crud-modal');
+            });
+        @endif
         // project notes fn end 
 
         // project tasks fn start
@@ -602,23 +634,12 @@
             if (!modal) return;
             modal.classList.toggle('hidden');
         }
+        @if ($errors->taskErrors->any())
+            document.addEventListener('DOMContentLoaded', function() {
+                projectTasks('task-modal');
+            });
+        @endif
         // project tasks fn end
-
-        // project users fn start
-        function projectUser(id) {
-            const modal = document.getElementById(id);
-            if (!modal) return;
-            modal.classList.toggle("hidden");
-        }
-        // project users fn end
-
-        // project payemtns fn start
-        function projectPayment(id) {
-            const modal = document.getElementById(id);
-            if (!modal) return;
-            modal.classList.toggle("hidden");
-        }
-        // project payemtns fn end
 
         // project feedbacl fn start
         function projectFeedback(id) {
@@ -626,6 +647,12 @@
             if (!modal) return;
             modal.classList.toggle("hidden");
         }
+        @if ($errors->feedbackErrors->any())
+            document.addEventListener('DOMContentLoaded', function() {
+                projectFeedback('feedback-modal');
+            });
+        @endif
+
         // project feedbacl fn end
 
         // project issue fn start
@@ -634,6 +661,12 @@
             if (!modal) return;
             modal.classList.toggle("hidden")
         }
+
+        @if ($errors->issuekErrors->any())
+            document.addEventListener('DOMContentLoaded', function() {
+                projectIssue('issue-modal');
+            });
+        @endif
         // project issue fn end
 
         // project show all notes fn start
@@ -643,8 +676,6 @@
                 modal.classList.toggle('hidden');
             }
         }
-
-
 
         function showNote(noteText, mediaPath, projectName, creatorName) {
             document.getElementById('modal-note-project').innerText = projectName;
@@ -816,7 +847,7 @@
         // project show all feedback fn end
 
         // project show all issues fn start
-        function toggleModal(id) {
+        function issueModal(id) {
             const modal = document.getElementById(id);
             if (modal) {
                 modal.classList.toggle("hidden");
@@ -857,7 +888,7 @@
                 `Created By: ${creatorName}` :
                 '';
 
-            toggleModal('view-issue-modal');
+            issueModal('view-issue-modal');
         }
         // project show all issues fn end
 

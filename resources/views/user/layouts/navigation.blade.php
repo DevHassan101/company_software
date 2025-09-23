@@ -30,7 +30,7 @@
                         d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
                 </svg>
             </x-slot>
-            {{ __('User Dashboard') }}
+            {{ __('Dashboard') }}
         </x-nav-link>
         @if (auth()->user()->hasRole('user'))
             <x-nav-link href="{{ route('getProject.index') }}" :active="request()->routeIs('getProject.index')">

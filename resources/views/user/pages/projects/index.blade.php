@@ -1,7 +1,6 @@
 @extends('user.layouts.app')
 
 @section('content')
-
     <div class="flex justify-between items-center my-3">
         <div class="capitalize text-lg font-bold">
             <h1>all project</h1>
@@ -40,7 +39,7 @@
                 @php
                     $i = 0;
                 @endphp
-                @foreach ($projects as $project)
+                @forelse ($projects as $project)
                     <tr>
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                             <p class="text-gray-900 whitespace-no-wrap">{{ ++$i }}</p>
@@ -75,12 +74,20 @@
                         </td>
 
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="5" class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                            <p class="text-center text-red-500">
+                                No record found
+                            </p>
+                        </td>
+                    </tr>
+                @endforelse
 
             </tbody>
         </table>
-        <div class="flex flex-col px-5 py-5 bg-white border-t xs:flex-row xs:justify-between">
-            {{-- {{ $projects->links() }} --}}
+        <div class="">
+            {{ $projects->links() }}
         </div>
     </div>
 @endsection

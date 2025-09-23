@@ -28,7 +28,7 @@ class UserDashboardController extends Controller
     public function getProjects()
     {
         $user = Auth::user();
-        $projects = $user->projects;
+        $projects = $user->projects()->paginate(10);
 
         return view('user.pages.projects.index', compact('projects'));
     }
@@ -64,7 +64,7 @@ class UserDashboardController extends Controller
     public function getTasks()
     {
         $user = Auth::user();
-        $projectTasks = $user->projectTasks;
+        $projectTasks = $user->projectTasks()->paginate(10);
         return view('user.pages.tasks.index', compact('projectTasks'));
     }
 

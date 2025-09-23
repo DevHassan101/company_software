@@ -21,11 +21,11 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-                <p class="font-semibold text-gray-700">Project Amount</p>
+                <p class="font-semibold text-gray-700">Total Amount</p>
                 <p class="text-gray-600">{{ $payment->amount }}</p>
             </div>
             <div>
-                <p class="font-semibold text-gray-700">Paid Amount</p>
+                <p class="font-semibold text-gray-700">Total Paid</p>
                 <p class="text-gray-600">{{ $payment->project->paid_amount }}</p>
             </div>
         </div>

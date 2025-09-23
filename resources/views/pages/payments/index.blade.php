@@ -6,13 +6,11 @@
     <div class="flex justify-between items-center my-3">
         <div class="capitalize text-lg font-bold">
             <h1>all payments</h1>
-
         </div>
         <a href="{{ route('payment.create') }}"
             class="px-4 py-2 text-sm font-medium rounded-lg border border-black text-black-700 hover:bg-black capitalize hover:text-white transition">
             add
         </a>
-
     </div>
 
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -33,7 +31,6 @@
                         Amount
                     </th>
 
-
                     <th
                         class="px-5 py-3 text-xs font-semibold tracking-wider text-center text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
                         Action
@@ -45,7 +42,7 @@
                 @php
                     $i = 0;
                 @endphp
-                @foreach ($payments as $payment)
+                @forelse ($payments as $payment)
                     <tr>
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200 whitespace-nowrap">
                             <p class="text-gray-900 whitespace-no-wrap">{{ ++$i }}</p>
@@ -64,10 +61,10 @@
 
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200 whitespace-nowrap">
                             <div>
-                                <p class="text-gray-900 whitespace-no-wrap capitalize"> <b>paid amount:</b>
+                                <p class="text-gray-900 whitespace-no-wrap capitalize"> <b>total paid:</b>
                                     </b>{{ $payment->project->paid_amount }}</p>
                                 </p>
-                                <p class="text-gray-900 whitespace-no-wrap"><b>Project Amount:
+                                <p class="text-gray-900 whitespace-no-wrap"><b>Total Amount:
                                     </b>{{ $payment->amount }}</p>
                             </div>
                         </td>
@@ -94,10 +91,16 @@
                         </td>
 
                     </tr>
-                @endforeach
-
+                @empty
+                    <tr>
+                        <td colspan="5" class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                            <p class="text-center text-red-500">
+                                No record found
+                            </p>
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
-
         </table>
         <div>
             {{ $payments->links() }}

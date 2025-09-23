@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('company_name');
+            $table->string('company_name')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
-            $table->string('whatsapp');
-            $table->string('profile');
-            $table->longText('about');
-            $table->string('reference');
+            $table->string('whatsapp')->nullable();
+            $table->string('profile')->nullable();
+            $table->longText('about')->nullable();
+            $table->string('reference')->nullable();
             $table->enum('category', ['sale', 'agency', 'reference']);
             $table->timestamps();
         });

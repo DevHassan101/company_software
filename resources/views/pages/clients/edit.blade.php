@@ -20,7 +20,7 @@
             @csrf
             @method('PUT')
 
-            <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid sm:grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
                         Name
@@ -42,6 +42,19 @@
                         id="company_name" name="company_name" value="{{ $client->company_name }}" type="text"
                         placeholder="Enter Company Name">
                     @error('company_name')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
+                        Profile Picture
+                    </label>
+                    <input
+                        class="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="profile" name="profile" type="file">
+                    <img src="{{ asset($client->profile) }}" alt="">
+                    @error('profile')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
@@ -67,7 +80,7 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="phone" name="phone" value="{{ $client->phone }}" type="number"
+                        id="phone" name="phone" value="{{ $client->phone }}" type="text"
                         placeholder="Enter Phone">
                     @error('phone')
                         <span class="text-red-500">{{ $message }}</span>
@@ -80,7 +93,7 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="whatsapp" name="whatsapp" value="{{ $client->whatsapp }}" type="number"
+                        id="whatsapp" name="whatsapp" value="{{ $client->whatsapp }}" type="text"
                         placeholder="Enter Whatsapp">
                     @error('whatsapp')
                         <span class="text-red-500">{{ $message }}</span>
@@ -88,16 +101,15 @@
                 </div>
 
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
-                        Profile Picture
+                    <label class="block text-gray-700 text-sm font-bold mb-2">
+                        Select Category
                     </label>
-                    <input
-                        class="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="profile" name="profile" type="file">
-                    <img src="{{ asset($client->profile) }}" alt="">
-                    @error('profile')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
+                    <select name="category" class="rounded w-full py-1.5 px-2 capitalize text-black">
+                        <option value="">select one</option>
+                        <option value="sale" @selected($client->category == 'sale')>sale</option>
+                        <option value="agency" @selected($client->category == 'agency')>agency</option>
+                        <option value="reference" @selected($client->category == 'reference')>reference</option>
+                    </select>
                 </div>
             </div>
 

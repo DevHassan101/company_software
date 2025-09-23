@@ -11,6 +11,7 @@ use App\Models\ProjectPayment;
 use App\Models\ProjectTask;
 use App\Models\ProjectUser;
 use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -44,7 +45,7 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        $validation = $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|min:3',
             'description' => 'nullable',
             'requirments' => 'nullable',
@@ -52,13 +53,18 @@ class ProjectController extends Controller
             'started_at' => 'required|date',
             'delivered_at' => 'required|date',
             'delivery_date' => 'required|date',
-            'admin_id' => 'required|integer',
+            'admin_id' => 'required|array',
+            'admin_id.*' => 'integer|exists:users,id',
             'budget' => 'nullable|numeric',
         ]);
 
-        $validation['created_by'] = auth()->id();
+        $validatedData['admin_id'] = $validatedData['admin_id'];
+        
+        $validatedData['created_by'] = auth()->id();
+        
+        unset($validatedData['admin_id']);
 
-        Project::create($validation);
+        Project::create($validatedData);
 
         return redirect()->route('project.index')->with('success', 'Project Created Successfully');
     }
@@ -81,7 +87,7 @@ class ProjectController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-            // return $projectTasks;
+        // return $projectTasks;
 
         $projectFeedbacks = ProjectFeedback::where('project_id', $id)
             ->with('project')
@@ -149,31 +155,34 @@ class ProjectController extends Controller
     // project notes function start
     public function storeNote(Request $request, $projectId)
     {
-        $validation = $request->validate([
+        $validator = Validator::make($request->all(), [
             'note' => 'required',
-            'media' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'media.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-        $project = Project::findOrFail($projectId);
-        $validation['created_by'] = auth()->id();
-        $validation['project_id'] = $projectId;
-        
-        $mediaPaths = [];
 
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator, 'noteErrors')->withInput();
+        }
+
+        $project = Project::findOrFail($projectId);
+        $validatedData = $validator->validated();
+        $validatedData['created_by'] = auth()->id();
+        $validatedData['project_id'] = $projectId;
+
+        $mediaPaths = [];
         if ($request->hasFile('media')) {
             foreach ($request->file('media') as $file) {
                 $name_gen = hexdec(uniqid()) . '.' . $file->getClientOriginalExtension();
-                $file->move('uploads/project/media', $name_gen);
+                $file->move(public_path('uploads/project/media'), $name_gen);
                 $mediaPaths[] = 'uploads/project/media/' . $name_gen;
             }
         }
 
-        $validation['media'] = json_encode($mediaPaths);
-
-        ProjectNote::create($validation);
+        $validatedData['media'] = json_encode($mediaPaths);
+        ProjectNote::create($validatedData);
 
         return redirect()->route('project.show', ['project' => $project])->with('success', 'Project Notes Created Successfully');
     }
-
 
     // project notes function end
 
@@ -181,17 +190,22 @@ class ProjectController extends Controller
     public function storeTask(Request $request, $projectId)
     {
 
-        $validation = $request->validate([
+        $validator = Validator::make($request->all(), [
             'user_id' => 'required',
             'title' => 'required',
             'description' => 'nullable',
         ]);
 
-        $validation['admin_id'] = auth()->id();
-        $validation['created_by'] = auth()->id();
-        $validation['project_id'] = $projectId;
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator, 'taskErrors')->withInput();
+        }
 
-        ProjectTask::create($validation);
+        $validatedData = $validator->validated();
+        $validatedData['admin_id'] = auth()->id();
+        $validatedData['created_by'] = auth()->id();
+        $validatedData['project_id'] = $projectId;
+
+        ProjectTask::create($validatedData);
 
         return redirect()->route('project.show', ['project' => $projectId])
             ->with('success', 'Project Task Created Successfully');
@@ -202,14 +216,19 @@ class ProjectController extends Controller
     // project feedback function start
     public function storeFeedback(Request $request, $projectId)
     {
-        $validation = $request->validate([
+        $validator = Validator::make($request->all(), [
             'note' => 'required',
-            'media' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'media.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator, 'feedbackErrors')->withInput();
+        }
+
         $project = Project::findOrFail($projectId);
-        $validation['created_by'] = auth()->id();
-        $validation['project_id'] = $projectId;
+        $validatedData = $validator->validated();
+        $validatedData['created_by'] = auth()->id();
+        $validatedData['project_id'] = $projectId;
 
         $mediaPaths = [];
 
@@ -221,9 +240,9 @@ class ProjectController extends Controller
             }
         }
 
-        $validation['media'] = json_encode($mediaPaths);
+        $validatedData['media'] = json_encode($mediaPaths);
 
-        ProjectFeedback::create($validation);
+        ProjectFeedback::create($validatedData);
 
         return redirect()->route('project.show', ['project' => $project])
             ->with('success', 'Project Feedback Created Successfully');
@@ -234,14 +253,19 @@ class ProjectController extends Controller
     // project issue function start
     public function storeIssue(Request $request, $projectId)
     {
-        $validation = $request->validate([
+        $validator = Validator::make($request->all(), [
             'note' => 'required',
-            'media.*' => 'nullable|file|mimes:jpg,jpeg,png,gif,mp4,avi|max:5120',
+            'media.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator, 'issuekErrors')->withInput();
+        }
+
         $project = Project::findOrFail($projectId);
-        $validation['created_by'] = auth()->id();
-        $validation['project_id'] = $projectId;
+        $validatedData = $validator->validated();
+        $validatedData['created_by'] = auth()->id();
+        $validatedData['project_id'] = $projectId;
 
         $mediaPaths = [];
 
@@ -253,14 +277,12 @@ class ProjectController extends Controller
             }
         }
 
-        $validation['media'] = json_encode($mediaPaths);
+        $validatedData['media'] = json_encode($mediaPaths);
 
-        ProjectIssue::create($validation);
+        ProjectIssue::create($validatedData);
 
         return redirect()
             ->route('project.show', ['project' => $project])
             ->with('success', 'Project Issue Created Successfully');
     }
-
-    
 }

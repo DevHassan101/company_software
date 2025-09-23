@@ -45,7 +45,7 @@
                 @php
                     $i = 0;
                 @endphp
-                @foreach ($projects as $project)
+                @forelse ($projects as $project)
                     <tr>
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                             <p class="text-gray-900 whitespace-no-wrap">{{ ++$i }}</p>
@@ -94,8 +94,15 @@
                         </td>
 
                     </tr>
-                @endforeach
-
+                @empty
+                    <tr>
+                        <td colspan="5" class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                            <p class="text-center text-red-500">
+                                No record found
+                            </p>
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
         <div>

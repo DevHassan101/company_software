@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\admin\AdminClientController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\UserController;
@@ -32,7 +34,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    
+
     $projectCount = Project::count();
     $clientCount = Client::count();
     $userCount = User::count();
@@ -41,9 +43,8 @@ Route::get('/dashboard', function () {
         'clientCount' => $clientCount,
         'userCount' => $userCount
     ]);
-
-
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::resource('user', UserController::class);
@@ -76,16 +77,41 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('test', [UserDashboardController::class, 'index'])->name('user.dashboard');
-Route::get('getProject', [UserDashboardController::class, 'getProjects'])->name('getProject.index');
-Route::get('showProject/{project}', [UserDashboardController::class, 'showProjects'])->name('showProject.show');
-Route::get('getTask', [UserDashboardController::class, 'getTasks'])->name('getTask.index');
-Route::get('showTask/{projectTask}', [UserDashboardController::class, 'showTask'])->name('showTask.show');
-Route::get('profile-settings', [UserDashboardController::class, 'profileSettings'])->name('user.profile-settings.edit');
-Route::put('user/update-profile', [UserDashboardController::class, 'updateProfile'])->name('user.update-profile');
-Route::put('userUpdate', [UserDashboardController::class, 'userUpdate'])->name('userUpdate.update');
-Route::put('updatePassword', [UserDashboardController::class, 'updatePassword'])->name('updatePassword.update');
-Route::delete('userDelete', [UserDashboardController::class, 'userDelete'])->name('userDelete.delete');
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('dashboard');
+    // Route::get('client', [AdminController::class, 'showClient'])->name('showClient.index');
+    Route::get('project', [AdminController::class, 'showProject'])->name('showProject.index');
+    Route::get('tasks', [AdminController::class, 'showTask'])->name('showTask.index');
+    Route::get('payment', [AdminController::class, 'showPayment'])->name('showPayment.index');
+
+    Route::resource('client', AdminClientController::class);
+    // Route::resource('project', ProjectController::class);
+    // Route::resource('payment', PaymentController::class);
+
+    Route::get('/task', [TaskController::class, 'index'])->name('task.index');
+    Route::get('/task/create', [TaskController::class, 'create'])->name('task.create');
+    Route::post('/task/store', [TaskController::class, 'store'])->name('task.store');
+    Route::get('/task/{id}/show', [TaskController::class, 'show'])->name('task.show');
+    Route::get('/task/{id}/edit', [TaskController::class, 'edit'])->name('task.edit');
+    Route::put('/task/{id}/update', [TaskController::class, 'update'])->name('task.update');
+    Route::put('/task/{id}/status', [TaskController::class, 'updateStatus'])->name('task.status');
+    Route::delete('/task/{id}/delete', [TaskController::class, 'destroy'])->name('task.destroy');
+});
+
+
+Route::middleware(['auth', 'user'])->group(function () {
+    Route::get('userDashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
+    Route::get('getProject', [UserDashboardController::class, 'getProjects'])->name('getProject.index');
+    Route::get('showProject/{project}', [UserDashboardController::class, 'showProjects'])->name('showProject.show');
+    Route::get('getTask', [UserDashboardController::class, 'getTasks'])->name('getTask.index');
+    Route::get('showTask/{projectTask}', [UserDashboardController::class, 'showTask'])->name('showTask.show');
+    Route::get('profile-settings', [UserDashboardController::class, 'profileSettings'])->name('user.profile-settings.edit');
+    Route::put('user/update-profile', [UserDashboardController::class, 'updateProfile'])->name('user.update-profile');
+    Route::put('userUpdate', [UserDashboardController::class, 'userUpdate'])->name('userUpdate.update');
+    Route::put('updatePassword', [UserDashboardController::class, 'updatePassword'])->name('updatePassword.update');
+    Route::delete('userDelete', [UserDashboardController::class, 'userDelete'])->name('userDelete.delete');
+});
+
 
 
 require __DIR__ . '/auth.php';
