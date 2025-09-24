@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\AdminClientController;
+use App\Http\Controllers\admin\AdminProjectController;
+use App\Http\Controllers\admin\AdminTaskController;
+use App\Http\Controllers\admin\AdminPaymentController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\UserController;
@@ -62,12 +65,21 @@ Route::middleware('auth')->group(function () {
     Route::put('/task/{id}update', [TaskController::class, 'update'])->name('task.update');
     Route::put('/task/{id}/status', [TaskController::class, 'updateStatus'])->name('task.status');
     Route::delete('/task/{id}/delete', [TaskController::class, 'destroy'])->name('task.destroy');
+
     Route::post('project/{projectId}/notes', [ProjectController::class, 'storeNote'])->name('project.store-note');
     Route::post('project/{projectId}/tasks', [ProjectController::class, 'storeTask'])->name('project.store-task');
     Route::post('project/users', [ProjectController::class, 'storeUser'])->name('project.store-user');
     Route::post('project/payment', [ProjectController::class, 'storePayment'])->name('project.store-payment');
     Route::post('project/{projectId}/feedback', [ProjectController::class, 'storeFeedback'])->name('project.store-feedback');
     Route::post('project/{projectId}/Issue', [ProjectController::class, 'storeIssue'])->name('project.store-issue');
+    Route::put('/notes/{id}/updateNote', [ProjectController::class, 'updateNote'])->name('note.updateNote');
+    Route::put('/task/{id}/updateTask', [ProjectController::class, 'updateTask'])->name('task.updateTask');
+    Route::put('/feedback/{id}/updateFeedback', [ProjectController::class, 'updateFeedback'])->name('task.updateFeedback');
+    Route::put('/issue/{id}/updateIssue', [ProjectController::class, 'updateIssue'])->name('task.updateIssue');
+    Route::delete('/task/{id}/destroyTask', [ProjectController::class, 'destroyTask'])->name('task.destroyTask');
+    Route::delete('/task/{id}/destroyNote', [ProjectController::class, 'destroyNote'])->name('task.destroyNote');
+    Route::delete('/task/{id}/destroyFeedback', [ProjectController::class, 'destroyFeedback'])->name('task.destroyFeedback');
+    Route::delete('/task/{id}/destroyIssue', [ProjectController::class, 'destroyIssue'])->name('task.destroyIssue');
     // Route::get('user', [UserController::class, 'index'])->name('users.index');
     // Route::get('/user/create', [UserController::class, 'create'])->name('users.create');
     // Route::post('/user', [UserController::class, 'store'])->name('user.store');
@@ -79,25 +91,30 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
-    // Route::get('client', [AdminController::class, 'showClient'])->name('showClient.index');
-    Route::get('project', [AdminController::class, 'showProject'])->name('showProject.index');
-    Route::get('tasks', [AdminController::class, 'showTask'])->name('showTask.index');
-    Route::get('payment', [AdminController::class, 'showPayment'])->name('showPayment.index');
-
+    Route::get('profile-settings', [AdminController::class, 'profileSettings'])->name('profile-settings.edit');
+    Route::put('adminUpdate', [AdminController::class, 'adminUpdate'])->name('adminUpdate.update');
+    Route::put('updatePassword', [AdminController::class, 'updatePassword'])->name('updatePassword.update');
+    Route::delete('adminDelete', [AdminController::class, 'adminDelete'])->name('adminDelete.delete');
     Route::resource('client', AdminClientController::class);
-    // Route::resource('project', ProjectController::class);
-    // Route::resource('payment', PaymentController::class);
-
-    Route::get('/task', [TaskController::class, 'index'])->name('task.index');
-    Route::get('/task/create', [TaskController::class, 'create'])->name('task.create');
-    Route::post('/task/store', [TaskController::class, 'store'])->name('task.store');
-    Route::get('/task/{id}/show', [TaskController::class, 'show'])->name('task.show');
-    Route::get('/task/{id}/edit', [TaskController::class, 'edit'])->name('task.edit');
-    Route::put('/task/{id}/update', [TaskController::class, 'update'])->name('task.update');
-    Route::put('/task/{id}/status', [TaskController::class, 'updateStatus'])->name('task.status');
-    Route::delete('/task/{id}/delete', [TaskController::class, 'destroy'])->name('task.destroy');
+    Route::resource('project', AdminProjectController::class);
+    Route::post('project/{projectId}/notes', [AdminProjectController::class, 'storeNote'])->name('project.store-note');
+    Route::post('project/{projectId}/tasks', [AdminProjectController::class, 'storeTask'])->name('project.store-task');
+    Route::post('project/users', [AdminProjectController::class, 'storeUser'])->name('project.store-user');
+    Route::post('project/payment', [AdminProjectController::class, 'storePayment'])->name('project.store-payment');
+    Route::post('project/{projectId}/feedback', [AdminProjectController::class, 'storeFeedback'])->name('project.store-feedback');
+    Route::post('project/{projectId}/Issue', [AdminProjectController::class, 'storeIssue'])->name('project.store-issue');
+    Route::put('/notes/{id}/updateNote', [AdminProjectController::class, 'updateNote'])->name('admin.note.updateNote');
+    Route::put('/task/{id}/updateTask', [AdminProjectController::class, 'updateTask'])->name('admin.task.updateTask');
+    Route::put('/feedback/{id}/updateFeedback', [AdminProjectController::class, 'updateFeedback'])->name('admin.task.updateFeedback');
+    Route::put('/issue/{id}/updateIssue', [AdminProjectController::class, 'updateIssue'])->name('admin.task.updateIssue');
+    Route::delete('/task/{id}/destroyTask', [AdminProjectController::class, 'destroyTask'])->name('task.destroyTask');
+    Route::delete('/task/{id}/destroyNote', [AdminProjectController::class, 'destroyNote'])->name('note.destroyNote');
+    Route::delete('/task/{id}/destroyFeedback', [AdminProjectController::class, 'destroyFeedback'])->name('feedback.destroyFeedback');
+    Route::delete('/task/{id}/destroyIssue', [AdminProjectController::class, 'destroyIssue'])->name('issue.destroyIssue');
+    Route::resource('task', AdminTaskController::class);
+    Route::put('/task/{id}/status', [AdminTaskController::class, 'updateStatus'])->name('admin.task.status');
+    Route::resource('payment', AdminPaymentController::class);
 });
-
 
 Route::middleware(['auth', 'user'])->group(function () {
     Route::get('userDashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
@@ -111,7 +128,5 @@ Route::middleware(['auth', 'user'])->group(function () {
     Route::put('updatePassword', [UserDashboardController::class, 'updatePassword'])->name('updatePassword.update');
     Route::delete('userDelete', [UserDashboardController::class, 'userDelete'])->name('userDelete.delete');
 });
-
-
 
 require __DIR__ . '/auth.php';

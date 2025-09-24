@@ -16,7 +16,7 @@
             </x-slot>
 
             <x-slot name="content">
-                <x-dropdown-link href="{{ route('user.profile-settings.edit') }}">
+                <x-dropdown-link href="{{ route('admin.profile-settings.edit') }}">
                     {{ __('Profile') }}
                 </x-dropdown-link>
 

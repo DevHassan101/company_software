@@ -6,14 +6,14 @@
         <div class="capitalize text-lg font-bold">
             <h1>edit project</h1>
         </div>
-        <a href="{{ route('project.index') }}"
+        <a href="{{ route('admin.project.index') }}"
             class="px-4 py-2 text-sm font-medium rounded-lg border border-black text-black-700 hover:bg-black capitalize hover:text-white transition">
             back
         </a>
     </div>
 
     <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
-        <form class="bg-white rounded px-8 pt-6 pb-8 mb-4" action="{{ route('project.update', $project->id) }}"
+        <form class="bg-white rounded px-8 pt-6 pb-8 mb-4" action="{{ route('admin.project.update', $project->id) }}"
             method="post">
             @csrf
             @method('PUT')

@@ -1,12 +1,11 @@
 @extends('admin.layouts.app')
 
 @section('content')
-
     <div class="flex justify-between items-center my-3">
         <div class="capitalize text-lg font-bold">
             <h1>all payments</h1>
         </div>
-        <a href="{{ route('payment.create') }}"
+        <a href="{{ route('admin.payment.create') }}"
             class="px-4 py-2 text-sm font-medium rounded-lg border border-black text-black-700 hover:bg-black capitalize hover:text-white transition">
             add
         </a>
@@ -41,7 +40,7 @@
                 @php
                     $i = 0;
                 @endphp
-                @foreach ($payments as $payment)
+                @forelse ($payments as $payment)
                     <tr>
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200 whitespace-nowrap">
                             <p class="text-gray-900 whitespace-no-wrap">{{ ++$i }}</p>
@@ -70,15 +69,15 @@
 
                         <td class="px-5 py-5 text-md bg-white border-b border-gray-200">
                             <div class="flex items-center justify-center gap-4 mb-4">
-                                <a href="{{ route('payment.edit', $payment->id) }}"
+                                <a href="{{ route('admin.payment.edit', $payment->id) }}"
                                     class="px-4 py-2 text-sm font-medium rounded-lg border border-green-700 text-green-700 hover:bg-green-700 hover:text-white transition">
                                     Edit
                                 </a>
 
-                                <a href="{{ route('payment.show', $payment->id) }}"
+                                <a href="{{ route('admin.payment.show', $payment->id) }}"
                                     class="px-4 py-2 text-sm font-medium capitalize rounded-lg border border-orange-700 text-orange-700 hover:bg-orange-700 hover:text-white transition">view</a>
 
-                                <form action="{{ route('payment.destroy', $payment->id) }}" method="POST">
+                                <form action="{{ route('admin.payment.destroy', $payment->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
@@ -90,7 +89,15 @@
                         </td>
 
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="5" class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                            <p class="text-center text-red-500">
+                                No record found
+                            </p>
+                        </td>
+                    </tr>
+                @endforelse
 
             </tbody>
 

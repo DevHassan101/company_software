@@ -10,7 +10,7 @@
         </a>
     </div>
 
-    <div class="max-w-5xl mx-auto bg-white border border-gray-200 rounded-2xl shadow-lg p-8 space-y-8">
+    <div class="max-w-8xl mx-auto bg-white border border-gray-200 rounded-2xl shadow-lg p-8 space-y-8">
 
         <!-- Task Details -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">

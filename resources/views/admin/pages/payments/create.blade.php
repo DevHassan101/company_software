@@ -6,14 +6,14 @@
         <div class="capitalize text-lg font-bold">
             <h1>create payment</h1>
         </div>
-        <a href="{{ route('payment.index') }}"
+        <a href="{{ route('admin.payment.index') }}"
             class="px-4 py-2 text-sm font-medium rounded-lg border border-black text-black-700 hover:bg-black capitalize hover:text-white transition">
             back
         </a>
     </div>
 
     <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
-        <form class="bg-white rounded px-8 pt-6 pb-8 mb-4" action="{{ route('payment.store') }}" method="post"
+        <form class="bg-white rounded px-8 pt-6 pb-8 mb-4" action="{{ route('admin.payment.store') }}" method="post"
             enctype="multipart/form-data">
             @csrf
 
@@ -53,14 +53,12 @@
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2 " for="media">
-                        Upload Media <span class="text-red-500">*</span>
+                        Upload Media
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="media" name="media[]" multiple type="file">
-                    @error('media')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
+             
                 </div>
             </div>
 

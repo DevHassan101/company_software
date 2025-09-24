@@ -6,14 +6,14 @@
         <div class="capitalize text-lg font-bold">
             <h1>create task</h1>
         </div>
-        <a href="{{ route('task.index') }}"
+        <a href="{{ route('admin.task.index') }}"
             class="px-4 py-2 text-sm font-medium rounded-lg border border-black text-black-700 hover:bg-black capitalize hover:text-white transition">
             back
         </a>
     </div>
 
     <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
-        <form class="bg-white rounded px-8 pt-6 pb-8 mb-4" action="{{ route('task.store') }}" method="post"
+        <form class="bg-white rounded px-8 pt-6 pb-8 mb-4" action="{{ route('admin.task.store') }}" method="post"
             enctype="multipart/form-data">
             @csrf
             <div class="grid sm:grid-cols-1 md:grid-cols-3 gap-4">

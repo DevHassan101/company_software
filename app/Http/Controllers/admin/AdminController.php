@@ -10,6 +10,9 @@ use App\Models\ProjectPayment;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\ProfileUpdateRequest;
 
 class AdminController extends Controller
 {
@@ -26,46 +29,55 @@ class AdminController extends Controller
         ]);
     }
 
-    public function showClient(Request $request)
+    public function profileSettings()
     {
         $user = Auth::user();
-        $clients = Client::orderBy('name', 'DESC')->paginate(10);
+        return view('admin.pages.profile-setting', compact('user'));
+    }
 
-        if ($request->ajax()) {
-            $html = view('pages.clients.table', compact('clients'))->render();
-            $records = $clients;
-            $pagination = view('pages.appends.pagination', compact('records'))->render();
-            return response()->json([
-                'error' => false,
-                'html' => $html,
-                'pagination' => $pagination
-            ]);
+    public function adminUpdate(ProfileUpdateRequest $request)
+    {
+
+        $request->user()->fill($request->validated());
+
+        if ($request->user()->isDirty('email')) {
+            $request->user()->email_verified_at = null;
         }
-        return view('admin.pages.clients.index', compact('clients'));
+
+        $request->user()->save();
+
+        return back()->with('success', 'user update successfully');
     }
 
-    public function showProject(Request $request)
+    public function updatePassword(Request $request)
     {
+        $validated = $request->validateWithBag('updatePassword', [
+            'current_password'  => ['required', 'current_password'],
+            'password' => ['required', Password::defaults(), 'confirmed'],
+        ]);
 
-        $user = Auth::user();
-        $projects = Project::with('client')->paginate(10);
+        $request->user()->update([
+            'password' => Hash::make($validated['password']),
+        ]);
 
-        if ($request->ajax()) {
-            return response()->json();
-        }
-        return view('admin.pages.projects.index', compact('projects'));
+        return back()->with('success', 'password update successfully');
     }
 
-    public function showTask(Request $request)
+    public function adminDelete(Request $request)
     {
-        $user = Auth::user();
-        $projectTasks = ProjectTask::with('project', 'user')->paginate(10);
-        return view('admin.pages.tasks.index', compact('projectTasks'));
-    }
+        $request->validateWithBag('userDeletion', [
+            'password' => ['required', 'current_password'],
+        ]);
 
-    public function showPayment(Request $request)
-    {
-        $payments = ProjectPayment::with('project')->latest()->paginate(10);
-        return view('admin.pages.payments.index', compact('payments'));
+        $user = $request->user();
+
+        Auth::logout();
+
+        $user->delete();
+
+        $request->session()->invalidate();
+        $request->session()->regenerate();
+
+        return Redirect::to('/');
     }
 }

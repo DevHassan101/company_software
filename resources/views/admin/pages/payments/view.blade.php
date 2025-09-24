@@ -4,7 +4,7 @@
 
     <div class="flex justify-between items-center my-6">
         <h1 class="text-2xl font-bold text-gray-800">Payment Information</h1>
-        <a href="{{ route('payment.index') }}"
+        <a href="{{ route('admin.payment.index') }}"
             class="px-4 py-2 text-sm font-medium rounded-lg border border-black text-black-700 hover:bg-black capitalize hover:text-white transition">
             back
         </a>

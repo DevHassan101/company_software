@@ -7,14 +7,14 @@
         <div class="capitalize text-lg font-bold">
             <h1>edit payment</h1>
         </div>
-        <a href="{{ route('payment.index') }}"
+        <a href="{{ route('admin.payment.index') }}"
             class="px-4 py-2 text-sm font-medium rounded-lg border border-black text-black-700 hover:bg-black capitalize hover:text-white transition">
             back
         </a>
     </div>
 
     <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
-        <form class="bg-white rounded px-8 pt-6 pb-8 mb-4" action="{{ route('payment.update', $payment->id) }}"
+        <form class="bg-white rounded px-8 pt-6 pb-8 mb-4" action="{{ route('admin.payment.update', $payment->id) }}"
             method="post" enctype="multipart/form-data">
             @csrf
             @method('PUT')

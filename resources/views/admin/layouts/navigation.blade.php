@@ -44,7 +44,7 @@
                 {{ __('Clients') }}
             </x-nav-link>
 
-            <x-nav-link href="{{ route('admin.showProject.index') }}" :active="request()->routeIs('admin.showProject.index')">
+            <x-nav-link href="{{ route('admin.project.index') }}" :active="request()->routeIs('admin.project.index')">
                 <x-slot name="icon">
                     <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
                         stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
@@ -56,7 +56,7 @@
                 {{ __('Project') }}
             </x-nav-link>
 
-            <x-nav-link href="{{ route('admin.showTask.index') }}" :active="request()->routeIs('admin.showTask.index')">
+            <x-nav-link href="{{ route('admin.task.index') }}" :active="request()->routeIs('admin.task.index')">
                 <x-slot name="icon">
                     <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
                         stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
@@ -68,7 +68,7 @@
                 {{ __('Task') }}
             </x-nav-link>
 
-            <x-nav-link href="{{ route('admin.showPayment.index') }}" :active="request()->routeIs('admin.showPayment.index')">
+            <x-nav-link href="{{ route('admin.payment.index') }}" :active="request()->routeIs('admin.payment.index')">
                 <x-slot name="icon">
                     <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
                         stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Client;
+use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
 
 class AdminClientController extends Controller
@@ -14,7 +15,7 @@ class AdminClientController extends Controller
      */
     public function index(Request $request)
     {
-        $user = Auth::user();
+
         $clients = Client::orderBy('name', 'DESC')->paginate(10);
 
         if ($request->ajax()) {
@@ -35,7 +36,7 @@ class AdminClientController extends Controller
      */
     public function create()
     {
-        $user = Auth::user();
+
         return view('admin.pages.clients.create');
     }
 
@@ -74,7 +75,8 @@ class AdminClientController extends Controller
      */
     public function show(Client $client)
     {
-        $user = Auth::user();
+        $client->load('project');
+
         return view('admin.pages.clients.show', compact('client'));
     }
 
@@ -83,7 +85,7 @@ class AdminClientController extends Controller
      */
     public function edit(string $id)
     {
-        $user = Auth::user();
+
         $client = Client::findOrFail($id);
 
         return view('admin.pages.clients.edit', compact('client'));

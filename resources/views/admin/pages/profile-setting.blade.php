@@ -1,4 +1,4 @@
-@extends('user.layouts.app')
+@extends('admin.layouts.app')
 
 @section('content')
     <div class="p-6 sm:p-8 bg-white shadow sm:rounded-lg">
@@ -17,7 +17,7 @@
                 @csrf
             </form>
 
-            <form method="post" action="{{ route('userUpdate.update') }}" class="mt-6 space-y-6">
+            <form method="post" action="{{ route('admin.adminUpdate.update') }}" class="mt-6 space-y-6">
                 @csrf
                 @method('put')
 
@@ -79,7 +79,7 @@
                 </p>
             </header>
 
-            <form method="post" action="{{ route('updatePassword.update') }}" class="mt-6 space-y-6">
+            <form method="post" action="{{ route('admin.updatePassword.update') }}" class="mt-6 space-y-6">
                 @csrf
                 @method('put')
 
@@ -134,7 +134,7 @@
                 x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')">{{ __('Delete Account') }}</x-danger-button>
 
             <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
-                <form method="post" action="{{ route('userDelete.delete') }}" class="p-6">
+                <form method="post" action="{{ route('admin.adminDelete.delete') }}" class="p-6">
                     @csrf
                     @method('delete')
 

@@ -1,11 +1,14 @@
 @extends('admin.layouts.app')
 
 @section('content')
-
     <div class="flex justify-between items-center my-3">
         <div class="capitalize text-lg font-bold">
             <h1>all project</h1>
         </div>
+        <a href="{{ route('admin.project.create') }}"
+            class="px-4 py-2 text-sm font-medium rounded-lg border border-black text-black-700 hover:bg-black capitalize hover:text-white transition">
+            add
+        </a>
     </div>
 
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -40,7 +43,7 @@
                 @php
                     $i = 0;
                 @endphp
-                @foreach ($projects as $project)
+                @forelse ($projects as $project)
                     <tr>
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                             <p class="text-gray-900 whitespace-no-wrap">{{ ++$i }}</p>
@@ -51,9 +54,9 @@
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                             <div class="flex gap-2 items-center">
                                 <div>
-                                    <p class="text-gray-900 whitespace-no-wrap"><b>Client Name:
+                                    <p class="text-gray-900 whitespace-no-wrap"><b>Name:
                                         </b>{{ $project->client?->name }}</p>
-                                    <p class="text-gray-900 whitespace-no-wrap"><b>Client Email:
+                                    <p class="text-gray-900 whitespace-no-wrap"><b>Email:
                                         </b>{{ $project->client?->email }}</p>
                                 </div>
                             </div>
@@ -68,19 +71,69 @@
 
                         <td class="px-5 py-5 text-md bg-white border-b border-gray-200">
                             <div class="text-right flex flex-end gap-4 mb-4">
-                                <a href="{{ route('showProject.show', $project->id) }}"
-                                    class="px-4 py-2 text-sm font-medium capitalize rounded-lg border border-orange-700 text-orange-700 hover:bg-orange-700 hover:text-white transition">view</a>
-                            </div>
 
+                                <a href="{{ route('admin.project.edit', $project->id) }}"
+                                    class="px-4 py-2 text-sm font-medium rounded-lg border border-green-700 text-green-700 hover:bg-green-700 hover:text-white transition">
+                                    Edit
+                                </a>
+
+                                <a href="{{ route('admin.project.show', $project->id) }}"
+                                    class="px-4 py-2 text-sm font-medium capitalize rounded-lg border border-orange-700 text-orange-700 hover:bg-orange-700 hover:text-white transition">view</a>
+
+                                <form action="{{ route('admin.project.destroy', $project->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="px-4 py-2 text-sm font-medium rounded-lg border border-red-700 text-red-700 hover:bg-red-700 hover:text-white transition">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
                         </td>
 
                     </tr>
-                @endforeach
-
+                @empty
+                    <tr>
+                        <td colspan="5" class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                            <p class="text-center text-red-500">
+                                No record found
+                            </p>
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
-        <div class="flex flex-col px-5 py-5 bg-white border-t xs:flex-row xs:justify-between">
-            {{-- {{ $projects->links() }} --}}
+        <div>
+            {{ $projects->links() }}
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            fetchProjects();
+
+            function fetchProjects(page = 1) {
+                $.ajax({
+                    type: "method",
+                    url: "url",
+                    data: "data",
+                    dataType: "dataType",
+                    success: function(response) {
+
+                    }
+                });
+            }
+        });
+    </script>
+
+    @if (session('success'))
+        @push('script')
+            <script>
+                Toast.fire({
+                    icon: "success",
+                    title: "{{ session('success') }}"
+                });
+            </script>
+        @endpush
+    @endif
 @endsection

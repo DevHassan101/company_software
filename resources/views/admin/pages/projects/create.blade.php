@@ -6,14 +6,14 @@
         <div class="capitalize text-lg font-bold">
             <h1>create project</h1>
         </div>
-        <a href="{{ route('project.index') }}"
+        <a href="{{ route('admin.project.index') }}"
             class="px-4 py-2 text-sm font-medium rounded-lg border border-black text-black-700 hover:bg-black capitalize hover:text-white transition">
             back
         </a>
     </div>
 
     <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
-        <form class="bg-white rounded px-8 pt-6 pb-8 mb-4" action="{{ route('project.store') }}" method="post">
+        <form class="bg-white rounded px-8 pt-6 pb-8 mb-4" action="{{ route('admin.project.store') }}" method="post">
             @csrf
             <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="mb-4">
@@ -62,10 +62,10 @@
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="userDropdown">
                         Select Users
                     </label>
-                    <select multiple name="admin_id[]" id="userDropdown"
+                    <select name="admin_id" id="userDropdown"
                         class="border border-gray-900 rounded w-full py-20">
                         @foreach ($users as $user)
-                            <option value="{{ $user->id }}" @selected(in_array($user->id, old('admin_id', [])))>
+                            <option value="{{ $user->id }}">
                                 {{ $user->name }}
                             </option>
                         @endforeach
