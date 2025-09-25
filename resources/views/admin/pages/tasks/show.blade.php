@@ -2,6 +2,8 @@
 
 @section('content')
 
+
+
     <div class="flex justify-between items-start sm:items-center flex-row sm:my-6 my-6">
         <h1 class="text-xl sm:text-2xl font-bold text-gray-800 mt-1 sm:mb-0">Task Information</h1>
         <a href="{{ route('admin.task.index') }}"
@@ -27,9 +29,32 @@
                 <p class="mt-1 text-lg font-semibold text-gray-800">{{ $projectTask->title }}</p>
             </div>
             <div>
+                <p class="text-sm text-gray-500 uppercase tracking-wide">user</p>
+                @foreach ($projectTask->projectTaskUsers as $projectTaskUser)
+                    {{ $projectTaskUser->user->name ?? 'N/A' }}@if (!$loop->last)
+                        ,
+                    @endif
+                @endforeach
+            </div>
+            <div>
                 <p class="text-sm text-gray-500 uppercase tracking-wide">Status</p>
-                <span class="inline-block mt-1 px-3 py-1 text-sm rounded-full">
-                    {{ $projectTask->status }}
+                <span class="inline-block mt-1 py-1 text-sm rounded-full">
+                    @if ($projectTask->status == 'completed')
+                        <span
+                            class="bg-green-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">completed</span>
+                    @elseif ($projectTask->status == 'pending')
+                        <span
+                            class="bg-yellow-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">pending</span>
+                    @elseif ($projectTask->status == 'ongoing')
+                        <span
+                            class="bg-indigo-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300">ongoing</span>
+                    @elseif ($projectTask->status == 'rejected')
+                        <span
+                            class="bg-pink-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300">rejected</span>
+                    @elseif ($projectTask->status == 'failed')
+                        <span
+                            class="bg-red-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">failed</span>
+                    @endif
                 </span>
             </div>
         </div>
@@ -37,8 +62,9 @@
         <div>
             <h3 class="text-xl font-semibold text-gray-900 mb-3">Description</h3>
             <div class="prose max-w-none text-gray-700">
-                {!! nl2br(e($projectTask->description)) !!}
+                {{ $projectTask->description ?? 'N/A' }}
             </div>
         </div>
     </div>
+
 @endsection

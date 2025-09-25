@@ -59,7 +59,13 @@
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200 whitespace-nowrap"
                             id="status-display-{{ $projectTask->id }}">
                             <div>
-                                <p class="text-gray-900 whitespace-no-wrap"><b>User: </b>{{ $projectTask->assign->name }}
+                                <p class="text-gray-900 whitespace-no-wrap">
+                                    <b>User:</b>
+                                    @foreach ($projectTask->projectTaskUsers as $projectTaskUser)
+                                        {{ $projectTaskUser->user->name ?? 'N/A' }}@if (!$loop->last)
+                                            ,
+                                        @endif
+                                    @endforeach
                                 </p>
                                 <p class="text-gray-900 whitespace-no-wrap"><b>status:
                                         @if ($projectTask->status == 'completed')
@@ -115,105 +121,105 @@
                         </td>
 
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="4" class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            <p class="text-center text-red-500">
-                                No record found
-                            </p>
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-        <div>
-            {{ $projectTasks->links() }}
+                    @empty
+                        <tr>
+                            <td colspan="4" class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                                <p class="text-center text-red-500">
+                                    No record found
+                                </p>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+            <div>
+                {{ $projectTasks->links() }}
+            </div>
         </div>
-    </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        function getStatusBadgeHtml(status) {
-            let badgeHtml = '';
-            switch (status) {
-                case 'completed':
-                    badgeHtml =
-                        '<span class="bg-green-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">completed</span>';
-                    break;
-                case 'pending':
-                    badgeHtml =
-                        '<span class="bg-yellow-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">pending</span>';
-                    break;
-                case 'ongoing':
-                    badgeHtml =
-                        '<span class="bg-indigo-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300">ongoing</span>';
-                    break;
-                case 'rejected':
-                    badgeHtml =
-                        '<span class="bg-pink-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300">rejected</span>';
-                    break;
-                case 'failed':
-                    badgeHtml =
-                        '<span class="bg-red-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">failed</span>';
-                    break;
-                default:
-                    badgeHtml = '<span>' + status + '</span>';
-                    break;
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            function getStatusBadgeHtml(status) {
+                let badgeHtml = '';
+                switch (status) {
+                    case 'completed':
+                        badgeHtml =
+                            '<span class="bg-green-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">completed</span>';
+                        break;
+                    case 'pending':
+                        badgeHtml =
+                            '<span class="bg-yellow-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">pending</span>';
+                        break;
+                    case 'ongoing':
+                        badgeHtml =
+                            '<span class="bg-indigo-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300">ongoing</span>';
+                        break;
+                    case 'rejected':
+                        badgeHtml =
+                            '<span class="bg-pink-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300">rejected</span>';
+                        break;
+                    case 'failed':
+                        badgeHtml =
+                            '<span class="bg-red-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">failed</span>';
+                        break;
+                    default:
+                        badgeHtml = '<span>' + status + '</span>';
+                        break;
+                }
+                return badgeHtml;
             }
-            return badgeHtml;
-        }
 
-        $('.status').change(function(e) {
-            e.preventDefault();
-            const id = $(this).data('id');
-            const newStatus = $(this).find('option:selected').val();
+            $('.status').change(function(e) {
+                e.preventDefault();
+                const id = $(this).data('id');
+                const newStatus = $(this).find('option:selected').val();
 
-            $.ajax({
-                type: "PUT",
-                url: "/task/" + id + "/status",
-                data: {
-                    status: newStatus,
-                },
-                headers: {
-                    'x-csrf-token': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(response) {
-                    if (response.error) {
+                $.ajax({
+                    type: "PUT",
+                    url: "/task/" + id + "/status",
+                    data: {
+                        status: newStatus,
+                    },
+                    headers: {
+                        'x-csrf-token': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        if (response.error) {
+                            Toast.fire({
+                                icon: "error",
+                                title: response.message
+                            });
+                            return;
+                        }
                         Toast.fire({
-                            icon: "error",
+                            icon: "success",
                             title: response.message
                         });
-                        return;
+
+                        const newStatusHtml = getStatusBadgeHtml(newStatus);
+
+                        $(`#status-display-${id} p:last-child span`).replaceWith(newStatusHtml);
+                    },
+                    error: function(msg) {
+                        console.log('Data was not sent successfully');
+                        Toast.fire({
+                            icon: "error",
+                            title: "Something went wrong. Please try again."
+                        });
                     }
+                });
+            });
+        </script>
+
+
+        @if (session('success'))
+            @push('script')
+                <script>
                     Toast.fire({
                         icon: "success",
-                        title: response.message
+                        title: "{{ session('success') }}"
                     });
-
-                    const newStatusHtml = getStatusBadgeHtml(newStatus);
-
-                    $(`#status-display-${id} p:last-child span`).replaceWith(newStatusHtml);
-                },
-                error: function(msg) {
-                    console.log('Data was not sent successfully');
-                    Toast.fire({
-                        icon: "error",
-                        title: "Something went wrong. Please try again."
-                    });
-                }
-            });
-        });
-    </script>
-
-
-    @if (session('success'))
-        @push('script')
-            <script>
-                Toast.fire({
-                    icon: "success",
-                    title: "{{ session('success') }}"
-                });
-            </script>
-        @endpush
-    @endif
-</x-app-layout>
+                </script>
+            @endpush
+        @endif
+    </x-app-layout>

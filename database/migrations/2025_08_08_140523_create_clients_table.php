@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('whatsapp')->nullable();
             $table->string('profile')->nullable();
             $table->longText('about')->nullable();
-            $table->string('reference')->nullable();
+            $table->longText('reference')->nullable();
             $table->enum('category', ['sale', 'agency', 'reference']);
             $table->timestamps();
         });

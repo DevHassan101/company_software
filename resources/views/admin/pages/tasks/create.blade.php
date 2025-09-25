@@ -1,7 +1,6 @@
 @extends('admin.layouts.app')
 
 @section('content')
-
     <div class="flex justify-between items-center my-3">
         <div class="capitalize text-lg font-bold">
             <h1>create task</h1>
@@ -46,19 +45,18 @@
                 </div>
 
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="user">
-                        Select User <span class="text-red-500">*</span>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="userDropdown">
+                        Select Users <span class="text-red-500">*</span>
                     </label>
-
-                    <select name="user_id" class="border border-gray-900 rounded w-full py-1.5 text-black">
-                        <option value="">select one</option>
+                    <select multiple name="admin_ids[]" id="userDropdown" style="width: 100%";
+                        class="border border-gray-900 rounded w-full py-20">
                         @foreach ($users as $user)
-                            <option value="{{ $user->id }}" @selected(old('user_id') == $user->id)>{{ $user->name }}
+                            <option value="{{ $user->id }}" @selected(in_array($user->id, old('admin_id', [])))>
+                                {{ $user->name }}
                             </option>
                         @endforeach
                     </select>
-
-                    @error('user_id')
+                    @error('admin_id')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
@@ -78,5 +76,18 @@
                 </button>
             </div>
         </form>
+
+
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#userDropdown').select2();
+
+            $('#userDropdown').on('change', function() {
+                console.log('hi');
+
+            });
+        });
+    </script>
 @endsection

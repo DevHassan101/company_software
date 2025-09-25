@@ -31,6 +31,10 @@
                     </th>
                     <th
                         class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                        Assign User
+                    </th>
+                    <th
+                        class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
                         Dates
                     </th>
 
@@ -65,6 +69,18 @@
                         </td>
 
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                            <p class="text-gray-900 whitespace-no-wrap">
+                                <b>User:</b>
+                                @foreach ($project->projectUsers as $projectUser)
+                                    {{ $projectUser->user->name ?? 'N/A' }}@if (!$loop->last)
+                                        ,
+                                    @endif
+                                @endforeach
+                            </p>
+                            
+                        </td>
+
+                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                             <a href="mailto:{{ $project->email }}" class="text-gray-900 whitespace-no-wrap"><b>Start
                                     Date: </b> {{ $project->started_at }}</a>
                             <p class="text-gray-900 whitespace-no-wrap"><b>Delivery Date:
@@ -94,50 +110,50 @@
                         </td>
 
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="5" class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            <p class="text-center text-red-500">
-                                No record found
-                            </p>
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-        <div>
-            {{ $projects->links() }}
+                    @empty
+                        <tr>
+                            <td colspan="6" class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                                <p class="text-center text-red-500">
+                                    No record found
+                                </p>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+            <div>
+                {{ $projects->links() }}
+            </div>
         </div>
-    </div>
 
-    <script>
-        $(document).ready(function() {
-            fetchProjects();
+        <script>
+            $(document).ready(function() {
+                fetchProjects();
 
-            function fetchProjects(page = 1) {
-                $.ajax({
-                    type: "method",
-                    url: "url",
-                    data: "data",
-                    dataType: "dataType",
-                    success: function(response) {
+                function fetchProjects(page = 1) {
+                    $.ajax({
+                        type: "method",
+                        url: "url",
+                        data: "data",
+                        dataType: "dataType",
+                        success: function(response) {
 
-                    }
-                });
-            }
-        });
-    </script>
+                        }
+                    });
+                }
+            });
+        </script>
 
-    @if (session('success'))
-        @push('script')
-            <script>
-                Toast.fire({
-                    icon: "success",
-                    title: "{{ session('success') }}"
-                });
-            </script>
-        @endpush
-    @endif
+        @if (session('success'))
+            @push('script')
+                <script>
+                    Toast.fire({
+                        icon: "success",
+                        title: "{{ session('success') }}"
+                    });
+                </script>
+            @endpush
+        @endif
 
 
-</x-app-layout>
+    </x-app-layout>

@@ -422,19 +422,19 @@
                     @enderror
                 </div>
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="user_id">
-                        Select User <span class="text-red-500">*</span>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="userDropdown">
+                        Select Users <span class="text-red-500">*</span>
                     </label>
-                    <select name="user_id" id="user_id" class="border border-gray-900 rounded w-full py-2 text-black">
-                        <option value="">select one</option>
+                    <select multiple name="admin_ids[]" id="userDropdown" style="width: 100%";
+                        class="border border-gray-900 rounded w-full py-20">
                         @foreach ($users as $user)
-                            <option value="{{ $user->id }}" @selected(old('user_id') == $user->id)>
+                            <option value="{{ $user->id }}" @selected(in_array($user->id, old('admin_id', [])))>
                                 {{ $user->name }}
                             </option>
                         @endforeach
                     </select>
-                    @error('user_id', 'taskErrors')
-                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                    @error('admin_id', 'taskErrors')
+                        <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
                 <div>
@@ -481,6 +481,24 @@
                         <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
                     @enderror
                 </div>
+
+                {{-- <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="userDropdown">
+                        Select Users <span class="text-red-500">*</span>
+                    </label>
+                    <select multiple name="admin_ids[]" id="userDropdown" style="width: 100%";
+                        class="border border-gray-900 rounded w-full py-20">
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}" @selected(in_array($user->id, old('admin_id', [])))>
+                                {{ $user->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('admin_id', 'taskErrors')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
+                </div> --}}
+
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="user_id">Select User <span
                             class="text-red-500">*</span></label>
@@ -1188,4 +1206,15 @@
             </script>
         @endpush
     @endif
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#userDropdown').select2();
+
+            $('#userDropdown').on('change', function() {
+                console.log('hi');
+
+            });
+        });
+    </script>
 @endsection

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\ProjectTask;
+use App\Models\ProjectTaskUser;
 use App\Models\Project;
 
 class AdminTaskController extends Controller
@@ -15,7 +16,7 @@ class AdminTaskController extends Controller
      */
     public function index()
     {
-        $projectTasks = ProjectTask::with('project', 'user')->paginate(10);
+        $projectTasks = ProjectTask::with('project', 'projectTaskUsers')->paginate(10);
         return view('admin.pages.tasks.index', compact('projectTasks'));
     }
 
@@ -36,7 +37,6 @@ class AdminTaskController extends Controller
     {
         $validation = $request->validate([
             'project_id' => 'required',
-            'user_id' => 'required',
             'title' => 'required',
             'description' => 'nullable',
         ]);
@@ -44,7 +44,17 @@ class AdminTaskController extends Controller
         $validation['admin_id'] = auth()->id();
         $validation['created_by'] = auth()->id();
 
-        ProjectTask::create($validation);
+        $projectTask = ProjectTask::create($validation);
+
+        if ($request->has('admin_ids') && $request->input('admin_ids')) {
+            foreach ($request->input('admin_ids') as $index => $adminId) {
+                ProjectTaskUser::create([
+                    'task_id' => $projectTask->id,
+                    'user_id' => $request->input('admin_ids')[$index],
+                    'created_by' => $projectTask->id
+                ]);
+            }
+        }
 
         return redirect()->route('admin.task.index')
             ->with('success', 'Project Task Created Successfully');
@@ -64,7 +74,7 @@ class AdminTaskController extends Controller
      */
     public function edit(string $id)
     {
-        $projectTask = ProjectTask::findOrFail($id);
+        $projectTask = ProjectTask::with('projectTaskUsers.user')->findOrFail($id);
         $users = User::all();
         $projects = Project::all();
         return view('admin.pages.tasks.edit', compact('projectTask', 'users', 'projects'));
@@ -79,15 +89,26 @@ class AdminTaskController extends Controller
         $projectTask = ProjectTask::findOrFail($id);
         $validation = $request->validate([
             'project_id' => 'required',
-            'user_id' => 'required',
             'title' => 'required',
-            'description' => 'required',
+            'description' => 'nullable',
         ]);
 
         $validation['admin_id'] = auth()->id();
         $validation['created_by'] = auth()->id();
 
         $projectTask->update($validation);
+
+        if ($request->has('admin_ids') && $request->input('admin_ids')) {
+            $projectTask->projectTaskUsers()->delete();
+            foreach ($request->input('admin_ids') as $index => $adminId) {
+                ProjectTaskUser::create([
+                    'task_id' => $projectTask->id,
+                    'user_id' => $request->input('admin_ids')[$index],
+                    'created_by' => $projectTask->id
+                ]);
+            }
+        }
+
         return redirect()->route('admin.task.index')->with('success', 'Task Updated Successfully');
     }
 

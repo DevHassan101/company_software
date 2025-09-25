@@ -1,7 +1,6 @@
 @extends('admin.layouts.app')
 
 @section('content')
-
     <div class="flex justify-between items-center my-3">
         <div class="capitalize text-lg font-bold">
             <h1>edit project</h1>
@@ -13,8 +12,7 @@
     </div>
 
     <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
-        <form class="bg-white rounded px-8 pt-6 pb-8 mb-4" action="{{ route('admin.project.update', $project->id) }}"
-            method="post">
+        <form class="bg-white rounded px-8 pt-6 pb-8 mb-4" action="{{ route('admin.project.update', $project->id) }}" method="post">
             @csrf
             @method('PUT')
             <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
@@ -51,31 +49,32 @@
                     </label>
                     <select name="client_id" class="border border-gray-900 rounded w-full py-1.5">
                         @foreach ($clients as $client)
-                            <option value="{{ $client->id }}"
-                                {{ $project->client_id == $client->id ? 'selected' : '' }}>
+                            <option value="{{ $client->id }}" {{ $project->client_id == $client->id ? 'selected' : '' }}>
                                 {{ $client->name }}
                             </option>
                         @endforeach
                     </select>
                     @error('client_id')
-                       <span class="text-red-500">{{ $message }}</span>
+                        <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
-
+                @php
+                    $assignedUserIds = $project->projectUsers->pluck('user_id')->toArray();
+                @endphp
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
-                        Select User
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="userDropdown">
+                        Select Users <span class="text-red-500">*</span>
                     </label>
-                    <select name="admin_id" class="border border-gray-900 rounded w-full py-1.5">
+                    <select multiple name="admin_ids[]" id="userDropdown"
+                        class="border border-gray-900 rounded w-full py-20">
                         @foreach ($users as $user)
-                            <option value="{{ $user->id }}"
-                                {{ $project->admin_id == $user->id ? 'selected' : '' }}>
+                            <option value="{{ $user->id }}" @selected(in_array($user->id, $assignedUserIds))>
                                 {{ $user->name }}
                             </option>
                         @endforeach
                     </select>
                     @error('admin_id')
-                       <span class="text-red-500">{{ $message }}</span>
+                        <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
             </div>
@@ -144,5 +143,15 @@
         </form>
 
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#userDropdown').select2();
 
+            $('#userDropdown').on('change', function() {
+                console.log('hi');
+
+            });
+        });
+    </script>
 @endsection

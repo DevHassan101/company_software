@@ -427,7 +427,7 @@
                         <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
                     @enderror
                 </div>
-                <div class="mb-4">
+                {{-- <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="user_id">
                         Select User <span class="text-red-500">*</span>
                     </label>
@@ -443,7 +443,25 @@
                     @error('user_id', 'taskErrors')
                         <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
                     @enderror
+                </div> --}}
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="userDropdown">
+                        Select Users <span class="text-red-500">*</span>
+                    </label>
+                    <select multiple name="admin_ids[]" id="userDropdown" style="width: 100%";
+                        class="border border-gray-900 rounded w-full py-20">
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}" @selected(in_array($user->id, old('admin_id', [])))>
+                                {{ $user->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('admin_id', 'taskErrors')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
                 </div>
+
                 <div>
                     <label for="description" class="block mb-1 font-medium capitalize text-black">description </label>
                     <textarea id="note" name="description" rows="6" placeholder="Write note here"
@@ -830,6 +848,7 @@
             if (!modal) return;
             modal.classList.toggle('hidden');
         }
+
         function editProjectNotes(id) {
             const modal = document.getElementById(id);
             if (!modal) return;
@@ -893,6 +912,7 @@
                 modal.classList.toggle('hidden');
             }
         }
+
         function showNote(noteText, mediaPath, creatorName) {
             document.getElementById('modal-note-text').innerText = noteText;
             let mediaHtml = '';
@@ -939,6 +959,7 @@
                 modal.classList.toggle('hidden');
             }
         }
+
         function showTask(noteText, mediaPaths, creatorName, status) {
             document.getElementById('modal-task-text').innerText = noteText;
             document.getElementById('modal-task-status').innerText = status;
@@ -998,6 +1019,7 @@
                 modal.classList.toggle("hidden");
             }
         }
+
         function showFeedback(noteText, mediaPaths, creatorName) {
             document.getElementById('modal-feedback-text').innerText = noteText;
             let mediaHtml = '';
@@ -1046,6 +1068,7 @@
                 modal.classList.toggle("hidden");
             }
         }
+
         function showIssue(noteText, mediaPaths, creatorName) {
             document.getElementById('modal-issue-text').innerText = noteText;
             let mediaHtml = '';
@@ -1092,9 +1115,11 @@
             form.querySelector('#status').value = task.status;
             editProjectTasks('edit-task-modal');
         }
+
         function editProjectTasks(modalId) {
             document.getElementById(modalId).classList.toggle('hidden');
         }
+
         function populateEditNoteModal(note) {
             const modal = document.getElementById('edit-note-modal');
             const form = modal.querySelector('form');
@@ -1115,9 +1140,11 @@
 
             editProjectNotes('edit-note-modal');
         }
+
         function editProjectNotes(modalId) {
             document.getElementById(modalId).classList.toggle('hidden');
         }
+
         function populateEditFeedbackModal(feedback) {
             const modal = document.getElementById('edit-feedback-modal');
             const form = modal.querySelector('form');
@@ -1138,9 +1165,11 @@
 
             editProjectFeedback('edit-feedback-modal');
         }
+
         function editProjectFeedback(modalId) {
             document.getElementById(modalId).classList.toggle('hidden');
         }
+
         function populateEditIssueModal(issue) {
             const modal = document.getElementById('edit-issue-modal');
             const form = modal.querySelector('form');
@@ -1160,6 +1189,7 @@
             }
             editProjectIssue('edit-issue-modal');
         }
+
         function editProjectIssue(modalId) {
             document.getElementById(modalId).classList.toggle('hidden');
         }
@@ -1175,4 +1205,15 @@
             </script>
         @endpush
     @endif
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#userDropdown').select2();
+
+            $('#userDropdown').on('change', function() {
+                console.log('hi');
+
+            });
+        });
+    </script>
 </x-app-layout>

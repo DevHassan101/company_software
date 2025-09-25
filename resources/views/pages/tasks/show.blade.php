@@ -29,7 +29,11 @@
             </div>
             <div>
                 <p class="text-sm text-gray-500 uppercase tracking-wide">user</p>
-                <p class="mt-1 text-lg font-semibold text-gray-800">{{ $projectTask->assign->name }}</p>
+                @foreach ($projectTask->projectTaskUsers as $projectTaskUser)
+                    {{ $projectTaskUser->user->name ?? 'N/A' }}@if (!$loop->last)
+                        ,
+                    @endif
+                @endforeach
             </div>
             <div>
                 <p class="text-sm text-gray-500 uppercase tracking-wide">Status</p>
@@ -57,7 +61,7 @@
         <div>
             <h3 class="text-xl font-semibold text-gray-900 mb-3">Description</h3>
             <div class="prose max-w-none text-gray-700">
-                {!! nl2br(e($projectTask->description)) !!}
+                {{ $projectTask->description ?? 'N/A' }}
             </div>
         </div>
     </div>

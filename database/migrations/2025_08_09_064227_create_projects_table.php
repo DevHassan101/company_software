@@ -20,9 +20,9 @@ return new class extends Migration
             $table->date('started_at');
             $table->date('delivered_at');
             $table->date('delivery_date');
-            $table->unsignedBigInteger('admin_id');  
+            $table->unsignedBigInteger('admin_id')->nullable(); 
             $table->unsignedBigInteger('created_by');  
-            $table->decimal('budget')->default(0);  
+            $table->decimal('budget')->nullable();   
             $table->timestamps();
         });
     }

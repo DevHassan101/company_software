@@ -10,6 +10,7 @@ use App\Models\ProjectNote;
 use App\Models\ProjectPayment;
 use App\Models\ProjectTask;
 use App\Models\ProjectUser;
+use App\Models\ProjectTaskUser;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -22,8 +23,7 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
-        $projects = Project::with('client')->paginate(10);
-
+        $projects = Project::with('client', 'projectUsers')->paginate(10);
         if ($request->ajax()) {
             return response()->json();
         }
@@ -46,7 +46,6 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-
         $validatedData = $request->validate([
             'name' => 'required|min:3',
             'description' => 'nullable',
@@ -59,11 +58,17 @@ class ProjectController extends Controller
         ]);
 
         $validatedData['created_by'] = auth()->id();
-        $adminIds = $validatedData['admin_id'] ?? [];
+
         $project = Project::create($validatedData);
 
-        foreach ($adminIds as $adminId) {
-            $project->admin_id = $adminId;
+        if ($request->has('admin_ids') && $request->input('admin_ids')) {
+            foreach ($request->input('admin_ids') as $index => $adminId) {
+                ProjectUser::create([
+                    'project_id' => $project->id,
+                    'user_id' => $request->input('admin_ids')[$index],
+                    'created_by' => auth()->id()
+                ]);
+            }
         }
 
         return redirect()->route('project.index')->with('success', 'Project Created Successfully');
@@ -109,7 +114,7 @@ class ProjectController extends Controller
     public function edit($id)
 
     {
-        $project = Project::findOrFail($id);
+        $project = Project::with('projectUsers.user')->findOrFail($id);
         $clients = Client::all();
         $users = User::all();
         return view('pages.projects.edit', compact('project', 'clients', 'users'));
@@ -130,11 +135,22 @@ class ProjectController extends Controller
             'started_at' => 'required|date',
             'delivered_at' => 'required|date',
             'delivery_date' => 'required|date',
-            'admin_id' => 'required|integer',
             'budget' => 'nullable|numeric',
         ]);
 
         $project->update($validation);
+
+        if ($request->has('admin_ids') && $request->input('admin_ids')) {
+            $project->projectUsers()->delete();
+            foreach ($request->input('admin_ids') as $index => $adminId) {
+                ProjectUser::create([
+                    'project_id' => $project->id,
+                    'user_id' => $request->input('admin_ids')[$index],
+                    'created_by' => auth()->id()
+                ]);
+            }
+        }
+
         return redirect()->route('project.index')->with('success', 'Project Updated Successfully');
     }
 
@@ -184,13 +200,45 @@ class ProjectController extends Controller
         return redirect()->route('project.show', ['project' => $project])->with('success', 'Project Notes Created Successfully');
     }
 
-    public function updateNote(Request $request, $id)
-    {
-        $note = ProjectNote::findOrFail($id);
+    // public function updateNote(Request $request, $id)
+    // {
+    //     $note = ProjectNote::findOrFail($id);
 
+    //     $validator = Validator::make($request->all(), [
+    //         'note' => 'required|string',
+    //         'media.*' => 'nullable'
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         return redirect()->back()->withErrors($validator, 'noteErrors')->withInput();
+    //     }
+
+    //     $validatedData = $validator->validated();
+
+    //     $mediaPaths = [];
+    //     if ($request->hasFile('media')) {
+    //         if ($note->image && file_exists(public_path($note->image))) {
+    //             foreach ($request->file('media') as $file) {
+    //                 $name_gen = hexdec(uniqid()) . '.' . $file->getClientOriginalExtension();
+    //                 $file->move(public_path('uploads/project/media'), $name_gen);
+    //                 $mediaPaths[] = 'uploads/project/media/' . $name_gen;
+    //             }
+    //         }
+    //     }
+
+    //     $note->update($validatedData);
+
+    //     return redirect()->route('project.show', ['project' => $note->project_id])
+    //         ->with('success', 'Note updated successfully!');
+    // }
+
+    public function updateNote(Request $request, string $id)
+    {
+
+        $note = ProjectNote::findOrFail($id);
         $validator = Validator::make($request->all(), [
-            'note' => 'required|string',
-            'media.*' => 'nullable'
+            'note' => 'required',
+            'media.*' => 'nullable',
         ]);
 
         if ($validator->fails()) {
@@ -198,39 +246,28 @@ class ProjectController extends Controller
         }
 
         $validatedData = $validator->validated();
+        $mediaPaths = [];
 
         if ($request->hasFile('media')) {
-            // Step 1: Get the old media paths from the database
-            $oldMediaPaths = $note->media ? json_decode($note->media, true) : [];
-
-            // Step 2: Delete the old media files from the public directory
-            foreach ($oldMediaPaths as $oldPath) {
-                $fullOldPath = public_path($oldPath);
-                if (File::exists($fullOldPath)) {
-                    File::delete($fullOldPath);
-                }
-            }
-
-            // Step 3: Handle the new media uploads and store their paths
-            $newMediaPaths = [];
-            foreach ($request->file('media') as $file) {
-                $name_gen = hexdec(uniqid()) . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('uploads/project/media'), $name_gen);
-                $newMediaPaths[] = 'uploads/project/media/' . $name_gen;
-            }
-
-            $validatedData['media'] = json_encode($newMediaPaths);
-        } else {
             if ($note->media) {
                 $oldMediaPaths = json_decode($note->media, true);
-                foreach ($oldMediaPaths as $oldPath) {
-                    $fullOldPath = public_path($oldPath);
-                    if (File::exists($fullOldPath)) {
-                        File::delete($fullOldPath);
+                if (is_array($oldMediaPaths)) {
+                    foreach ($oldMediaPaths as $path) {
+                        if (File::exists(public_path($path))) {
+                            File::delete(public_path($path));
+                        }
                     }
                 }
-                $validatedData['media'] = null;
             }
+
+            foreach ($request->file('media') as $file) {
+                $name_gen = hexdec(uniqid()) . '.' . $file->getClientOriginalExtension();
+                $path = 'uploads/project/media/' . $name_gen;
+                $file->move(public_path('uploads/project/media'), $name_gen);
+                $mediaPaths[] = $path;
+            }
+
+            $validatedData['media'] = json_encode($mediaPaths);
         }
 
         $note->update($validatedData);
@@ -238,6 +275,9 @@ class ProjectController extends Controller
         return redirect()->route('project.show', ['project' => $note->project_id])
             ->with('success', 'Note updated successfully!');
     }
+
+
+
 
     public function destroyNote(Request $request, $id)
     {
@@ -257,7 +297,6 @@ class ProjectController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required',
             'title' => 'required',
             'description' => 'nullable',
         ]);
@@ -271,7 +310,19 @@ class ProjectController extends Controller
         $validatedData['created_by'] = auth()->id();
         $validatedData['project_id'] = $projectId;
 
-        ProjectTask::create($validatedData);
+        $projectTask =  ProjectTask::create($validatedData);
+
+        if ($request->has('admin_ids') && $request->input('admin_ids')) {
+            foreach ($request->input('admin_ids') as $index => $adminId) {
+                ProjectTaskUser::create([
+                    'task_id' => $projectTask->id,
+                    'user_id' => $adminId,
+                    'created_by' => auth()->id()
+                ]);
+            }
+        }
+
+
 
         return redirect()->route('project.show', ['project' => $projectId])
             ->with('success', 'Project Task Created Successfully');
@@ -284,7 +335,7 @@ class ProjectController extends Controller
 
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
-            'user_id' => 'required|exists:users,id',
+            // 'user_id' => 'required|exists:users,id',
             'description' => 'nullable|string',
             'status' => 'required',
         ]);
@@ -294,6 +345,17 @@ class ProjectController extends Controller
         }
 
         $task->update($validator->validated());
+
+        if ($request->has('admin_ids') && $request->input('admin_ids')) {
+            $task->projectTaskUsers()->delete();
+            foreach ($request->input('admin_ids') as $index => $adminId) {
+                ProjectTaskUser::create([
+                    'task_id' => $task->id,
+                    'user_id' => $request->input('admin_ids')[$index],
+                    'created_by' => $task->id
+                ]);
+            }
+        }
 
         return redirect()->route('project.show', ['project' => $task->project_id])
             ->with('success', 'Task updated successfully!');
@@ -351,11 +413,12 @@ class ProjectController extends Controller
 
     public function updateFeedback(Request $request, $id)
     {
+
         $feedback = ProjectFeedback::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
             'note' => 'required|string',
-            'media.*' => 'nullable',
+            'media.*' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,pdf|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -363,38 +426,28 @@ class ProjectController extends Controller
         }
 
         $validatedData = $validator->validated();
-
+        $newMediaPaths = [];
         if ($request->hasFile('media')) {
-            $oldMediaPaths = $feedback->media ? json_decode($feedback->media, true) : [];
-            foreach ($oldMediaPaths as $oldPath) {
-                $fullOldPath = public_path($oldPath);
-                if (File::exists($fullOldPath)) {
-                    File::delete($fullOldPath);
-                }
-            }
-
-            $newMediaPaths = [];
-            foreach ($request->file('media') as $file) {
-                $name_gen = hexdec(uniqid()) . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('uploads/project/media'), $name_gen);
-                $newMediaPaths[] = 'uploads/project/media/' . $name_gen;
-            }
-            $validatedData['media'] = json_encode($newMediaPaths);
-        } else {
             if ($feedback->media) {
                 $oldMediaPaths = json_decode($feedback->media, true);
-                foreach ($oldMediaPaths as $oldPath) {
-                    $fullOldPath = public_path($oldPath);
-                    if (File::exists($fullOldPath)) {
-                        File::delete($fullOldPath);
+                if (is_array($oldMediaPaths)) {
+                    foreach ($oldMediaPaths as $oldPath) {
+                        if (File::exists(public_path($oldPath))) {
+                            File::delete(public_path($oldPath));
+                        }
                     }
                 }
-                $validatedData['media'] = null;
             }
+            foreach ($request->file('media') as $file) {
+                $name_gen = hexdec(uniqid()) . '.' . $file->getClientOriginalExtension();
+                $path = 'uploads/project/media/' . $name_gen;
+                $file->move(public_path('uploads/project/media'), $name_gen);
+                $newMediaPaths[] = $path;
+            }
+
+            $validatedData['media'] = json_encode($newMediaPaths);
         }
-
         $feedback->update($validatedData);
-
         return redirect()->route('project.show', ['project' => $feedback->project_id])
             ->with('success', 'Feedback updated successfully!');
     }
@@ -451,11 +504,12 @@ class ProjectController extends Controller
 
     public function updateIssue(Request $request, $id)
     {
+
         $issue = ProjectIssue::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
             'note' => 'required|string',
-            'media.*' => 'nullable'
+            'media.*' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,pdf|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -463,41 +517,39 @@ class ProjectController extends Controller
         }
 
         $validatedData = $validator->validated();
+        $newMediaPaths = [];
 
         if ($request->hasFile('media')) {
-            $oldMediaPaths = $issue->media ? json_decode($issue->media, true) : [];
-            foreach ($oldMediaPaths as $oldPath) {
-                $fullOldPath = public_path($oldPath);
-                if (File::exists($fullOldPath)) {
-                    File::delete($fullOldPath);
-                }
-            }
-
-            $newMediaPaths = [];
-            foreach ($request->file('media') as $file) {
-                $name_gen = hexdec(uniqid()) . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('uploads/project/media'), $name_gen);
-                $newMediaPaths[] = 'uploads/project/media/' . $name_gen;
-            }
-            $validatedData['media'] = json_encode($newMediaPaths);
-        } else {
             if ($issue->media) {
                 $oldMediaPaths = json_decode($issue->media, true);
-                foreach ($oldMediaPaths as $oldPath) {
-                    $fullOldPath = public_path($oldPath);
-                    if (File::exists($fullOldPath)) {
-                        File::delete($fullOldPath);
+                if (is_array($oldMediaPaths)) {
+                    foreach ($oldMediaPaths as $oldPath) {
+                        if (File::exists(public_path($oldPath))) {
+                            File::delete(public_path($oldPath));
+                        }
                     }
                 }
-                $validatedData['media'] = null;
             }
+
+            foreach ($request->file('media') as $file) {
+                $name_gen = hexdec(uniqid()) . '.' . $file->getClientOriginalExtension();
+                $path = 'uploads/project/media/' . $name_gen;
+                $file->move(public_path('uploads/project/media'), $name_gen);
+                $newMediaPaths[] = $path;
+            }
+
+            $validatedData['media'] = json_encode($newMediaPaths);
         }
 
+        if (!$request->hasFile('media') && $issue->media) {
+            $validatedData['media'] = $issue->media;
+        }
         $issue->update($validatedData);
-
         return redirect()->route('project.show', ['project' => $issue->project_id])
             ->with('success', 'Issue updated successfully!');
     }
+
+
 
     public function destroyIssue(Request $request, $id)
     {

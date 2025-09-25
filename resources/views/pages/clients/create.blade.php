@@ -49,9 +49,6 @@
                     <input
                         class="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="profile" name="profile" type="file">
-                    @error('profile')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
                 </div>
             </div>
 
@@ -88,7 +85,7 @@
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2">
-                        Select Category
+                        Select Category <span class="text-red-500">*</span>
                     </label>
                     <select name="category" class="border border-gray-900 w-full capitalize rounded py-1.5">
                         <option value="">Select One</option>
@@ -96,6 +93,9 @@
                         <option value="agency" @selected(old('category') == 'agency')>agency</option>
                         <option value="reference" @selected(old('category') == 'reference')>reference</option>
                     </select>
+                    @error('category')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
 

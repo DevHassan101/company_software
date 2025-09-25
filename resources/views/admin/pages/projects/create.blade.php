@@ -43,7 +43,7 @@
             <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
-                        Select Client
+                        Select Client <span class="text-red-500">*</span>
                     </label>
                     <select name="client_id" class="border border-gray-900 rounded w-full py-1.5">
                         <option value="select one">select one</option>
@@ -60,12 +60,12 @@
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="userDropdown">
-                        Select Users
+                        Select Users <span class="text-red-500">*</span>
                     </label>
-                    <select name="admin_id" id="userDropdown"
+                    <select multiple name="admin_ids[]" id="userDropdown"
                         class="border border-gray-900 rounded w-full py-20">
                         @foreach ($users as $user)
-                            <option value="{{ $user->id }}">
+                            <option value="{{ $user->id }}" @selected(in_array($user->id, old('admin_id', [])))>
                                 {{ $user->name }}
                             </option>
                         @endforeach

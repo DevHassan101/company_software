@@ -19,9 +19,10 @@ class ProjectTask extends Model
         'created_by'
     ];
 
-    // public function project(){
-    //     return $this->hasMany(Project::class);
-    // }
+    public function projectTaskUsers()
+    {
+        return $this->hasMany(ProjectTaskUser::class, 'task_id');
+    }
 
     public function project()
     {
@@ -33,7 +34,8 @@ class ProjectTask extends Model
         return $this->belongsTo(User::class, 'admin_id');
     }
 
-    public function assign() {
+    public function assign()
+    {
         return $this->belongsTo(User::class, 'user_id');
     }
 
@@ -41,4 +43,10 @@ class ProjectTask extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+//     public function projectTaskUsers()
+// {
+//     return $this->hasMany(ProjectTaskUser::class, 'task_id'); 
+//     // or 'project_id' if that's how your table is designed
+// }
 }

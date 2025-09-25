@@ -101,7 +101,7 @@ class AdminClientController extends Controller
 
         $validation = $request->validate([
             'name' => 'required|min:3',
-            'company_name' => 'nullable|min:5',
+            'company_name' => 'nullable',
             'email' => 'nullable',
             'phone' => 'nullable',
             'whatsapp' => 'nullable',

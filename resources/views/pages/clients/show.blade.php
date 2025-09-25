@@ -24,14 +24,18 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid  md:!grid-cols-3 grid-cols-1 gap-4">
             <div>
-                <p class="font-semibold text-gray-700">Phone Number</p>
+                <p class="font-semibold text-gray-700 capitalize">Phone Number</p>
                 <p class="text-gray-600">{{ $client->phone }}</p>
             </div>
             <div>
-                <p class="font-semibold text-gray-700">Whatsapp Number</p>
+                <p class="font-semibold text-gray-700 capitalize">Whatsapp Number</p>
                 <p class="text-gray-600">{{ $client->whatsapp }}</p>
+            </div>
+            <div>
+                <p class="font-semibold text-gray-700 capitalize">category</p>
+                <p class="text-gray-600">{{ $client->category }}</p>
             </div>
         </div>
 
@@ -42,12 +46,66 @@
                     <p class="font-semibold mb-2 capitalize">about</p>
                     <p class="text-gray-600">{{ $client->about }}</p>
                 </div>
+
                 <div class="text-justify">
                     <p class="font-semibold mb-2 capitalize">reference</p>
                     <p class="text-gray-600">{{ $client->reference }}</p>
                 </div>
             </div>
         </div>
+
+        <div class="mt-8">
+            <h3 class="text-xl font-semibold text-gray-800">Project List</h3>
+            <div class="overflow-x-auto rounded-lg shadow-sm border border-gray-200 mt-4">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Project
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Start Date
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Delivery Date
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Delivered Date
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @forelse ($client->project as $project)
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ $project->name }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ $project->started_at }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ $project->delivery_date }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ $project->delivered_at }}</div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                                    <p class="text-center text-red-500">
+                                        No projects found for this client.
+                                    </p>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+
     </div>
 
 </x-app-layout>
