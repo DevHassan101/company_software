@@ -149,7 +149,7 @@
                                 </div>
                                 <div>
                                     <i class="fa-solid fa-eye cursor-pointer mt-4"
-                                        onclick="showTask('{{ addslashes($task->description) }}', '{{ addslashes(json_encode($task->media ? json_decode($task->media) : [])) }}', '{{ addslashes($task->createdBy->name ?? '') }}', '{{ addslashes($task->status) }}')">
+                                        onclick="showTask('{{ addslashes($task->title) }}','{{ addslashes($task->description) }}', '{{ addslashes(json_encode($task->media ? json_decode($task->media) : [])) }}', '{{ addslashes($task->createdBy->name ?? '') }}', '{{ addslashes($task->status) }}')">
                                     </i>
                                     <form action="{{ route('task.destroyTask', $task->id) }}" method="POST"
                                         class="inline">
@@ -161,7 +161,7 @@
                                         </button>
                                     </form>
                                     <i class="fa-solid fa-pencil cursor-pointer mt-4"
-                                        onclick="populateEditTaskModal({{ json_encode($task) }})">
+                                        onclick="populateEditTaskModal({{ json_encode($task->load('projectTaskUsers')) }})">
                                     </i>
 
                                 </div>
@@ -506,10 +506,10 @@
                         <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
                     @enderror
                 </div>
-                <div class="mb-4">
+                {{-- <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="user_id">Select User <span
                             class="text-red-500">*</span></label>
-                    <select name="user_id" id="user_id"
+                    <select multiple name="user_id" id="user_id"
                         class="border border-gray-900 rounded w-full py-2 text-black" required>
                         <option value="">select one</option>
                         @foreach ($users as $user)
@@ -519,7 +519,24 @@
                     @error('user_id', 'taskErrors')
                         <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
                     @enderror
+                </div> --}}
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="EditDropdown">
+                        Select Users <span class="text-red-500">*</span>
+                    </label>
+                    <select multiple name="admin_ids[]" id="EditDropdown" style="width: 100%;"
+                        class="border border-gray-900 rounded w-full py-2">
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                        @endforeach
+                    </select>
+
+                    @error('admin_ids')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
                 </div>
+
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="status">Status <span
                             class="text-red-500">*</span></label>
@@ -771,6 +788,9 @@
             <!-- Modal Body -->
             <div class="mt-5 space-y-4 text-gray-800">
                 <div class="p-3 bg-gray-50 rounded-lg">
+                    <p id="modal-task-title" class="text-gray-700"></p>
+                </div>
+                <div class="p-3 bg-gray-50 rounded-lg">
                     <p id="modal-task-text" class="text-gray-700"></p>
                 </div>
                 <div class="p-3 bg-gray-50 rounded-lg">
@@ -960,7 +980,8 @@
             }
         }
 
-        function showTask(noteText, mediaPaths, creatorName, status) {
+        function showTask(title, noteText, mediaPaths, creatorName, status) {
+            document.getElementById('modal-task-title').innerText = title;
             document.getElementById('modal-task-text').innerText = noteText;
             document.getElementById('modal-task-status').innerText = status;
             document.getElementById('modal-task-created').innerText = creatorName ?
@@ -1108,11 +1129,24 @@
         function populateEditTaskModal(task) {
             const modal = document.getElementById('edit-task-modal');
             const form = modal.querySelector('form');
+
+            // Form action
             form.action = `/task/${task.id}/updateTask`;
+
+            // Fill inputs
             form.querySelector('#title').value = task.title;
-            form.querySelector('#user_id').value = task.user_id;
             form.querySelector('#description').value = task.description;
             form.querySelector('#status').value = task.status;
+
+            // Multiple users select
+            const dropdown = form.querySelector('#EditDropdown');
+            console.log(dropdown);
+            for (let option of dropdown.options) {
+                option.selected = task.project_task_users.some(u => u.user_id == option.value);
+                console.log(task.project_task_users);
+                
+            }
+            // Show modal
             editProjectTasks('edit-task-modal');
         }
 
@@ -1211,6 +1245,12 @@
             $('#userDropdown').select2();
 
             $('#userDropdown').on('change', function() {
+                console.log('hi');
+
+            });
+            $('#EditDropdown').select2();
+
+            $('#EditDropdown').on('change', function() {
                 console.log('hi');
 
             });

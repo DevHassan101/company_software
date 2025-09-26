@@ -146,7 +146,7 @@
                                 </div>
                                 <div>
                                     <i class="fa-solid fa-eye cursor-pointer mt-4"
-                                        onclick="showTask('{{ addslashes($task->description) }}', '{{ addslashes(json_encode($task->media ? json_decode($task->media) : [])) }}', '{{ addslashes($task->createdBy->name ?? '') }}', '{{ addslashes($task->status) }}')">
+                                        onclick="showTask('{{ addslashes($task->title) }}','{{ addslashes($task->description) }}', '{{ addslashes(json_encode($task->media ? json_decode($task->media) : [])) }}', '{{ addslashes($task->createdBy->name ?? '') }}', '{{ addslashes($task->status) }}')">
                                     </i>
                                     <form action="{{ route('admin.task.destroyTask', $task->id) }}" method="POST"
                                         class="inline">
@@ -764,6 +764,9 @@
             <!-- Modal Body -->
             <div class="mt-5 space-y-4 text-gray-800">
                 <div class="p-3 bg-gray-50 rounded-lg">
+                    <p id="modal-task-title" class="text-gray-700"></p>
+                </div>
+                <div class="p-3 bg-gray-50 rounded-lg">
                     <p id="modal-task-text" class="text-gray-700"></p>
                 </div>
                 <div class="p-3 bg-gray-50 rounded-lg">
@@ -955,7 +958,8 @@
             }
         }
 
-        function showTask(noteText, mediaPaths, creatorName, status) {
+        function showTask(title, noteText, mediaPaths, creatorName, status) {
+            document.getElementById('modal-task-title').innerText = title;
             document.getElementById('modal-task-text').innerText = noteText;
             document.getElementById('modal-task-status').innerText = status;
             document.getElementById('modal-task-created').innerText = creatorName ?
