@@ -18,7 +18,7 @@ return new class extends Migration
             $table->longText('requirments')->nullable();
             $table->unsignedBigInteger('client_id');
             $table->date('started_at');
-            $table->date('delivered_at');
+            $table->timestamp('delivered_at')->nullable();
             $table->date('delivery_date');
             $table->unsignedBigInteger('admin_id')->nullable(); 
             $table->unsignedBigInteger('created_by');  

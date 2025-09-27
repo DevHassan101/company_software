@@ -79,26 +79,15 @@
                 </div>
             </div>
 
-            <div class="grid sm:grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
                         Start Date <span class="text-red-500">*</span>
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="started_at" name="started_at" value="{{ $project->started_at }}" type="date">
+                        id="started_at" name="started_at" value="{{ old('started_at') }}" type="date">
                     @error('started_at')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
-                        Delivered At <span class="text-red-500">*</span>
-                    </label>
-                    <input
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="delivered_at" name="delivered_at" value="{{ $project->delivered_at }}" type="date">
-                    @error('delivered_at')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
@@ -109,7 +98,7 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="delivery_date" name="delivery_date" value="{{ $project->delivery_date }}" type="date">
+                        id="delivery_date" name="delivery_date" value="{{ old('delivery_date') }}" type="date">
                     @error('delivery_date')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror

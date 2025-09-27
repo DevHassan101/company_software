@@ -15,7 +15,7 @@ class Project extends Model
         'requirments',
         'client_id',
         'started_at',
-        'delivered_at',
+        'delivered_at' => 'datetime',
         'delivery_date',
         'admin_id',
         'created_by',
@@ -23,11 +23,13 @@ class Project extends Model
     ];
 
 
-    public function client(){
+    public function client()
+    {
         return $this->belongsTo(Client::class, 'client_id');
     }
 
-    public function projectTask(){
+    public function projectTask()
+    {
         return $this->belongsTo(ProjectTask::class, 'id');
     }
 
@@ -35,29 +37,41 @@ class Project extends Model
     {
         return $this->hasMany(ProjectPayment::class, 'project_id');
     }
-    
-    public function projectFeedback(){
+
+    public function projectFeedback()
+    {
         return $this->belongsTo(ProjectFeedback::class, 'id');
     }
-    
-    public function projectIssue(){
+
+    public function projectIssue()
+    {
 
         return $this->belongsTo(ProjectIssue::class, 'id');
     }
 
-    public function getPaidAmountAttribute(){
+    public function getPaidAmountAttribute()
+    {
         return $this->projectPayments()->sum('amount');
     }
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function projectUsers(){
+    public function projectUsers()
+    {
         return $this->hasMany(ProjectUser::class);
     }
 
-    public function projectTaskUsers(){
+    public function projectTaskUsers()
+    {
         return $this->hasMany(ProjectTaskUser::class);
+    }
+
+
+    public function tasks()
+    {
+        return $this->hasMany(ProjectTask::class, 'project_id');
     }
 }

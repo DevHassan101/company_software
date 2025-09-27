@@ -49,7 +49,7 @@ class ClientController extends Controller
             'profile' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'about' => 'nullable',
             'reference' => 'nullable',
-            'category' => 'nullable'
+            'category' => 'required'
         ]);
 
         if ($request->hasFile('profile')) {
@@ -69,7 +69,8 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        $client->load('project');
+        $client->load('projects');
+        // return $client;
         return view('pages.clients.show', compact('client'));
     }
 
@@ -100,7 +101,7 @@ class ClientController extends Controller
             'profile' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'about' => 'nullable',
             'reference' => 'nullable',
-            'category' => 'nullable'
+            'category' => 'required'
         ]);
 
         if ($request->hasFile('profile')) {

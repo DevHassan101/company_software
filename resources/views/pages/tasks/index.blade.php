@@ -70,19 +70,19 @@
                                 <p class="text-gray-900 whitespace-no-wrap"><b>status:
                                         @if ($projectTask->status == 'completed')
                                             <span
-                                                class="bg-green-100 text-green-100 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">completed</span>
+                                                class="bg-green-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">completed</span>
                                         @elseif ($projectTask->status == 'pending')
                                             <span
-                                                class="bg-yellow-100 text-yellow-100 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">pending</span>
+                                                class="bg-yellow-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-yellow-900">pending</span>
                                         @elseif ($projectTask->status == 'ongoing')
                                             <span
-                                                class="bg-indigo-100 text-indigo-100 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300">ongoing</span>
+                                                class="bg-indigo-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300">ongoing</span>
                                         @elseif ($projectTask->status == 'rejected')
                                             <span
-                                                class="bg-pink-100 text-pink-100 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300">rejected</span>
+                                                class="bg-pink-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300">rejected</span>
                                         @elseif ($projectTask->status == 'failed')
                                             <span
-                                                class="bg-red-100 text-red-100 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">failed</span>
+                                                class="bg-red-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">failed</span>
                                         @endif
                                     </b></p>
                             </div>
@@ -148,7 +148,7 @@
                         break;
                     case 'pending':
                         badgeHtml =
-                            '<span class="bg-yellow-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">pending</span>';
+                            '<span class="bg-yellow-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-yellow-900">pending</span>';
                         break;
                     case 'ongoing':
                         badgeHtml =
@@ -197,8 +197,12 @@
                         });
 
                         const newStatusHtml = getStatusBadgeHtml(newStatus);
-
                         $(`#status-display-${id} p:last-child span`).replaceWith(newStatusHtml);
+
+                        // 🔽 yahan delivered_at update add karo
+                        if (response.delivered_at) {
+                            $(`#delivered-date-${response.project_id}`).text(response.delivered_at);
+                        }
                     },
                     error: function(msg) {
                         console.log('Data was not sent successfully');
@@ -208,6 +212,7 @@
                         });
                     }
                 });
+
             });
         </script>
 

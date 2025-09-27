@@ -18,12 +18,12 @@ return new class extends Migration
             $table->string('fname');
             $table->string('dob');
             $table->enum('gender', ['male', 'female']);
-            $table->string('profile');
+            $table->string('profile')->nullable();
             $table->string('cnic');
             $table->string('phone');
             $table->text('address')->nullable();
-            $table->string('cnic_frnt');
-            $table->string('cnic_back');
+            $table->string('cnic_frnt')->nullable();
+            $table->string('cnic_back')->nullable();
             $table->timestamps();
         });
     }

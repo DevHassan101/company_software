@@ -49,15 +49,12 @@
             <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="Email">
-                        Email <span class="text-red-500">*</span>
+                        Email
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="Email" name="email" value="{{ $user->email }}" type="text"
                         placeholder="Enter Email">
-                    @error('email')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
                 </div>
 
                 <div class="mb-4">
@@ -66,7 +63,7 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="phone" name="phone" value="{{ $user->userInfo->phone }}" type="number"
+                        id="phone" name="phone" value="{{ $user->userInfo->phone }}" type="text"
                         placeholder="Enter phone">
                     @error('phone')
                         <span class="text-red-500">{{ $message }}</span>
@@ -126,9 +123,6 @@
                     @error('profile')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
-                    @error('profile')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
                 </div>
             </div>
 
@@ -139,7 +133,7 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="cnic" name="cnic" type="number" value="{{ $user->userInfo->cnic }}" placeholder="Enter CNIC">
+                        id="cnic" name="cnic" type="text" value="{{ $user->userInfo->cnic }}" placeholder="Enter CNIC">
                     @error('cnic')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror

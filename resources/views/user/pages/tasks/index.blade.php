@@ -44,9 +44,12 @@
                         </td>
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200 whitespace-nowrap">
                             <div>
-                                <p class="text-gray-900 whitespace-no-wrap"><b>Title: </b>{{ $projectTask->title }}</p>
-                                <p class="text-gray-900 whitespace-no-wrap"><b>Name:
-                                    </b>{{ $projectTask->project->name }}</p>
+                                <p class="text-gray-900 whitespace-no-wrap"><b>Title:
+                                    </b>{{ $projectTask->task->title ?? 'N/A' }}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-900 whitespace-no-wrap"><b>Project:
+                                    </b>{{ $projectTask->task->project->name ?? 'N/A' }}</p>
                             </div>
                         </td>
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200 whitespace-nowrap">
@@ -54,7 +57,23 @@
                                 <p class="text-gray-900 whitespace-no-wrap"><b>User: </b>{{ $projectTask->user->name }}
                                 </p>
                                 <p class="text-gray-900 whitespace-no-wrap"><b>status:
-                                    </b>{{ $projectTask->status }}</p>
+                                        @if ($projectTask->task->status == 'pending')
+                                            <span
+                                                class="bg-yellow-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-yellow-900">pending</span>
+                                        @elseif ($projectTask->task->status == 'completed')
+                                            <span
+                                                class="bg-green-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900">completed</span>
+                                        @elseif ($projectTask->task->status == 'ongoing')
+                                            <span
+                                                class="bg-indigo-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900">ongoing</span>
+                                        @elseif ($projectTask->task->status == 'rejected')
+                                            <span
+                                                class="bg-pink-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-pink-900">rejected</span>
+                                        @elseif ($projectTask->task->status == 'failed')
+                                            <span
+                                                class="bg-red-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900">failed</span>
+                                        @endif
+                                    </b></p>
                             </div>
                         </td>
                         <td class="px-5 py-5 text-md bg-white border-b border-gray-200">
@@ -72,12 +91,8 @@
                         </td>
                     </tr>
                 @endforelse
-
             </tbody>
-
-
         </table>
-
     </div>
 
     <script>

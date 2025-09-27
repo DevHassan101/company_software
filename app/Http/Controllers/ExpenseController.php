@@ -32,7 +32,8 @@ class ExpenseController extends Controller
     {
         $validation = $request->validate([
             'amount' => 'required|integer',
-            'receipt' => 'nullable',
+            'receipt'   => 'nullable|array',
+            'receipt.*' => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
             'description' => 'nullable|string',
             'type' => 'required',
             'paid_on' => 'nullable'

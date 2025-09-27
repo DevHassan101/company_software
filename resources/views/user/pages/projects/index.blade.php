@@ -39,40 +39,37 @@
                 @php
                     $i = 0;
                 @endphp
-                @forelse ($projects as $project)
+                @forelse ($projects as $projectUser)
                     <tr>
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                             <p class="text-gray-900 whitespace-no-wrap">{{ ++$i }}</p>
                         </td>
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            <p class="text-gray-900 whitespace-no-wrap"><b>Name: </b>{{ $project->name }}</p>
+                            <p class="text-gray-900 whitespace-no-wrap"><b>Name: </b>{{ $projectUser->project->name }}</p>
                         </td>
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                             <div class="flex gap-2 items-center">
                                 <div>
                                     <p class="text-gray-900 whitespace-no-wrap"><b>Client Name:
-                                        </b>{{ $project->client?->name }}</p>
+                                        </b>{{ $projectUser->project->client?->name }}</p>
                                     <p class="text-gray-900 whitespace-no-wrap"><b>Client Email:
-                                        </b>{{ $project->client?->email }}</p>
+                                        </b>{{ $projectUser->project->client?->email }}</p>
                                 </div>
                             </div>
                         </td>
-
                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            <a href="mailto:{{ $project->email }}" class="text-gray-900 whitespace-no-wrap"><b>Start
-                                    Date: </b> {{ $project->started_at }}</a>
+                            <a href="mailto:{{ $projectUser->project->email }}"
+                                class="text-gray-900 whitespace-no-wrap"><b>Start
+                                    Date: </b> {{ $projectUser->project->started_at }}</a>
                             <p class="text-gray-900 whitespace-no-wrap"><b>Delivery Date:
-                                </b>{{ $project->delivery_date }}</p>
+                                </b>{{ $projectUser->project->delivery_date }}</p>
                         </td>
-
                         <td class="px-5 py-5 text-md bg-white border-b border-gray-200">
                             <div class="text-right flex flex-end gap-4 mb-4">
-                                <a href="{{ route('showProject.show', $project->id) }}"
+                                <a href="{{ route('showProject.show', $projectUser->project->id) }}"
                                     class="px-4 py-2 text-sm font-medium capitalize rounded-lg border border-orange-700 text-orange-700 hover:bg-orange-700 hover:text-white transition">view</a>
                             </div>
-
                         </td>
-
                     </tr>
                 @empty
                     <tr>
@@ -83,8 +80,8 @@
                         </td>
                     </tr>
                 @endforelse
-
             </tbody>
+
         </table>
         <div class="">
             {{ $projects->links() }}

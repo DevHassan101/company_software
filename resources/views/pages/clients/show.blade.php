@@ -5,6 +5,14 @@
 
     <div class="flex justify-between items-start sm:items-center flex-row sm:my-6 my-6">
         <h1 class="text-xl sm:text-2xl font-bold text-gray-800 mt-1 sm:mb-0">Client Information</h1>
+        {{-- @foreach ($client->projects as $project)
+    <td id="delivered-date-{{ $project->id }}">
+
+
+    </td>
+@endforeach --}}
+
+
         <a href="{{ route('client.index') }}"
             class="px-4 py-2 text-sm font-medium rounded-lg border border-black text-black-700 hover:bg-black capitalize hover:text-white transition">
             back
@@ -75,7 +83,7 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        @forelse ($client->project as $project)
+                        @forelse ($client->projects as $project)
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-gray-900">{{ $project->name }}</div>
@@ -87,7 +95,8 @@
                                     <div class="text-sm text-gray-900">{{ $project->delivery_date }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">{{ $project->delivered_at }}</div>
+                                    {{ $project->delivered_at ? \Carbon\Carbon::parse($project->delivered_at)->format('Y-m-d') : '—' }}
+
                                 </td>
                             </tr>
                         @empty

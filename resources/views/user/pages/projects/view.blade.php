@@ -32,8 +32,19 @@
         </a>
     </div>
 
-    <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+    <div class="grid sm:grid-cols-1 md:grid-cols-1 gap-4 mb-4">
         <div class=" bg-white p-5 rounded-md">
+            <h4 class="mb-2 capitalize font-bold text-gray-800 mx-6">Title</h4>
+            <div class="relative">
+                <p class="project text-gray-600">
+                    {{ $project->name }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div class=" bg-white p-5 rounded-md h-fit">
             <h4 class="mb-2 capitalize font-bold text-gray-800 mx-6">Description</h4>
             <div class="relative">
                 <p class="project text-gray-600" id="desc">
@@ -45,7 +56,7 @@
             </div>
         </div>
 
-        <div class=" bg-white p-5 rounded-md">
+        <div class=" bg-white p-5 rounded-md h-fit">
             <h4 class="mb-2 capitalize font-bold text-gray-800 mx-6">Requirements</h4>
             <div class="relative">
                 <p class="project text-gray-600" id="req">
@@ -60,16 +71,13 @@
 
 
     <div class="grid sm:grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-        <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
+        <div class="inline-block overflow-hidden min-w-full rounded-lg">
             <div class="py-4 bg-white border-b-4 border-green-600 capitalize text-gray-600 font-bold">
                 <div class="flex justify-between items-center px-4">
                     <div>
                         <h1>notes</h1>
                     </div>
-                    <div>
-                        <i class="fa-solid fa-plus text-sm ms-4 cursor-pointer"
-                            onclick="projectNotes('crud-modal'); return false;"></i>
-                    </div>
+
                 </div>
             </div>
             <!-- Notes List -->
@@ -95,15 +103,11 @@
             </div>
         </div>
 
-        <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
+        <div class="inline-block overflow-hidden min-w-full rounded-lg">
             <div class="py-4 bg-white border-b-4 border-blue-600 capitalize text-gray-600 font-bold">
                 <div class="flex justify-between items-center px-4">
                     <div>
                         <h1>tasks</h1>
-                    </div>
-                    <div>
-                        <i class="fa-solid fa-plus text-sm ms-4 cursor-pointer"
-                            onclick="projectTasks('task-modal'); return false;"></i>
                     </div>
                 </div>
             </div>
@@ -120,7 +124,11 @@
                                 </div>
                                 <div>
                                     <i class="fa-solid fa-eye cursor-pointer mt-4"
-                                        onclick="showTask('{{ addslashes($task->description) }}', '{{ addslashes(json_encode($task->media ? json_decode($task->media) : [])) }}', '{{ addslashes($task->project->name ?? '') }}', '{{ addslashes($task->createdBy->name ?? '') }}')">
+                                        onclick="showTask( '{{ addslashes($task->title) }}', '{{ addslashes($task->description) }}',
+                                        '{{ addslashes(json_encode($task->media ? json_decode($task->media) : [])) }}',
+                                        '{{ addslashes($task->projectTaskUsers->pluck('user.name')->join(', ')) }}',
+                                        '{{ addslashes($task->createdBy->name ?? '') }}',
+                                        '{{ addslashes($task->status) }}')">
                                     </i>
 
                                 </div>
@@ -133,15 +141,11 @@
         </div>
 
         {{-- feedback --}}
-        <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
+        <div class="inline-block overflow-hidden min-w-full rounded-lg">
             <div class="py-4 bg-white border-b-4 border-purple-500 capitalize text-gray-600 font-bold">
                 <div class="flex justify-between items-center px-4">
                     <div>
                         <h1>feedback</h1>
-                    </div>
-                    <div>
-                        <i class="fa-solid fa-plus text-sm ms-4 cursor-pointer"
-                            onclick="projectFeedback('feedback-modal'); return false;"></i>
                     </div>
                 </div>
             </div>
@@ -176,15 +180,11 @@
         </div>
 
         {{-- project issue --}}
-        <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
+        <div class="inline-block overflow-hidden min-w-full rounded-lg">
             <div class="py-4 bg-white border-b-4 border-yellow-500 capitalize text-gray-600 font-bold">
                 <div class="flex justify-between items-center px-4">
                     <div>
                         <h1>Issue</h1>
-                    </div>
-                    <div>
-                        <i class="fa-solid fa-plus text-sm ms-4 cursor-pointer"
-                            onclick="projectIssue('issue-modal'); return false;"></i>
                     </div>
                 </div>
             </div>
@@ -216,279 +216,6 @@
     </div>
 
 
-    {{-- Project Notes  Modal --}}
-    <div id="crud-modal" tabindex="-1" aria-hidden="true"
-        class="hidden fixed inset-0 bg-black/50 flex z-50 items-center justify-center">
-        <div class="bg-white rounded-lg shadow-lg max-w-3/4 w-full p-5 relative">
-
-            <!-- Modal Header -->
-            <div class="flex justify-between items-center border-b border-gray-200 dark:border-gray-600 pb-3">
-                <h3 class="text-lg font-semibold text-black">Create Project Notes</h3>
-                <button type="button" onclick="projectNotes('crud-modal')" class="text-gray-400">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" viewBox="0 0 24 24">
-                        <path d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-
-            <!-- Modal Body -->
-            <form class="mt-4 space-y-4 text-gray-900 dark:text-white"
-                action="{{ route('project.store-note', ['projectId' => $project->id]) }}" method="post"
-                enctype="multipart/form-data">
-                @csrf
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="media">
-                        Upload Media
-                    </label>
-                    <input
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="media" name="media[]" multiple type="file">
-                </div>
-
-
-                <div>
-                    <label for="note" class="block mb-1 font-medium text-black capitalize">note <span
-                            class="text-red-500">*</span> </label>
-                    <textarea id="note" name="note" rows="4" placeholder="Write note here"
-                        class="w-full p-2 border rounded-md text-black dark:border-gray-500">{{ old('note') }}</textarea>
-                    @error('note')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <button type="submit"
-                    class="capitalize bg-blue-700 hover:bg-blue-800 text-white px-5 py-2 rounded-lg font-semibold w-full">
-                    submit
-                </button>
-            </form>
-
-        </div>
-    </div>
-    {{-- /Project Notes  Modal --}}
-
-
-    {{-- Project Tasks Modal --}}
-    <div id="task-modal" tabindex="-1" aria-hidden="true"
-        class="hidden fixed inset-0 bg-black/50 flex z-50 items-center justify-center">
-        <div class="bg-white rounded-lg shadow-lg max-w-3/4 w-full p-5 relative">
-
-            <!-- Modal Header -->
-            <div class="flex justify-between items-center border-b border-gray-200 dark:border-gray-600 pb-3">
-                <h3 class="text-lg font-semibold text-black">Create Project Tasks</h3>
-                <button type="button" onclick="projectTasks('task-modal')" class="text-gray-400">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" viewBox="0 0 24 24">
-                        <path d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-
-            <!-- Modal Body -->
-            <form class="mt-4 space-y-4 text-gray-900 dark:text-white"
-                action="{{ route('project.store-task', ['projectId' => $project->id]) }}" method="post"
-                enctype="multipart/form-data">
-                @csrf
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
-                        Title <span class="text-red-500">*</span>
-                    </label>
-                    <input
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="title" name="title" type="text" placeholder="Enter title">
-                    @error('title')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="user_id">
-                        Select User <span class="text-red-500">*</span>
-                    </label>
-                    <select name="user_id" id="user_id" class="border border-gray-900 rounded w-full py-2 text-black">
-                        <option value="">select one</option>
-                        @foreach ($users as $user)
-                            <option value="{{ $user->id }}" @selected(old('user_id') == $user->id)>
-                                {{ $user->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('user_id')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
-                </div>
-
-
-                <div>
-                    <label for="description" class="block mb-1 font-medium capitalize text-black">description <span
-                            class="text-red-500">*</span></label>
-                    <textarea id="note" name="description" rows="6" placeholder="Write note here"
-                        class="w-full p-2 border rounded-md text-black dark:border-gray-500">{{ old('description') }}</textarea>
-                    @error('description')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2">
-                        Select Status <span class="text-red-500">*</span>
-                    </label>
-                    <select name="status" class="border border-gray-900 rounded w-full py-2 text-black">
-                        <option value="">select one</option>
-                        <option value="pending" @selected(old('status') == 'pending')>pending</option>
-                        <option value="ongoing" @selected(old('status') == 'ongoing')>ongoing</option>
-                        <option value="completed" @selected(old('status') == 'completed')>completed</option>
-                        <option value="rejected" @selected(old('status') == 'rejected')>rejected</option>
-                        <option value="failed" @selected(old('status') == 'failed')>failed</option>
-
-                    </select>
-                    @error('status')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <button type="submit"
-                    class="capitalize bg-blue-700 hover:bg-blue-800 text-white px-5 py-2 rounded-lg font-semibold w-full">
-                    submit
-                </button>
-            </form>
-
-        </div>
-    </div>
-    {{-- /Project Tasks Modal --}}
-
-
-    {{-- Project Feedback Modal --}}
-    <div id="feedback-modal" tabindex="-1" aria-hidden="true"
-        class="hidden fixed inset-0 bg-black/50 flex z-50 items-center justify-center">
-        <div class="bg-white rounded-lg shadow-lg max-w-3/4 w-full p-5 relative">
-
-            <!-- Modal Header -->
-
-            <div class="flex justify-between items-center border-b border-gray-200 dark:border-gray-600 pb-3">
-                <h3 class="text-lg sm:text-lxl font-bold text-gray-800 mt-1 sm:mb-0">Create Project Feedback</h3>
-                <button type="button" onclick="projectFeedback('feedback-modal')" class="text-gray-400">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" viewBox="0 0 24 24">
-                        <path d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-
-            <!-- Modal Body -->
-            <form class="mt-4 space-y-4 text-gray-900 dark:text-white"
-                action="{{ route('project.store-feedback', ['projectId' => $project->id]) }}" method="post"
-                enctype="multipart/form-data">
-                @csrf
-
-                <!-- resources/views/your-view.blade.php -->
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="media">
-                        Upload Media <span class="text-red-500">*</span>
-                    </label>
-                    <input
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="media" name="media[]" multiple type="file">
-
-                    @error('media')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
-                </div>
-
-
-
-                <div>
-                    <label for="note" class="block mb-1 font-medium capitalize text-black">note <span
-                            class="text-red-500">*</span></label>
-                    <textarea id="note" name="note" rows="6" placeholder="Write note here"
-                        class="w-full p-2 border rounded-md text-black dark:border-gray-500">{{ old('note') }}</textarea>
-                    @error('note')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
-                        Select Status <span class="text-red-500">*</span>
-                    </label>
-                    <select name="status" class="border border-gray-900 rounded w-full py-2 text-black">
-                        <option value="">select one</option>
-                        <option value="pending" @selected(old('status') == 'pending')>pending</option>
-                        <option value="ongoing" @selected(old('status') == 'ongoing')>ongoing</option>
-                        <option value="completed" @selected(old('status') == 'completed')>completed</option>
-                        <option value="onhold" @selected(old('status') == 'onhold')>onhold</option>
-                    </select>
-                    @error('status')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <button type="submit"
-                    class="capitalize bg-blue-700 hover:bg-blue-800 text-white px-5 py-2 rounded-lg font-semibold w-full">
-                    submit
-                </button>
-            </form>
-
-        </div>
-    </div>
-    {{-- /Project Feedback Modal --}}
-
-    {{-- Project Issue Modal --}}
-    <div id="issue-modal" tabindex="-1" aria-hidden="true"
-        class="hidden fixed inset-0 bg-black/50 flex z-50 items-center justify-center">
-        <div class="bg-white rounded-lg shadow-lg max-w-3/4 w-full p-5 relative">
-
-            <!-- Modal Header -->
-            <div class="flex justify-between items-center border-b border-gray-200 dark:border-gray-600 pb-3">
-                <h3 class="text-lg font-semibold text-black">Create Project Issue</h3>
-                <button type="button" onclick="projectIssue('issue-modal')" class="text-gray-400">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" viewBox="0 0 24 24">
-                        <path d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-
-            <!-- Modal Body -->
-            <form class="mt-4 space-y-4 text-gray-900 dark:text-white"
-                action="{{ route('project.store-issue', ['projectId' => $project->id]) }}" method="post"
-                enctype="multipart/form-data">
-                @csrf
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="media">
-                        Upload Media <span class="text-red-500">*</span>
-                    </label>
-                    <input
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="media" name="media[]" multiple type="file">
-                    @error('media')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <div>
-                    <label for="note" class="block mb-1 font-medium capitalize text-black">note <span
-                            class="text-red-500">*</span></label>
-                    <textarea id="note" name="note" rows="6" placeholder="Write note here"
-                        class="w-full p-2 border rounded-md text-black dark:border-gray-500">{{ old('note') }}</textarea>
-                    @error('note')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
-                </div>
-                <button type="submit"
-                    class="capitalize bg-blue-700 hover:bg-blue-800 text-white px-5 py-2 rounded-lg font-semibold w-full">
-                    submit
-                </button>
-            </form>
-        </div>
-    </div>
-    {{-- /Project Issue Modal --}}
-
-
     {{-- Project Show Notes Modal --}}
     <div id="view-note-modal" tabindex="-1" aria-hidden="true"
         class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
@@ -507,13 +234,10 @@
 
             <!-- Modal Body -->
             <div class="mt-4 space-y-4 text-gray-900">
-                <p class="font-bold">Project:</p>
                 <p id="modal-note-project" class="text-gray-700"></p>
 
-                <p class="font-bold">Note:</p>
                 <p id="modal-note-text" class="text-gray-700"></p>
 
-                <p class="font-bold">Media:</p>
                 <div id="modal-note-media"></div>
             </div>
         </div>
@@ -537,15 +261,22 @@
             </div>
 
             <!-- Modal Body -->
-            <div class="mt-4 space-y-4 text-gray-900">
-                <p class="font-bold">Project:</p>
-                <p id="modal-task-project" class="text-gray-700"></p>
-
-                <p class="font-bold">Note:</p>
-                <p id="modal-task-text" class="text-gray-700"></p>
-
-                <p class="font-bold">Created by:</p>
-                <div id="modal-task-created"></div>
+            <div class="mt-5 space-y-4 text-gray-800">
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    <p id="modal-task-title" class="text-gray-700"></p>
+                </div>
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    <p id="modal-task-text" class="text-gray-700"></p>
+                </div>
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    <p id="modal-task-user" class="text-gray-700"></p>
+                </div>
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    <p id="modal-task-created" class="text-gray-700"></p>
+                </div>
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    <p id="modal-task-status" class="text-gray-700"></p>
+                </div>
             </div>
         </div>
     </div>
@@ -569,9 +300,7 @@
 
             <!-- Modal Body -->
             <div class="mt-4 space-y-4 text-gray-900">
-                <p class="font-bold">Project:</p>
                 <p id="modal-feedback-project" class="text-gray-700"></p>
-                <p class="font-bold">Feedback:</p>
                 <p id="modal-feedback-text" class="text-gray-700"></p>
                 <div id="modal-feedback-media"></div>
 
@@ -600,13 +329,10 @@
 
             <!-- Modal Body -->
             <div class="mt-4 space-y-4 text-gray-900">
-                <p class="font-bold">Project:</p>
                 <p id="modal-issue-project" class="text-gray-700"></p>
 
-                <p class="font-bold">Issue:</p>
                 <p id="modal-issue-text" class="text-gray-700"></p>
 
-                <p class="font-bold">Media:</p>
                 <div id="modal-issue-media"></div>
 
                 <p id="modal-issue-creator" class="text-gray-700 font-semibold"></p>
@@ -617,63 +343,6 @@
 
 
     <script>
-        // project notes fn start 
-        function projectNotes(id) {
-            const modal = document.getElementById(id);
-            if (!modal) return;
-            modal.classList.toggle('hidden');
-        }
-        // project notes fn end 
-
-        // project tasks fn start
-        function projectTasks(id) {
-            const modal = document.getElementById(id);
-            if (!modal) return;
-            modal.classList.toggle('hidden');
-        }
-        // project tasks fn end
-
-        // project users fn start
-        function projectUser(id) {
-            const modal = document.getElementById(id);
-            if (!modal) return;
-            modal.classList.toggle("hidden");
-        }
-        // project users fn end
-
-        // project payemtns fn start
-        function projectPayment(id) {
-            const modal = document.getElementById(id);
-            if (!modal) return;
-            modal.classList.toggle("hidden");
-        }
-        // project payemtns fn end
-
-        // project feedbacl fn start
-        function projectFeedback(id) {
-            const modal = document.getElementById(id);
-            if (!modal) return;
-            modal.classList.toggle("hidden");
-        }
-        // project feedbacl fn end
-
-        // project issue fn start
-        function projectIssue(id) {
-            const modal = document.getElementById(id);
-            if (!modal) return;
-            modal.classList.toggle("hidden")
-        }
-        // project issue fn end
-
-        // project show all notes fn start
-        function toggleModal(id) {
-            const modal = document.getElementById(id);
-            if (modal) {
-                modal.classList.toggle('hidden');
-            }
-        }
-
-
 
         function showNote(noteText, mediaPath, projectName, creatorName) {
             document.getElementById('modal-note-project').innerText = projectName;
@@ -728,22 +397,21 @@
             }
         }
 
-        function showTask(noteText, mediaPaths, projectName, creatorName) {
-            document.getElementById('modal-task-project').innerText = projectName;
+        function showTask(title, noteText, mediaPaths, projectUser, creatorName, status) {
+            document.getElementById('modal-task-title').innerText = title;
             document.getElementById('modal-task-text').innerText = noteText;
+            document.getElementById('modal-task-user').innerText = projectUser;
+
+            document.getElementById('modal-task-status').innerText = status;
             document.getElementById('modal-task-created').innerText = creatorName ?
                 `Created By: ${creatorName}` :
                 '';
-
-
             let mediaHtml = '';
-
             if (mediaPaths) {
                 try {
                     if (typeof mediaPaths === 'string') {
                         mediaPaths = JSON.parse(mediaPaths);
                     }
-
                     if (Array.isArray(mediaPaths) && mediaPaths.length > 0) {
                         mediaHtml += `<div class="flex flex-wrap gap-2">`;
                         mediaPaths.forEach(path => {
@@ -770,9 +438,7 @@
             } else {
                 mediaHtml = `<p class="text-gray-500">No media available</p>`;
             }
-
             document.getElementById('modal-note-media').innerHTML = mediaHtml;
-
             if (creatorName) {
                 if (!document.getElementById('modal-note-creator')) {
                     const p = document.createElement('p');
@@ -782,7 +448,6 @@
                 }
                 document.getElementById('modal-note-creator').innerText = `Created By: ${creatorName}`;
             }
-
             taskModal('view-task-modal');
         }
         // project show all tasks fn end

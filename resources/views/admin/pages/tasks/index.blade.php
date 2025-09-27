@@ -70,19 +70,19 @@
                                 <p class="text-gray-900 whitespace-no-wrap"><b>status:
                                         @if ($projectTask->status == 'completed')
                                             <span
-                                                class="bg-green-100 text-green-100 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">completed</span>
+                                                class="bg-green-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900">completed</span>
                                         @elseif ($projectTask->status == 'pending')
                                             <span
-                                                class="bg-yellow-100 text-yellow-100 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">pending</span>
+                                                class="bg-yellow-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-yellow-900">pending</span>
                                         @elseif ($projectTask->status == 'ongoing')
                                             <span
-                                                class="bg-indigo-100 text-indigo-100 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300">ongoing</span>
+                                                class="bg-indigo-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900">ongoing</span>
                                         @elseif ($projectTask->status == 'rejected')
                                             <span
-                                                class="bg-pink-100 text-pink-100 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300">rejected</span>
+                                                class="bg-pink-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-pink-900">rejected</span>
                                         @elseif ($projectTask->status == 'failed')
                                             <span
-                                                class="bg-red-100 text-red-100 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">failed</span>
+                                                class="bg-red-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900">failed</span>
                                         @endif
                                     </b></p>
                             </div>
@@ -144,23 +144,23 @@
                 switch (status) {
                     case 'completed':
                         badgeHtml =
-                            '<span class="bg-green-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">completed</span>';
+                            '<span class="bg-green-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900">completed</span>';
                         break;
                     case 'pending':
                         badgeHtml =
-                            '<span class="bg-yellow-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">pending</span>';
+                            '<span class="bg-yellow-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-yellow-900">pending</span>';
                         break;
                     case 'ongoing':
                         badgeHtml =
-                            '<span class="bg-indigo-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300">ongoing</span>';
+                            '<span class="bg-indigo-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900">ongoing</span>';
                         break;
                     case 'rejected':
                         badgeHtml =
-                            '<span class="bg-pink-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300">rejected</span>';
+                            '<span class="bg-pink-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-pink-900">rejected</span>';
                         break;
                     case 'failed':
                         badgeHtml =
-                            '<span class="bg-red-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">failed</span>';
+                            '<span class="bg-red-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900">failed</span>';
                         break;
                     default:
                         badgeHtml = '<span>' + status + '</span>';

@@ -33,10 +33,6 @@
                         class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
                         Assign User
                     </th>
-                    <th
-                        class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                        Dates
-                    </th>
 
                     <th
                         class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
@@ -77,14 +73,6 @@
                                     @endif
                                 @endforeach
                             </p>
-                            
-                        </td>
-
-                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            <a href="mailto:{{ $project->email }}" class="text-gray-900 whitespace-no-wrap"><b>Start
-                                    Date: </b> {{ $project->started_at }}</a>
-                            <p class="text-gray-900 whitespace-no-wrap"><b>Delivery Date:
-                                </b>{{ $project->delivery_date }}</p>
                         </td>
 
                         <td class="px-5 py-5 text-md bg-white border-b border-gray-200">

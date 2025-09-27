@@ -28,10 +28,10 @@ class UserDashboardController extends Controller
     public function getProjects()
     {
         $user = Auth::user();
-        $projects = $user->projects()->paginate(10);
-
+        $projects = $user->projectUsers()->with(['project', 'user'])->paginate(10);
         return view('user.pages.projects.index', compact('projects'));
     }
+
 
     public function showProjects(string $id)
     {
@@ -60,11 +60,10 @@ class UserDashboardController extends Controller
         return view('user.pages.projects.view', compact('project', 'users', 'projectNotes', 'projectTasks', 'projectFeedbacks', 'projectIssues'));
     }
 
-
     public function getTasks()
     {
         $user = Auth::user();
-        $projectTasks = $user->projectTasks()->paginate(10);
+        $projectTasks = $user->projectTaskUsers()->paginate(10);
         return view('user.pages.tasks.index', compact('projectTasks'));
     }
 
@@ -95,7 +94,6 @@ class UserDashboardController extends Controller
         $request->user()->save();
 
         return back()->with('success', 'user update successfully');
-
     }
 
     public function updatePassword(Request $request)

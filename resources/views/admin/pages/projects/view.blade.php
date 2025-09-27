@@ -15,6 +15,10 @@
         max-height: 200px;
         overflow: scroll;
     }
+
+    .select2-selection__choice__display {
+        color: #000;
+    }
 </style>
 
 @extends('admin.layouts.app')
@@ -41,7 +45,7 @@
     </div>
 
     <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <div class=" bg-white p-5 rounded-md">
+        <div class=" bg-white p-5 rounded-md h-fit">
             <h4 class="mb-2 capitalize font-bold text-gray-800 mx-6">Description</h4>
             <div class="relative">
                 <p class="project text-gray-600" id="desc">
@@ -53,7 +57,7 @@
             </div>
         </div>
 
-        <div class=" bg-white p-5 rounded-md">
+        <div class=" bg-white p-5 rounded-md h-fit">
             <h4 class="mb-2 capitalize font-bold text-gray-800 mx-6">Requirements</h4>
             <div class="relative">
                 <p class="project text-gray-600" id="req">
@@ -146,7 +150,11 @@
                                 </div>
                                 <div>
                                     <i class="fa-solid fa-eye cursor-pointer mt-4"
-                                        onclick="showTask('{{ addslashes($task->title) }}','{{ addslashes($task->description) }}', '{{ addslashes(json_encode($task->media ? json_decode($task->media) : [])) }}', '{{ addslashes($task->createdBy->name ?? '') }}', '{{ addslashes($task->status) }}')">
+                                        onclick="showTask( '{{ addslashes($task->title) }}', '{{ addslashes($task->description) }}',
+                                        '{{ addslashes(json_encode($task->media ? json_decode($task->media) : [])) }}',
+                                        '{{ addslashes($task->projectTaskUsers->pluck('user.name')->join(', ')) }}',
+                                        '{{ addslashes($task->createdBy->name ?? '') }}',
+                                        '{{ addslashes($task->status) }}')">
                                     </i>
                                     <form action="{{ route('admin.task.destroyTask', $task->id) }}" method="POST"
                                         class="inline">
@@ -158,7 +166,7 @@
                                         </button>
                                     </form>
                                     <i class="fa-solid fa-pencil cursor-pointer mt-4"
-                                        onclick="populateEditTaskModal({{ json_encode($task) }})">
+                                        onclick="populateEditTaskModal({{ json_encode($task->load('projectTaskUsers')) }})">
                                     </i>
                                 </div>
                             </div>
@@ -500,19 +508,21 @@
                 </div> --}}
 
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="user_id">Select User <span
-                            class="text-red-500">*</span></label>
-                    <select name="user_id" id="user_id" class="border border-gray-900 rounded w-full py-2 text-black"
-                        required>
-                        <option value="">select one</option>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="EditDropdown">
+                        Select Users <span class="text-red-500">*</span>
+                    </label>
+                    <select multiple name="admin_ids[]" id="EditDropdown" style="width: 100%;"
+                        class="border border-gray-900 rounded w-full py-2">
                         @foreach ($users as $user)
                             <option value="{{ $user->id }}">{{ $user->name }}</option>
                         @endforeach
                     </select>
-                    @error('user_id', 'taskErrors')
-                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+
+                    @error('admin_ids')
+                        <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
+
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="status">Status <span
                             class="text-red-500">*</span></label>
@@ -770,6 +780,9 @@
                     <p id="modal-task-text" class="text-gray-700"></p>
                 </div>
                 <div class="p-3 bg-gray-50 rounded-lg">
+                    <p id="modal-task-user" class="text-gray-700"></p>
+                </div>
+                <div class="p-3 bg-gray-50 rounded-lg">
                     <p id="modal-task-created" class="text-gray-700"></p>
                 </div>
                 <div class="p-3 bg-gray-50 rounded-lg">
@@ -958,9 +971,11 @@
             }
         }
 
-        function showTask(title, noteText, mediaPaths, creatorName, status) {
+        function showTask(title, noteText, mediaPaths, projectUser, creatorName, status) {
             document.getElementById('modal-task-title').innerText = title;
             document.getElementById('modal-task-text').innerText = noteText;
+            document.getElementById('modal-task-user').innerText = projectUser;
+
             document.getElementById('modal-task-status').innerText = status;
             document.getElementById('modal-task-created').innerText = creatorName ?
                 `Created By: ${creatorName}` :
@@ -1115,11 +1130,19 @@
         function populateEditTaskModal(task) {
             const modal = document.getElementById('edit-task-modal');
             const form = modal.querySelector('form');
+
             form.action = `/admin/task/${task.id}/updateTask`;
+
             form.querySelector('#title').value = task.title;
-            form.querySelector('#user_id').value = task.user_id;
             form.querySelector('#description').value = task.description;
             form.querySelector('#status').value = task.status;
+
+            const dropdown = $('#EditDropdown');
+
+            const userIds = task.project_task_users.map(u => u.user_id.toString());
+
+            dropdown.val(userIds).trigger('change');
+
             editProjectTasks('edit-task-modal');
         }
 
@@ -1218,6 +1241,10 @@
             $('#userDropdown').on('change', function() {
                 console.log('hi');
 
+            });
+
+            $('#EditDropdown').select2({
+                dropdownParent: $('#edit-task-modal')
             });
         });
     </script>

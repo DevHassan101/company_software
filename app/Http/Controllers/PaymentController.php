@@ -37,7 +37,8 @@ class PaymentController extends Controller
             'project_id' => 'required',
             'amount' => 'required|integer',
             'note' => 'nullable',
-            'media' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'media'   => 'nullable|array',
+            'media.*' => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $validation['created_by'] = auth()->id();
@@ -82,13 +83,14 @@ class PaymentController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, ProjectPayment $payment)
-    {   
+    {
 
         $validation = $request->validate([
             'project_id' => 'required',
             'amount' => 'required',
             'note' => 'nullable',
-            'media' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'media'   => 'nullable|array',
+            'media.*' => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $validation['created_by'] = auth()->id();

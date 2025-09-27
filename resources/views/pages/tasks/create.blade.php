@@ -60,7 +60,7 @@
                             </option>
                         @endforeach
                     </select>
-                    @error('admin_id')
+                    @error('admin_ids')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>

@@ -1,7 +1,6 @@
 @extends('user.layouts.app')
 
 @section('content')
-
     <div class="flex justify-between items-start sm:items-center flex-row sm:my-6 my-6">
         <h1 class="text-xl sm:text-2xl font-bold text-gray-800 mt-1 sm:mb-0">Task Information</h1>
         <a href="{{ route('getTask.index') }}"
@@ -29,7 +28,22 @@
             <div>
                 <p class="text-sm text-gray-500 uppercase tracking-wide">Status</p>
                 <span class="inline-block mt-1 px-3 py-1 text-sm rounded-full">
-                    {{ $projectTask->status }}
+                    @if ($projectTask->status == 'pending')
+                        <span
+                            class="bg-yellow-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-yellow-900">pending</span>
+                    @elseif ($projectTask->status == 'completed')
+                        <span
+                            class="bg-green-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900">completed</span>
+                    @elseif ($projectTask->status == 'ongoing')
+                        <span
+                            class="bg-indigo-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900">ongoing</span>
+                    @elseif ($projectTask->status == 'rejected')
+                        <span
+                            class="bg-pink-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-pink-900">rejected</span>
+                    @elseif ($projectTask->status == 'failed')
+                        <span
+                            class="bg-red-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900">failed</span>
+                    @endif
                 </span>
             </div>
         </div>

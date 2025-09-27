@@ -79,7 +79,7 @@
             </div>
 
 
-            <div class="grid sm:grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
                         Start Date <span class="text-red-500">*</span>
@@ -88,17 +88,6 @@
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="started_at" name="started_at" value="{{ old('started_at') }}" type="date">
                     @error('started_at')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
-                        Delivered Date <span class="text-red-500">*</span>
-                    </label>
-                    <input
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="delivered_at" name="delivered_at" value="{{ old('delivered_at') }}" type="date">
-                    @error('delivered_at')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
@@ -155,5 +144,15 @@
 
             });
         });
+
+        // const deliveredAt = document.getElementById('delivered_at');
+        // const today = new Date();
+
+        // const year = today.getFullYear();
+        // const month = String(today.getMonth() + 1).padStart(2, '0');
+        // const day = String(today.getDate()).padStart(2, '0');
+
+        // const dateFormate = `${year}-${month}-${day}`;
+        // deliveredAt.value = dateFormate;
     </script>
 </x-app-layout>

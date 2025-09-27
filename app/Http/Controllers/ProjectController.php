@@ -52,7 +52,6 @@ class ProjectController extends Controller
             'requirments' => 'nullable',
             'client_id' => 'required|integer',
             'started_at' => 'required|date',
-            'delivered_at' => 'required|date',
             'delivery_date' => 'required|date',
             'budget' => 'nullable|numeric',
         ]);
@@ -133,7 +132,6 @@ class ProjectController extends Controller
             'requirments' => 'nullable',
             'client_id' => 'required|integer',
             'started_at' => 'required|date',
-            'delivered_at' => 'required|date',
             'delivery_date' => 'required|date',
             'budget' => 'nullable|numeric',
         ]);

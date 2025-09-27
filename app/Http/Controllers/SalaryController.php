@@ -36,6 +36,7 @@ class SalaryController extends Controller
             'user_id' => 'required|exists:users,id',
             'amount' => 'required|integer',
             'paid_for' => 'required',
+            'paid_on' => 'nullable',
             'receipt' => 'nullable',
             'description' => 'nullable|string',
         ]);

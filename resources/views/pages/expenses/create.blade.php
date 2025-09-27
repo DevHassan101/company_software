@@ -13,6 +13,7 @@
             back
         </a>
     </div>
+    
 
     <div class="inline-block overflow-hidden min-w-full rounded-lg shadow">
         <form class="bg-white rounded px-8 pt-6 pb-8 mb-4" action="{{ route('expense.store') }}" method="post"

@@ -44,9 +44,9 @@ class ProjectTask extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
-//     public function projectTaskUsers()
-// {
-//     return $this->hasMany(ProjectTaskUser::class, 'task_id'); 
-//     // or 'project_id' if that's how your table is designed
-// }
+
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class, '');
+    // }
 }

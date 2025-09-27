@@ -24,4 +24,9 @@ class ProjectTaskUser extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+        public function task()
+    {
+        return $this->belongsTo(ProjectTask::class, 'task_id');
+    }
 }

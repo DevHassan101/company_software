@@ -77,7 +77,8 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="Password" name="password" value="{{ old('password') }}" type="password" placeholder="Enter Password">
+                        id="Password" name="password" value="{{ old('password') }}" type="password"
+                        placeholder="Enter Password">
                     @error('password')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -103,9 +104,9 @@
                     </label>
                     <select name="gender" class="border border-gray-900 w-full capitalize rounded py-1.5">
                         <option value="">Select One</option>
-                         <option value="male" @selected(old('gender') == 'male')>male</option>
-                         <option value="female" @selected(old('gender') == 'female')>female</option>
-          
+                        <option value="male" @selected(old('gender') == 'male')>male</option>
+                        <option value="female" @selected(old('gender') == 'female')>female</option>
+
                     </select>
                     @error('gender')
                         <span class="text-red-500">{{ $message }}</span>
@@ -119,6 +120,9 @@
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="profile" name="profile" type="file">
+                    @error('profile')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
 
@@ -129,7 +133,7 @@
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="cnic" name="cnic" value="{{ old('cnic') }}" type="number"
+                        id="cnic" name="cnic" value="{{ old('cnic') }}" type="text"
                         placeholder="Enter CNIC">
                 </div>
 
@@ -140,6 +144,9 @@
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="cnic_frnt" name="cnic_frnt" value="{{ old('cnic_frnt') }}" type="file">
+                    @error('cnic_frnt')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="mb-4">
@@ -149,6 +156,9 @@
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="cnic_back" name="cnic_back" value="{{ old('cnic_back') }}" type="file">
+                    @error('cnic_back')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
 
@@ -171,7 +181,8 @@
                     <label class="block text-gray-700 text-sm font-bold mb-2">
                         Select Designation <span class="text-red-500">*</span>
                     </label>
-                    <select name="designation" class="border capitalize border-gray-900 rounded w-full py-1.5 text-black">
+                    <select name="designation"
+                        class="border capitalize border-gray-900 rounded w-full py-1.5 text-black">
                         <option value="">select one</option>
                         <option value="founder" @selected(old('designation') == 'founder')>founder</option>
                         <option value="co-founder" @selected(old('designation') == 'co-founder')>co founder</option>

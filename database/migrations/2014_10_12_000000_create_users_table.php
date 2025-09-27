@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->decimal('salary')->default(0);
-            $table->enum('designation', config('designations'));
+            $table->enum('designation', ['founder','co-founder','human-resource','project-manager','team-lead','QA','frontend-developer','backend-developer','full-stack-web-developer','android-developer','ios-developer','full-stack-app-developer','graphic-designer','video-editor','seo']);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -53,7 +53,7 @@
                                     <b>Title: </b>{{ $payment->project->name }}
                                 </p>
                                 <p class="text-gray-900 whitespace-no-wrap">
-                                    <b>Budget: </b>{{ $payment->project->budget }}
+                                    <b>Budget: </b>{{ $payment->project->budget ?? 'N/A' }}
                                 </p>
 
                             </div>

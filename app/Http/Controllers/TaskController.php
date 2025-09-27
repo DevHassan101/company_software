@@ -37,6 +37,7 @@ class TaskController extends Controller
         $validation = $request->validate([
             'project_id' => 'required',
             'title' => 'required',
+            'admin_ids' => 'required',
             'description' => 'nullable',
         ]);
 
@@ -121,16 +122,52 @@ class TaskController extends Controller
         return redirect()->route('task.index')->with('success', 'Task Deleted Successfully');
     }
 
+    // public function updateStatus(Request $request, $id)
+    // {
+    //     try {
+
+    //         $projectTask = ProjectTask::findOrFail($id);
+    //         $projectTask->update(['status' => $request->status]);
+    //         if ($request->ajax()) {
+    //             return response()->json([
+    //                 'error' => false,
+    //                 'message' => 'Status Updated Successfully'
+    //             ]);
+    //         }
+
+    //         return redirect()->route('task.index')->with('success', 'Status Updated Successfully');
+    //     } catch (\Throwable $th) {
+    //         return response()->json([
+    //             'error' => true,
+    //             'message' => $th->getMessage()
+    //         ], 500);
+    //     }
+    // }
+
     public function updateStatus(Request $request, $id)
     {
         try {
-
             $projectTask = ProjectTask::findOrFail($id);
-            $projectTask->update(['status' => $request->status]);
+            $projectTask->status = $request->status;
+            $projectTask->save();
+
+            // Us project ko load karo jiska ye task hai
+            $project = $projectTask->project;
+
+            // Check karo agar project ke saare tasks completed hain
+            if ($project->tasks()->where('status', '!=', 'completed')->count() === 0) {
+                if (!$project->delivered_at) {
+                    $project->delivered_at = now();
+                    $project->save();
+                }
+            }
+
             if ($request->ajax()) {
                 return response()->json([
                     'error' => false,
-                    'message' => 'Status Updated Successfully'
+                    'message' => 'Status Updated Successfully',
+                    'project_id' => $project->id,
+                    'delivered_at' => $project->delivered_at
                 ]);
             }
 

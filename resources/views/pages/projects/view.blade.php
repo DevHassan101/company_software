@@ -15,6 +15,10 @@
         max-height: 200px;
         overflow: scroll;
     }
+
+    .select2-selection__choice__display {
+        color: #000;
+    }
 </style>
 
 <x-app-layout>
@@ -44,7 +48,7 @@
     </div>
 
     <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <div class=" bg-white p-5 rounded-md">
+        <div class=" bg-white p-5 rounded-md h-fit">
             <h4 class="mb-2 capitalize font-bold text-gray-800 mx-6">Description</h4>
             <div class="relative">
                 <p class="project text-gray-600" id="desc">
@@ -56,7 +60,7 @@
             </div>
         </div>
 
-        <div class=" bg-white p-5 rounded-md">
+        <div class=" bg-white p-5 rounded-md h-fit">
             <h4 class="mb-2 capitalize font-bold text-gray-800 mx-6">Requirements</h4>
             <div class="relative">
                 <p class="project text-gray-600" id="req">
@@ -68,6 +72,7 @@
             </div>
         </div>
     </div>
+
 
     <div class="grid sm:grid-cols-1 md:grid-cols-4 gap-4 mb-4">
         <div class="inline-block overflow-hidden min-w-full rounded-lg">
@@ -149,8 +154,13 @@
                                 </div>
                                 <div>
                                     <i class="fa-solid fa-eye cursor-pointer mt-4"
-                                        onclick="showTask('{{ addslashes($task->title) }}','{{ addslashes($task->description) }}', '{{ addslashes(json_encode($task->media ? json_decode($task->media) : [])) }}', '{{ addslashes($task->createdBy->name ?? '') }}', '{{ addslashes($task->status) }}')">
+                                        onclick="showTask( '{{ addslashes($task->title) }}', '{{ addslashes($task->description) }}',
+                                        '{{ addslashes(json_encode($task->media ? json_decode($task->media) : [])) }}',
+                                        '{{ addslashes($task->projectTaskUsers->pluck('user.name')->join(', ')) }}',
+                                        '{{ addslashes($task->createdBy->name ?? '') }}',
+                                        '{{ addslashes($task->status) }}')">
                                     </i>
+
                                     <form action="{{ route('task.destroyTask', $task->id) }}" method="POST"
                                         class="inline">
                                         @csrf
@@ -427,23 +437,6 @@
                         <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
                     @enderror
                 </div>
-                {{-- <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="user_id">
-                        Select User <span class="text-red-500">*</span>
-                    </label>
-                    <select name="user_id" id="user_id"
-                        class="border border-gray-900 rounded w-full py-2 text-black">
-                        <option value="">select one</option>
-                        @foreach ($users as $user)
-                            <option value="{{ $user->id }}" @selected(old('user_id') == $user->id)>
-                                {{ $user->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('user_id', 'taskErrors')
-                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
-                    @enderror
-                </div> --}}
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="userDropdown">
@@ -506,20 +499,6 @@
                         <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
                     @enderror
                 </div>
-                {{-- <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="user_id">Select User <span
-                            class="text-red-500">*</span></label>
-                    <select multiple name="user_id" id="user_id"
-                        class="border border-gray-900 rounded w-full py-2 text-black" required>
-                        <option value="">select one</option>
-                        @foreach ($users as $user)
-                            <option value="{{ $user->id }}">{{ $user->name }}</option>
-                        @endforeach
-                    </select>
-                    @error('user_id', 'taskErrors')
-                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
-                    @enderror
-                </div> --}}
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="EditDropdown">
@@ -794,6 +773,10 @@
                     <p id="modal-task-text" class="text-gray-700"></p>
                 </div>
                 <div class="p-3 bg-gray-50 rounded-lg">
+                    <p id="modal-task-user" class="text-gray-700"></p>
+                </div>
+
+                <div class="p-3 bg-gray-50 rounded-lg">
                     <p id="modal-task-created" class="text-gray-700"></p>
                 </div>
                 <div class="p-3 bg-gray-50 rounded-lg">
@@ -980,9 +963,11 @@
             }
         }
 
-        function showTask(title, noteText, mediaPaths, creatorName, status) {
+        function showTask(title, noteText, mediaPaths, projectUser, creatorName, status) {
             document.getElementById('modal-task-title').innerText = title;
             document.getElementById('modal-task-text').innerText = noteText;
+            document.getElementById('modal-task-user').innerText = projectUser;
+
             document.getElementById('modal-task-status').innerText = status;
             document.getElementById('modal-task-created').innerText = creatorName ?
                 `Created By: ${creatorName}` :
@@ -1125,30 +1110,28 @@
             text.classList.toggle("expanded");
             btn.textContent = text.classList.contains("expanded") ? "Show less" : "Show more";
         }
+
         // edit codes start here
+
         function populateEditTaskModal(task) {
             const modal = document.getElementById('edit-task-modal');
             const form = modal.querySelector('form');
 
-            // Form action
             form.action = `/task/${task.id}/updateTask`;
 
-            // Fill inputs
             form.querySelector('#title').value = task.title;
             form.querySelector('#description').value = task.description;
             form.querySelector('#status').value = task.status;
 
-            // Multiple users select
-            const dropdown = form.querySelector('#EditDropdown');
-            console.log(dropdown);
-            for (let option of dropdown.options) {
-                option.selected = task.project_task_users.some(u => u.user_id == option.value);
-                console.log(task.project_task_users);
-                
-            }
-            // Show modal
+            const dropdown = $('#EditDropdown');
+
+            const userIds = task.project_task_users.map(u => u.user_id.toString());
+
+            dropdown.val(userIds).trigger('change');
+
             editProjectTasks('edit-task-modal');
         }
+
 
         function editProjectTasks(modalId) {
             document.getElementById(modalId).classList.toggle('hidden');
@@ -1248,12 +1231,10 @@
                 console.log('hi');
 
             });
-            $('#EditDropdown').select2();
-
-            $('#EditDropdown').on('change', function() {
-                console.log('hi');
-
+            $('#EditDropdown').select2({
+                dropdownParent: $('#edit-task-modal')
             });
+
         });
     </script>
 </x-app-layout>
