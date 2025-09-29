@@ -41,4 +41,34 @@
         </div>
     </div>
 
+    <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mt-6">
+        <div
+            class="bg-white rounded-xl shadow-md border border-gray-200">
+            <div class="border-b border-gray-100 px-5 py-3">
+                <h1 class="text-base font-semibold text-gray-700">
+                    {{ $chart1->options['chart_title'] }}
+                </h1>
+            </div>
+            <div class="p-5">
+                {!! $chart1->renderHtml() !!}
+            </div>
+        </div>
+        
+        <div
+            class="bg-white rounded-xl shadow-md border border-gray-200">
+            <div class="border-b border-gray-100 px-5 py-3">
+                <h1 class="text-base font-semibold text-gray-700">
+                    {{ $chart2->options['chart_title'] }}
+                </h1>
+            </div>
+            <div class="p-5">
+                {!! $chart2->renderHtml() !!}
+            </div>
+        </div>
+    </div>
+
+    {!! $chart1->renderChartJsLibrary() !!}
+
+    {!! $chart1->renderJs() !!}
+    {!! $chart2->renderJs() !!}
 </x-app-layout>

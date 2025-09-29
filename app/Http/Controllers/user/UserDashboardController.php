@@ -21,7 +21,6 @@ class UserDashboardController extends Controller
 {
     public function index()
     {
-
         return view('user.pages.dashboard');
     }
 
@@ -31,7 +30,6 @@ class UserDashboardController extends Controller
         $projects = $user->projectUsers()->with(['project', 'user'])->paginate(10);
         return view('user.pages.projects.index', compact('projects'));
     }
-
 
     public function showProjects(string $id)
     {
@@ -67,9 +65,8 @@ class UserDashboardController extends Controller
         return view('user.pages.tasks.index', compact('projectTasks'));
     }
 
-
-    public function showTask(string $id)
-    {
+    public function showTask($id)
+    {   
         $projectTask = ProjectTask::findOrFail($id);
         return view('user.pages.tasks.show', compact('projectTask'));
     }
@@ -79,8 +76,6 @@ class UserDashboardController extends Controller
         $user = Auth::user();
         return view('user.pages.profile-setting', compact('user'));
     }
-
-
 
     public function userUpdate(ProfileUpdateRequest $request)
     {

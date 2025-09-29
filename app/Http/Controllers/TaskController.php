@@ -122,28 +122,6 @@ class TaskController extends Controller
         return redirect()->route('task.index')->with('success', 'Task Deleted Successfully');
     }
 
-    // public function updateStatus(Request $request, $id)
-    // {
-    //     try {
-
-    //         $projectTask = ProjectTask::findOrFail($id);
-    //         $projectTask->update(['status' => $request->status]);
-    //         if ($request->ajax()) {
-    //             return response()->json([
-    //                 'error' => false,
-    //                 'message' => 'Status Updated Successfully'
-    //             ]);
-    //         }
-
-    //         return redirect()->route('task.index')->with('success', 'Status Updated Successfully');
-    //     } catch (\Throwable $th) {
-    //         return response()->json([
-    //             'error' => true,
-    //             'message' => $th->getMessage()
-    //         ], 500);
-    //     }
-    // }
-
     public function updateStatus(Request $request, $id)
     {
         try {

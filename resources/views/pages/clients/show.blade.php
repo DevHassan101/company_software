@@ -96,7 +96,6 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     {{ $project->delivered_at ? \Carbon\Carbon::parse($project->delivered_at)->format('Y-m-d') : '—' }}
-
                                 </td>
                             </tr>
                         @empty

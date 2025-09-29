@@ -5,7 +5,6 @@
         <div class="capitalize text-lg font-bold">
             <h1>all tasks</h1>
         </div>
-
     </div>
 
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -20,17 +19,14 @@
                         class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
                         Project Info
                     </th>
-
                     <th
                         class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
                         Project Details
                     </th>
-
                     <th
                         class="px-5 py-3 text-xs font-semibold tracking-wider text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
                         Action
                     </th>
-
                 </tr>
             </thead>
             <tbody>
@@ -77,10 +73,9 @@
                             </div>
                         </td>
                         <td class="px-5 py-5 text-md bg-white border-b border-gray-200">
-                            <a href="{{ route('showTask.show', $projectTask->id) }}"
+                            <a href="{{ route('showTask.show', $projectTask->task->id) }}"
                                 class="px-4 py-2 text-sm font-medium capitalize rounded-lg border border-orange-700 text-orange-700 hover:bg-orange-700 hover:text-white transition">view</a>
                         </td>
-
                     </tr>
                 @empty
                     <tr>
@@ -94,7 +89,6 @@
             </tbody>
         </table>
     </div>
-
     <script>
         $('.status').change(function(e) {
             e.preventDefault();

@@ -342,6 +342,9 @@
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="media" name="media[]" multiple type="file">
+                    @error('media.*', 'noteErrors')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div>
                     <label for="note" class="block mb-1 font-medium text-black capitalize">note <span
@@ -454,7 +457,6 @@
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
-
                 <div>
                     <label for="description" class="block mb-1 font-medium capitalize text-black">description </label>
                     <textarea id="note" name="description" rows="6" placeholder="Write note here"
@@ -571,6 +573,9 @@
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="media" name="media[]" multiple type="file">
+                    @error('media.*', 'feedbackErrors')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div>
                     <label for="note" class="block mb-1 font-medium capitalize text-black">note <span
@@ -660,6 +665,9 @@
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="media" name="media[]" multiple type="file">
+                    @error('media.*', 'issuekErrors')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div>
                     <label for="note" class="block mb-1 font-medium capitalize text-black">note <span
@@ -723,7 +731,7 @@
     </div>
     {{-- /Project Issue Modal --}}
 
-    {{-- Project Show Notes Modal --}}
+    {{-- Project Show Notes Moaadal --}}
     <div id="view-note-modal" tabindex="-1" aria-hidden="true"
         class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
         <div
@@ -1124,14 +1132,11 @@
             form.querySelector('#status').value = task.status;
 
             const dropdown = $('#EditDropdown');
-
             const userIds = task.project_task_users.map(u => u.user_id.toString());
-
             dropdown.val(userIds).trigger('change');
 
             editProjectTasks('edit-task-modal');
         }
-
 
         function editProjectTasks(modalId) {
             document.getElementById(modalId).classList.toggle('hidden');

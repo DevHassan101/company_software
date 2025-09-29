@@ -15,6 +15,7 @@ use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\user\UserDashboardController;
 use App\Models\Client;
+use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 use Illuminate\Support\Facades\Route;
 use App\Models\Project;
 use App\Models\User;
@@ -37,6 +38,28 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
+    $chart_options = [
+        'chart_title' => 'Clients by months',
+        'report_type' => 'group_by_date',
+        'model' => 'App\Models\Client',
+        'group_by_field' => 'created_at',
+        'group_by_period' => 'month',
+        'chart_type' => 'bar',
+        'filter_field' => 'created_at',
+        'filter_days' => 30,
+    ];
+    $chart1 = new LaravelChart($chart_options);
+    $chart_options = [
+        'chart_title' => 'Users by names',
+        'report_type' => 'group_by_string',
+        'model' => 'App\Models\User',
+        'group_by_field' => 'name',
+        'chart_type' => 'pie',
+        'filter_field' => 'created_at',
+        'filter_period' => 'month',
+    ];
+
+    $chart2 = new LaravelChart($chart_options);
 
     $projectCount = Project::count();
     $clientCount = Client::count();
@@ -44,10 +67,11 @@ Route::get('/dashboard', function () {
     return view('dashboard', [
         'projectCount' => $projectCount,
         'clientCount' => $clientCount,
-        'userCount' => $userCount
+        'userCount' => $userCount,
+        'chart1' => $chart1,
+        'chart2' => $chart2,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
-
 
 Route::middleware('auth')->group(function () {
     Route::resource('user', UserController::class);
@@ -115,6 +139,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('/task/{id}/status', [AdminTaskController::class, 'updateStatus'])->name('admin.task.status');
     Route::resource('payment', AdminPaymentController::class);
 });
+
+#0078ff
 
 Route::middleware(['auth', 'user'])->group(function () {
     Route::get('userDashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');

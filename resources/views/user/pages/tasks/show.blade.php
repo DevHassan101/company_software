@@ -10,7 +10,6 @@
     </div>
 
     <div class="max-w-8xl mx-auto bg-white border border-gray-200 rounded-2xl shadow-lg p-8 space-y-8">
-
         <!-- Task Details -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
@@ -19,7 +18,7 @@
             </div>
             <div>
                 <p class="text-sm text-gray-500 uppercase tracking-wide">Created By</p>
-                <p class="mt-1 text-lg font-semibold text-gray-800">{{ $projectTask->user->name }}</p>
+                <p class="mt-1 text-lg font-semibold text-gray-800">{{ $projectTask->user?->name }}</p>
             </div>
             <div>
                 <p class="text-sm text-gray-500 uppercase tracking-wide">Title</p>
@@ -27,7 +26,7 @@
             </div>
             <div>
                 <p class="text-sm text-gray-500 uppercase tracking-wide">Status</p>
-                <span class="inline-block mt-1 px-3 py-1 text-sm rounded-full">
+                <span class="inline-block mt-1 py-1 text-sm rounded-full">
                     @if ($projectTask->status == 'pending')
                         <span
                             class="bg-yellow-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-yellow-900">pending</span>
@@ -47,11 +46,10 @@
                 </span>
             </div>
         </div>
-
         <div>
             <h3 class="text-xl font-semibold text-gray-900 mb-3">Description</h3>
             <div class="prose max-w-none text-gray-700">
-                {!! nl2br(e($projectTask->description)) !!}
+                {{ $projectTask->description ?? 'N/A' }}
             </div>
         </div>
     </div>

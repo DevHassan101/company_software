@@ -730,7 +730,7 @@
     </div>
     {{-- /Project Issue Modal --}}
 
-    {{-- Project Show Notes Modal --}}
+    {{-- Project Show Notes Modalss --}}
     <div id="view-note-modal" tabindex="-1" aria-hidden="true"
         class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
         <div

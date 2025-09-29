@@ -23,7 +23,7 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
-        $projects = Project::with('client', 'projectUsers')->paginate(10);
+        $projects = Project::with('client', 'projectUsers')->orderBy('created_at', 'desc')->paginate(10);
         if ($request->ajax()) {
             return response()->json();
         }
@@ -171,7 +171,7 @@ class ProjectController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'note' => 'required',
-            'media.*' => 'nullable',
+            'media.*' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,pdf|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -198,45 +198,13 @@ class ProjectController extends Controller
         return redirect()->route('project.show', ['project' => $project])->with('success', 'Project Notes Created Successfully');
     }
 
-    // public function updateNote(Request $request, $id)
-    // {
-    //     $note = ProjectNote::findOrFail($id);
-
-    //     $validator = Validator::make($request->all(), [
-    //         'note' => 'required|string',
-    //         'media.*' => 'nullable'
-    //     ]);
-
-    //     if ($validator->fails()) {
-    //         return redirect()->back()->withErrors($validator, 'noteErrors')->withInput();
-    //     }
-
-    //     $validatedData = $validator->validated();
-
-    //     $mediaPaths = [];
-    //     if ($request->hasFile('media')) {
-    //         if ($note->image && file_exists(public_path($note->image))) {
-    //             foreach ($request->file('media') as $file) {
-    //                 $name_gen = hexdec(uniqid()) . '.' . $file->getClientOriginalExtension();
-    //                 $file->move(public_path('uploads/project/media'), $name_gen);
-    //                 $mediaPaths[] = 'uploads/project/media/' . $name_gen;
-    //             }
-    //         }
-    //     }
-
-    //     $note->update($validatedData);
-
-    //     return redirect()->route('project.show', ['project' => $note->project_id])
-    //         ->with('success', 'Note updated successfully!');
-    // }
-
     public function updateNote(Request $request, string $id)
     {
 
         $note = ProjectNote::findOrFail($id);
         $validator = Validator::make($request->all(), [
             'note' => 'required',
-            'media.*' => 'nullable',
+            'media.*' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,pdf|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -379,7 +347,7 @@ class ProjectController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'note' => 'required',
-            'media.*' => 'nullable'
+            'media.*' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,pdf|max:2048'
         ]);
 
         if ($validator->fails()) {
@@ -469,7 +437,7 @@ class ProjectController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'note' => 'required',
-            'media.*' => 'nullable',
+            'media.*' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,pdf|max:2048',
         ]);
 
         if ($validator->fails()) {

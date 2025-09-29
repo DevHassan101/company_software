@@ -165,8 +165,7 @@
                                         <i class="fa-solid fa-eye mt-4 cursor-pointer"
                                             onclick="showFeedback('{{ addslashes($feedback->note) }}',
                                             '{{ addslashes(json_encode($feedback->media ? json_decode($feedback->media) : [])) }}',
-                                            '{{ addslashes($feedback->project->name ?? '') }}',
-                                            '{{ addslashes($feedback->createdBy->name ?? '') }}'
+                                            '{{ addslashes($feedback->createdBy->name) }}'
                                         )">
                                         </i>
                                     </span>
@@ -202,7 +201,6 @@
                                 <div>
                                     <span> <i class="fa-solid fa-eye mt-4 cursor-pointer"
                                             onclick="showIssue('{{ addslashes($issue->note) }}', '{{ addslashes($issue->media ?? '[]') }}',
-                                        '{{ addslashes($issue->project->name ?? '') }}',
                                         '{{ addslashes($issue->user->name ?? '') }}'
                                     )"></i></span>
                                 </div>
@@ -218,27 +216,25 @@
 
     {{-- Project Show Notes Modal --}}
     <div id="view-note-modal" tabindex="-1" aria-hidden="true"
-        class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-        <div class="bg-white rounded-lg shadow-lg max-w-3/4 w-full p-5 relative">
-
+        class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div
+            class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 relative backdrop-filter backdrop-blur-lg bg-opacity-70 border border-gray-200 animate-fade-in-up">
             <!-- Modal Header -->
-            <div class="flex justify-between items-center border-b pb-3">
-                <h3 class="text-lg font-semibold text-black">Note Details</h3>
-                <button type="button" onclick="toggleModal('view-note-modal')" class="text-gray-400">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" viewBox="0 0 24 24">
+            <div class="flex justify-between items-center border-b pb-4 border-gray-200">
+                <h3 class="text-xl font-bold text-gray-800 tracking-tight">Note Details</h3>
+                <button type="button" onclick="toggleModal('view-note-modal')"
+                    class="text-gray-500 hover:text-gray-700 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             </div>
-
             <!-- Modal Body -->
-            <div class="mt-4 space-y-4 text-gray-900">
-                <p id="modal-note-project" class="text-gray-700"></p>
-
-                <p id="modal-note-text" class="text-gray-700"></p>
-
-                <div id="modal-note-media"></div>
+            <div class="mt-5 space-y-4 text-gray-800">
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    <p id="modal-note-text" class="text-sm"></p>
+                </div>
+                <div id="modal-note-media" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </div>
         </div>
     </div>
@@ -246,20 +242,19 @@
 
     {{-- Project Tasks Show Modal --}}
     <div id="view-task-modal" tabindex="-1" aria-hidden="true"
-        class="hidden fixed inset-0 bg-black/50 flex z-50 items-center justify-center">
-        <div class="bg-white rounded-lg shadow-lg max-w-3/4 w-full p-5 relative">
-
+        class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div
+            class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 relative backdrop-filter backdrop-blur-lg bg-opacity-70 border border-gray-200 animate-fade-in-up">
             <!-- Modal Header -->
-            <div class="flex justify-between items-center border-b pb-3">
-                <h3 class="text-lg font-semibold text-black">Task Details</h3>
-                <button type="button" onclick="showTask('view-task-modal')" class="text-gray-400">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" viewBox="0 0 24 24">
+            <div class="flex justify-between items-center border-b pb-4 border-gray-200">
+                <h3 class="text-xl font-bold text-gray-800 tracking-tight">Task Details</h3>
+                <button type="button" onclick="showTask('view-task-modal')"
+                    class="text-gray-500 hover:text-gray-700 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             </div>
-
             <!-- Modal Body -->
             <div class="mt-5 space-y-4 text-gray-800">
                 <div class="p-3 bg-gray-50 rounded-lg">
@@ -284,26 +279,28 @@
 
     {{-- Project Feedbacks Show Modal --}}
     <div id="view-feedback-modal" tabindex="-1" aria-hidden="true"
-        class="hidden fixed inset-0 bg-black/50 flex z-50 items-center justify-center">
-        <div class="bg-white rounded-lg shadow-lg max-w-3/4 w-full p-5 relative">
-
+        class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div
+            class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 relative backdrop-filter backdrop-blur-lg bg-opacity-70 border border-gray-200 animate-fade-in-up">
             <!-- Modal Header -->
-            <div class="flex justify-between items-center border-b pb-3">
-                <h3 class="text-lg font-semibold text-black">Feedback Details</h3>
-                <button type="button" onclick="showFeedback('view-feedback-modal')" class="text-gray-400">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" viewBox="0 0 24 24">
+            <div class="flex justify-between items-center border-b pb-4 border-gray-200">
+                <h3 class="text-xl font-bold text-gray-800 tracking-tight">Feedback Details</h3>
+                <button type="button" onclick="showFeedback('view-feedback-modal')"
+                    class="text-gray-500 hover:text-gray-700 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             </div>
-
             <!-- Modal Body -->
-            <div class="mt-4 space-y-4 text-gray-900">
-                <p id="modal-feedback-project" class="text-gray-700"></p>
-                <p id="modal-feedback-text" class="text-gray-700"></p>
+            <div class="mt-5 space-y-4 text-gray-800">
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    <p id="modal-feedback-text" class="text-gray-700"></p>
+                </div>
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    <p id="modal-feedback-creator" class="text-gray-700"></p>
+                </div>
                 <div id="modal-feedback-media"></div>
-
             </div>
         </div>
     </div>
@@ -313,29 +310,28 @@
 
     <!-- Project Issues Modal -->
     <div id="view-issue-modal" tabindex="-1" aria-hidden="true"
-        class="hidden fixed inset-0 bg-black/50 flex z-50 items-center justify-center">
-        <div class="bg-white rounded-lg shadow-lg max-w-3/4  w-full p-5 relative">
-
+        class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div
+            class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 relative backdrop-filter backdrop-blur-lg bg-opacity-70 border border-gray-200 animate-fade-in-up">
             <!-- Modal Header -->
-            <div class="flex justify-between items-center border-b pb-3">
-                <h3 class="text-lg font-semibold text-black">Issue Details</h3>
-                <button type="button" onclick="toggleModal('view-issue-modal')" class="text-gray-400">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" viewBox="0 0 24 24">
+            <div class="flex justify-between items-center border-b pb-4 border-gray-200">
+                <h3 class="text-xl font-bold text-gray-800 tracking-tight">Issue Details</h3>
+                <button type="button" onclick="issueModal('view-issue-modal')"
+                    class="text-gray-500 hover:text-gray-700 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             </div>
-
             <!-- Modal Body -->
-            <div class="mt-4 space-y-4 text-gray-900">
-                <p id="modal-issue-project" class="text-gray-700"></p>
-
-                <p id="modal-issue-text" class="text-gray-700"></p>
-
+            <div class="mt-5 space-y-4 text-gray-800">
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    <p id="modal-issue-text" class="text-gray-700"></p>
+                </div>
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    <p id="modal-issue-creator" class="text-gray-700 font-semibold"></p>
+                </div>
                 <div id="modal-issue-media"></div>
-
-                <p id="modal-issue-creator" class="text-gray-700 font-semibold"></p>
             </div>
         </div>
     </div>
@@ -343,19 +339,14 @@
 
 
     <script>
-
-        function showNote(noteText, mediaPath, projectName, creatorName) {
-            document.getElementById('modal-note-project').innerText = projectName;
+        function showNote(noteText, mediaPath, creatorName) {
             document.getElementById('modal-note-text').innerText = noteText;
-
             let mediaHtml = '';
-
             if (mediaPath) {
                 try {
                     if (typeof mediaPath === 'string') {
                         mediaPath = JSON.parse(mediaPath);
                     }
-
                     if (Array.isArray(mediaPath) && mediaPath.length > 0) {
                         mediaHtml += `<div class="flex flex-wrap gap-2">`;
                         mediaPath.forEach(path => {
@@ -382,7 +373,6 @@
             } else {
                 mediaHtml = `<p class="text-gray-500">No media available</p>`;
             }
-
             document.getElementById('modal-note-media').innerHTML = mediaHtml;
 
             toggleModal('view-note-modal');
@@ -460,18 +450,14 @@
             }
         }
 
-        function showFeedback(noteText, mediaPaths, projectName, creatorName) {
-            document.getElementById('modal-feedback-project').innerText = projectName;
+        function showFeedback(noteText, mediaPaths, creatorName) {
             document.getElementById('modal-feedback-text').innerText = noteText;
-
             let mediaHtml = '';
-
             if (mediaPaths && mediaPaths.length > 0) {
                 try {
                     if (typeof mediaPaths === 'string') {
                         mediaPaths = JSON.parse(mediaPaths);
                     }
-
                     mediaHtml += `<div class="flex flex-wrap gap-2">`;
                     mediaPaths.forEach(path => {
                         mediaHtml += `
@@ -490,9 +476,7 @@
             } else {
                 mediaHtml = `<p class="text-gray-500">No media available</p>`;
             }
-
             document.getElementById('modal-feedback-media').innerHTML = mediaHtml;
-
             // Created By
             if (creatorName) {
                 if (!document.getElementById('modal-feedback-creator')) {
@@ -503,7 +487,6 @@
                 }
                 document.getElementById('modal-feedback-creator').innerText = `Created By: ${creatorName}`;
             }
-
             feedbackModal('view-feedback-modal');
         }
         // project show all feedback fn end
@@ -516,8 +499,14 @@
             }
         }
 
-        function showIssue(noteText, mediaPaths, projectName, creatorName) {
-            document.getElementById('modal-issue-project').innerText = projectName;
+        function issueModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.classList.toggle("hidden");
+            }
+        }
+
+        function showIssue(noteText, mediaPaths, creatorName) {
             document.getElementById('modal-issue-text').innerText = noteText;
 
             let mediaHtml = '';
@@ -550,7 +539,7 @@
                 `Created By: ${creatorName}` :
                 '';
 
-            toggleModal('view-issue-modal');
+            issueModal('view-issue-modal');
         }
         // project show all issues fn end
 

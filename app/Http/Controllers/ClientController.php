@@ -70,7 +70,6 @@ class ClientController extends Controller
     public function show(Client $client)
     {
         $client->load('projects');
-        // return $client;
         return view('pages.clients.show', compact('client'));
     }
 
