@@ -34,6 +34,7 @@
                         <option value="domain-server" @selected(old('type') == 'domain-server')>domain server</option>
                         <option value="ai" @selected(old('type') == 'ai')>ai</option>
                         <option value="refreshment" @selected(old('type') == 'refreshment')>refreshment</option>
+                        <option value="salary" @selected(old('type') == 'salary')>salary</option>
                         <option value="furniture-maintaineance" @selected(old('type') == 'furniture-maintaineance')>furniture maintaineance
                         </option>
                         <option value="other" @selected(old('type') == 'other')>other</option>

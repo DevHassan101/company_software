@@ -10,6 +10,7 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+
     public function index(Request $request)
     {
         $users = User::with('roles')->paginate(10);
@@ -28,7 +29,7 @@ class UserController extends Controller
     }
 
     public function store(Request $request)
-    {   
+    {
         // return $request;
         $validation = $request->validate([
             'name' => 'required',
@@ -46,7 +47,7 @@ class UserController extends Controller
             'designation' => 'required',
             'address' => 'nullable',
         ]);
-        
+
 
         if ($request->hasFile('profile')) {
             $image = $request->file('profile');
@@ -97,7 +98,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
 
-        
+
         $user = User::with('userInfo')->findOrFail($id);
         $validation = $request->validate([
             'name' => 'nullable',

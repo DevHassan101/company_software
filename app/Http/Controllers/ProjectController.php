@@ -166,6 +166,38 @@ class ProjectController extends Controller
     }
 
 
+    public function updateStatus(Request $request, $id)
+    {
+        try {
+            $project = Project::findOrFail($id);
+            $project->status = $request->status;
+
+            if ($project->status === 'delivered' && !$project->delivered_at) {
+                $project->delivered_at = now();
+            }
+
+            $project->save();
+
+            if ($request->ajax()) {
+                return response()->json([
+                    'error' => false,
+                    'message' => 'Status Updated Successfully',
+                    'project_id' => $project->id,
+                    'delivered_at' => $project->delivered_at
+                ]);
+            }
+
+            return redirect()->route('project.index')->with('success', 'Status Updated Successfully');
+        } catch (\Throwable $th) {
+            return response()->json([
+                'error' => true,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+
+
     // project notes function start
     public function storeNote(Request $request, $projectId)
     {

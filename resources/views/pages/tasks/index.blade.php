@@ -198,11 +198,6 @@
 
                         const newStatusHtml = getStatusBadgeHtml(newStatus);
                         $(`#status-display-${id} p:last-child span`).replaceWith(newStatusHtml);
-
-                        // 🔽 yahan delivered_at update add karo
-                        if (response.delivered_at) {
-                            $(`#delivered-date-${response.project_id}`).text(response.delivered_at);
-                        }
                     },
                     error: function(msg) {
                         console.log('Data was not sent successfully');
@@ -215,8 +210,7 @@
 
             });
         </script>
-
-
+        
         @if (session('success'))
             @push('script')
                 <script>

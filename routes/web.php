@@ -15,10 +15,14 @@ use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\user\UserDashboardController;
 use App\Models\Client;
+use App\Models\Expense;
+use App\Models\ProjectPayment;
 use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 use Illuminate\Support\Facades\Route;
 use App\Models\Project;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use Spatie\Permission\Contracts\Role;
 
@@ -38,46 +42,93 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    $chart_options = [
-        'chart_title' => 'Clients by months',
-        'report_type' => 'group_by_date',
-        'model' => 'App\Models\Client',
-        'group_by_field' => 'created_at',
-        'group_by_period' => 'month',
-        'chart_type' => 'bar',
-        'filter_field' => 'created_at',
-        'filter_days' => 30,
-    ];
-    $chart1 = new LaravelChart($chart_options);
-    $chart_options = [
-        'chart_title' => 'Users by names',
-        'report_type' => 'group_by_string',
-        'model' => 'App\Models\User',
-        'group_by_field' => 'name',
-        'chart_type' => 'pie',
-        'filter_field' => 'created_at',
-        'filter_period' => 'month',
-    ];
+    $projectStatusCounts = Project::select('status', DB::raw('count(*) as count'))
+        ->groupBy('status')
+        ->pluck('count', 'status')
+        ->toArray();
 
-    $chart2 = new LaravelChart($chart_options);
+    $pending = $projectStatusCounts['pending'] ?? 0;
+    $ongoing = $projectStatusCounts['ongoing'] ?? 0;
+    $delivered = $projectStatusCounts['delivered'] ?? 0;
+    $continued = $projectStatusCounts['continued'] ?? 0;
 
     $projectCount = Project::count();
     $clientCount = Client::count();
     $userCount = User::count();
+
+    $totalExpenses = Expense::sum('amount');
+    $salary = Expense::where('type', 'salary')->sum('amount');
+    $amount = $totalExpenses - $salary;
+
+    $monthlyExpenses = Expense::select(
+        DB::raw('MONTH(created_at) as month'),
+        DB::raw('SUM(amount) as total_amount')
+    )
+        ->groupBy('month')
+        ->orderBy('month')
+        ->pluck('total_amount', 'month');
+
+    $monthlyPayments = ProjectPayment::select(
+        DB::raw('MONTH(created_at) as month'),
+        DB::raw('SUM(amount) as total_amount')
+    )
+        ->groupBy('month')
+        ->orderBy('month')
+        ->pluck('total_amount', 'month');
+
+    $months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    $labels = collect($months)->map(function ($month) {
+        return date('F', mktime(0, 0, 0, $month, 1));
+    })->toArray();
+
+    $expensesData = collect($months)->map(function ($month) use ($monthlyExpenses) {
+        return $monthlyExpenses->get($month, 0);
+    });
+
+    $paymentsData = collect($months)->map(function ($month) use ($monthlyPayments) {
+        return $monthlyPayments->get($month, 0);
+    });
+
+    $projects = Project::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, count(*) as count')
+        ->groupBy('year', 'month')
+        ->orderBy('year')
+        ->orderBy('month')
+        ->get();
+
+    $projectlabels = [];
+    $projectdata = [];
+
+    foreach ($projects as $project) {
+        $projectlabels[] = Carbon::createFromDate($project->year, $project->month)->format('F Y');
+        $projectdata[] = $project->count;
+    }
+
     return view('dashboard', [
         'projectCount' => $projectCount,
         'clientCount' => $clientCount,
         'userCount' => $userCount,
-        'chart1' => $chart1,
-        'chart2' => $chart2,
+        'pending' => $pending,
+        'ongoing' => $ongoing,
+        'delivered' => $delivered,
+        'continued' => $continued,
+        'expenses' => $totalExpenses,
+        'salary' => $salary,
+        'amount' => $amount,
+        'labels' => $labels,
+        'expensesData' => $expensesData,
+        'paymentsData' => $paymentsData,
+        'projectlabels' => $projectlabels,
+        'projectdata' => $projectdata
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/user-registrations-chart', [UserController::class, 'showUserRegistrations']);
     Route::resource('user', UserController::class);
     Route::get('user/{id}/show', [UserController::class, 'show'])->name('user.show');
     Route::resource('client', ClientController::class);
     Route::resource('project', ProjectController::class);
+    Route::put('/project/{id}/status', [ProjectController::class, 'updateStatus'])->name('project.status');
     Route::resource('payment', PaymentController::class);
     Route::resource('expense', ExpenseController::class);
     Route::resource('salary', SalaryController::class);
@@ -147,6 +198,7 @@ Route::middleware(['auth', 'user'])->group(function () {
     Route::get('getProject', [UserDashboardController::class, 'getProjects'])->name('getProject.index');
     Route::get('showProject/{project}', [UserDashboardController::class, 'showProjects'])->name('showProject.show');
     Route::get('getTask', [UserDashboardController::class, 'getTasks'])->name('getTask.index');
+    // Route::get('showTask/{projectTasks}', [UserDashboardController::class, 'showTask'])->name('showTask.show');
     Route::get('showTask/{projectTask}', [UserDashboardController::class, 'showTask'])->name('showTask.show');
     Route::get('profile-settings', [UserDashboardController::class, 'profileSettings'])->name('user.profile-settings.edit');
     Route::put('user/update-profile', [UserDashboardController::class, 'updateProfile'])->name('user.update-profile');

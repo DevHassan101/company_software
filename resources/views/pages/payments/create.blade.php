@@ -20,13 +20,14 @@
             @csrf
 
             <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
+        
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="project_id">
                         Project <span class="text-red-500">*</span>
                     </label>
                     <select id="project_id" name="project_id"
                         class="border border-gray-900 rounded w-full py-1.5 text-black">
-                        <option value="select one">select one</option>
+                        <option value="">select one</option>
                         @foreach ($projects as $project)
                             <option value="{{ $project->id }}" data-budget="{{ $project->budget }}"
                                 data-paid-amount="{{ $project->paidAmount }}" @selected(old('project_id') == $project->id)>
@@ -39,6 +40,7 @@
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
+
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
@@ -55,12 +57,12 @@
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2 " for="media">
-                        Upload Media <span class="text-red-500">*</span>
+                        Upload Media
                     </label>
                     <input
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="media" name="media[]" multiple type="file">
-                    @error('media')
+                    @error('media.*')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>

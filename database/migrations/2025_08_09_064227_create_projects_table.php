@@ -21,8 +21,9 @@ return new class extends Migration
             $table->timestamp('delivered_at')->nullable();
             $table->date('delivery_date');
             $table->unsignedBigInteger('admin_id')->nullable(); 
-            $table->unsignedBigInteger('created_by');  
-            $table->decimal('budget')->nullable();   
+            $table->unsignedBigInteger('created_by');
+            $table->decimal('budget')->nullable();
+            $table->enum('status', ['pending', 'ongoing', 'delivered', 'continued'])->default('pending');
             $table->timestamps();
         });
     }

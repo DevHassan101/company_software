@@ -129,23 +129,10 @@ class TaskController extends Controller
             $projectTask->status = $request->status;
             $projectTask->save();
 
-            // Us project ko load karo jiska ye task hai
-            $project = $projectTask->project;
-
-            // Check karo agar project ke saare tasks completed hain
-            if ($project->tasks()->where('status', '!=', 'completed')->count() === 0) {
-                if (!$project->delivered_at) {
-                    $project->delivered_at = now();
-                    $project->save();
-                }
-            }
-
             if ($request->ajax()) {
                 return response()->json([
                     'error' => false,
                     'message' => 'Status Updated Successfully',
-                    'project_id' => $project->id,
-                    'delivered_at' => $project->delivered_at
                 ]);
             }
 

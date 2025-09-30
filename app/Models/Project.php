@@ -19,7 +19,12 @@ class Project extends Model
         'delivery_date',
         'admin_id',
         'created_by',
-        'budget'
+        'budget',
+        'status'
+    ];
+
+    protected $casts = [
+        'status' => 'string',
     ];
 
 

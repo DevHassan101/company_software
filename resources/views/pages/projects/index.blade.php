@@ -33,6 +33,10 @@
                         class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
                         Assign User
                     </th>
+                    <th
+                        class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                        status
+                    </th>
 
                     <th
                         class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
@@ -75,8 +79,35 @@
                             </p>
                         </td>
 
+                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                            <div id="project-status-badge-{{ $project->id }}">
+                                @if ($project->status == 'pending')
+                                    <span
+                                        class="bg-yellow-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-yellow-900">pending</span>
+                                @elseif ($project->status == 'ongoing')
+                                    <span
+                                        class="bg-indigo-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300">ongoing</span>
+                                @elseif ($project->status == 'delivered')
+                                    <span
+                                        class="bg-green-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">delivered</span>
+                                @elseif ($project->status == 'continued')
+                                    <span
+                                        class="bg-purple-100 text-white text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300">continued</span>
+                                @endif
+                            </div>
+                        </td>
+
                         <td class="px-5 py-5 text-md bg-white border-b border-gray-200">
-                            <div class="text-right flex flex-end gap-4 mb-4">
+                            <div class="flex items-center justify-center gap-4 mb-4">
+                                <label class="sr-only" for="status-{{ $project->id }}">Select Status</label>
+                                <select name="status" data-id="{{ $project->id }}"
+                                    class="border status border-gray-900 rounded py-2 text-black focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                                    <option value="">Select one</option>
+                                    <option value="pending" @selected($project->status == 'pending')>Pending</option>
+                                    <option value="ongoing" @selected($project->status == 'ongoing')>Ongoing</option>
+                                    <option value="delivered" @selected($project->status == 'delivered')>delivered</option>
+                                    <option value="continued" @selected($project->status == 'continued')>continued</option>
+                                </select>
 
                                 <a href="{{ route('project.edit', $project->id) }}"
                                     class="px-4 py-2 text-sm font-medium rounded-lg border border-green-700 text-green-700 hover:bg-green-700 hover:text-white transition">
@@ -129,6 +160,81 @@
                         }
                     });
                 }
+            });
+
+            function getStatusBadgeHtml(status) {
+                let badgeHtml = '';
+                switch (status) {
+                    case 'pending':
+                        badgeHtml =
+                            '<span class="bg-yellow-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-yellow-900">pending</span>';
+                        break;
+                    case 'ongoing':
+                        badgeHtml =
+                            '<span class="bg-indigo-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300">ongoing</span>';
+                        break;
+                    case 'delivered':
+                        badgeHtml =
+                            '<span class="bg-green-100 text-white text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">delivered</span>';
+                        break;
+                    case 'continued':
+                        badgeHtml =
+                            '<span class="bg-purple-100 text-white text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300">continued</span>';
+                        break;
+                    default:
+                        badgeHtml = '<span>' + status + '</span>';
+                        break;
+                }
+                return badgeHtml;
+            }
+
+            $('.status').change(function(e) {
+                e.preventDefault();
+                const id = $(this).data('id');
+                const newStatus = $(this).find('option:selected').val();
+
+                $.ajax({
+                    type: "PUT",
+                    url: "/project/" + id + "/status",
+                    data: {
+                        status: newStatus,
+                    },
+                    headers: {
+                        'x-csrf-token': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        if (response.error) {
+                            Toast.fire({
+                                icon: "error",
+                                title: response.message
+                            });
+                            return;
+                        }
+                        Toast.fire({
+                            icon: "success",
+                            title: response.message
+                        });
+
+                        const newStatusHtml = getStatusBadgeHtml(newStatus);
+                        // Target the wrapper div to update its content
+                        $(`#project-status-badge-${id}`).html(newStatusHtml); // 1.5.3
+
+                        // Update the delivered_at date if it exists
+                        if (response.delivered_at) {
+                            $(`#delivered-date-${response.project_id}`).text(response.delivered_at);
+                        } else {
+                            // If delivered_at is null, clear the display or show 'N/A'
+                            $(`#delivered-date-${response.project_id}`).text('N/A');
+                        }
+                    },
+                    error: function(msg) {
+                        console.log('Data was not sent successfully');
+                        Toast.fire({
+                            icon: "error",
+                            title: "Something went wrong. Please try again."
+                        });
+                    }
+                });
             });
         </script>
 

@@ -35,6 +35,7 @@
                         <option value="domain-server" @selected($expense->type == 'domain-server')>domain-server</option>
                         <option value="ai" @selected($expense->type == 'ai')>ai</option>
                         <option value="refreshment" @selected($expense->type == 'refreshment')>refreshment</option>
+                        <option value="salary" @selected($expense->type == 'salary')>salary</option>
                         <option value="furniture-maintaineance" @selected($expense->type == 'furniture-maintaineance')>furniture-maintaineance
                         </option>
                         <option value="other" @selected($expense->type == 'other')>other</option>

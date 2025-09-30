@@ -36,7 +36,8 @@ class AdminPaymentController extends Controller
             'project_id' => 'required',
             'amount' => 'required|integer',
             'note' => 'nullable',
-            'media' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'media'   => 'nullable|array',
+            'media.*' => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $validation['created_by'] = auth()->id();
@@ -87,7 +88,8 @@ class AdminPaymentController extends Controller
             'project_id' => 'required',
             'amount' => 'required',
             'note' => 'nullable',
-            'media' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'media'   => 'nullable|array',
+            'media.*' => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $validation['created_by'] = auth()->id();
