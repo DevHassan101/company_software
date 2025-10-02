@@ -14,6 +14,8 @@ use App\Models\ProjectTaskUser;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
 
 class ProjectController extends Controller
@@ -196,6 +198,58 @@ class ProjectController extends Controller
         }
     }
 
+    // public function getChartData(Request $request)
+    // {
+    //     $month = $request->query('month');
+    //     $year = $request->query('year');
+
+    //     $query = Project::query();
+
+
+    //     if ($request->filled('option')) {
+    //         if ($request->option == 'today') {
+    //             $query->whereDay('created_at', now());
+    //         } else if ($request->option == 'this_week') {
+    //             $startWeek = Carbon::now()->startOfWeek();
+    //             $endWeek = Carbon::now()->endOfWeek();
+    //             $query->whereBetween('created_at', [$startWeek, $endWeek]);
+    //         } else if ($request->option == 'this_month') {
+    //             $query->whereMonth('created_at', Carbon::now());
+    //         }
+    //     }
+    // }
+
+    // app/Http/Controllers/ProjectController.php
+public function getChartData(Request $request)
+{
+    $month = $request->query('month');
+    $year = $request->query('year');
+
+    $query = Project::query();
+
+    if ($month) {
+        $query->whereMonth('created_at', $month);
+    }
+    if ($year) {
+        $query->whereYear('created_at', $year);
+    }
+
+    $filteredData = $query->selectRaw('status, count(*) as count')
+        ->groupBy('status')
+        ->pluck('count', 'status')
+        ->toArray();
+
+    $statusCounts = [
+        'pending' => $filteredData['pending'] ?? 0,
+        'ongoing' => $filteredData['ongoing'] ?? 0,
+        'delivered' => $filteredData['delivered'] ?? 0,
+        'continued' => $filteredData['continued'] ?? 0,
+    ];
+
+    // Redirect to the dashboard route with the filtered data
+    // This is assuming 'dashboard' is where your chart is displayed
+    return view('dashboard', compact('statusCounts'));
+}
 
 
     // project notes function start
