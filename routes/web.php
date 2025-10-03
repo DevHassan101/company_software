@@ -35,8 +35,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth','verified'])->group(function(){
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard/filter/{filter}/{model}', [DashboardController::class, 'filterData'])->name('dashboard.filterData');
 });
 
 Route::middleware('auth')->group(function () {

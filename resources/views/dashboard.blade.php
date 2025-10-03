@@ -12,8 +12,8 @@
                 <div class="flex justify-between items-center mx-8">
                     <div class="flex items-center gap-2">
                         <select name="filter" onchange="document.getElementById('allData').submit();"
-                           class="block py-2.5 px-4 w-full sm:w-40 md:w-48 text-sm text-gray-500 bg-transparent border-b">
-                            <option value="">Select Option</option>
+                            class="form-control">
+                            <option value="">Select One</option>
                             <option value="today" {{ request('filter') == 'today' ? 'selected' : '' }}>today</option>
                             <option value="this_week" {{ request('filter') == 'this_week' ? 'selected' : '' }}>this week
                             </option>
@@ -33,45 +33,28 @@
         <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6 mt-6 capitalize">
             <div class="bg-white overflow-hidden shadow-lg rounded-xl">
                 <div class="my-4">
-                  <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center justify-between mb-4">
                         <div class="ms-6">
                             <h3 class="text-xl font-semibold text-gray-800">Total Projects</h3>
                         </div>
                         <div>
-                            <form action="{{ route('dashboard') }}" method="get" id="getProject">
-                                <div class="flex justify-between items-center mx-8">
-                                    <div class="flex items-center gap-2">
-                                        <select name="totalProject"
-                                            onchange="document.getElementById('getProject').submit();"
-                                           class="block py-2.5 px-4 w-35 text-sm text-gray-500 bg-transparent border-b">
-                                            <option value="">Select Option</option>
-                                            <option value="today"
-                                                {{ request('totalProject') == 'today' ? 'selected' : '' }}>
-                                                today</option>
-                                            <option value="this_week"
-                                                {{ request('totalProject') == 'this_week' ? 'selected' : '' }}>this
-                                                week
-                                            </option>
-                                            <option value="this_month"
-                                                {{ request('totalProject') == 'this_month' ? 'selected' : '' }}>this
-                                                month
-                                            </option>
-                                            <option value="this_year"
-                                                {{ request('totalProject') == 'this_year' ? 'selected' : '' }}>this
-                                                year
-                                            </option>
-                                            <option value="last_year"
-                                                {{ request('totalProject') == 'last_year' ? 'selected' : '' }}>last
-                                                year
-                                            </option>
-                                        </select>
-                                    </div>
+                            <div class="flex justify-between items-center mx-8">
+                                <div class="flex items-center gap-2">
+                                    <select id="projectFilterSelect" class="form-control">
+                                        <option value="">Select One</option>
+                                        <option value="today">Today</option>
+                                        <option value="this_week">This Week</option>
+                                        <option value="this_month">This Month</option>
+                                        <option value="this_year">This Year</option>
+                                        <option value="last_year">Last Year</option>
+                                    </select>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                     <div class="ms-6">
-                        <p class="text-5xl font-bold text-indigo-700 leading-tight">{{ $projectCount }}</p>
+                        <p class="text-5xl font-bold text-indigo-700 leading-tight" id="projectCount">
+                            {{ $projectCount }}</p>
                         <p class="text-sm text-gray-500 mt-2">List of number of projects.</p>
                     </div>
                 </div>
@@ -84,36 +67,23 @@
                             <h3 class="text-xl font-semibold text-gray-800">Total Clients</h3>
                         </div>
                         <div>
-                            <form action="{{ route('dashboard') }}" method="get" id="getClients">
-                                <div class="flex justify-between items-center mx-8">
-                                    <div class="flex items-center gap-2">
-                                        <select name="client"
-                                            onchange="document.getElementById('getClients').submit();"
-                                            class="block py-2.5 px-4 w-35 text-sm text-gray-500 bg-transparent border-b">
-                                            <option value="">Select Option</option>
-                                            <option value="today"
-                                                {{ request('client') == 'today' ? 'selected' : '' }}>
-                                                today</option>
-                                            <option value="this_week"
-                                                {{ request('client') == 'this_week' ? 'selected' : '' }}>this week
-                                            </option>
-                                            <option value="this_month"
-                                                {{ request('client') == 'this_month' ? 'selected' : '' }}>this month
-                                            </option>
-                                            <option value="this_year"
-                                                {{ request('client') == 'this_year' ? 'selected' : '' }}>this year
-                                            </option>
-                                            <option value="last_year"
-                                                {{ request('client') == 'last_year' ? 'selected' : '' }}>last year
-                                            </option>
-                                        </select>
-                                    </div>
+                            <div class="flex justify-between items-center mx-8">
+                                <div class="flex items-center gap-2">
+                                    <select id="clientFilterSelect" class="form-control">
+                                        <option value="">Select One</option>
+                                        <option value="today">Today</option>
+                                        <option value="this_week">This Week</option>
+                                        <option value="this_month">This Month</option>
+                                        <option value="this_year">This Year</option>
+                                        <option value="last_year">Last Year</option>
+                                    </select>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                     <div class="ms-6">
-                        <p class="text-5xl font-bold text-indigo-700 leading-tight">{{ $clientCount }}</p>
+                        <p class="text-5xl font-bold text-indigo-700 leading-tight" id="clientCount">{{ $clientCount }}
+                        </p>
                         <p class="text-sm text-gray-500 mt-2">List of number of Clients.</p>
                     </div>
                 </div>
@@ -126,36 +96,21 @@
                             <h3 class="text-xl font-semibold text-gray-800">Total Users</h3>
                         </div>
                         <div>
-                            <form action="{{ route('dashboard') }}" method="get" id="getUsers">
-                                <div class="flex justify-between items-center mx-8">
-                                    <div class="flex items-center gap-2">
-                                        <select name="totalUser"
-                                            onchange="document.getElementById('getUsers').submit();"
-                                            class="block py-2.5 px-4 w-35 text-sm text-gray-500 bg-transparent border-b">
-                                            <option value="">Select Option</option>
-                                            <option value="today"
-                                                {{ request('totalUser') == 'today' ? 'selected' : '' }}>
-                                                today</option>
-                                            <option value="this_week"
-                                                {{ request('totalUser') == 'this_week' ? 'selected' : '' }}>this week
-                                            </option>
-                                            <option value="this_month"
-                                                {{ request('totalUser') == 'this_month' ? 'selected' : '' }}>this month
-                                            </option>
-                                            <option value="this_year"
-                                                {{ request('totalUser') == 'this_year' ? 'selected' : '' }}>this year
-                                            </option>
-                                            <option value="last_year"
-                                                {{ request('totalUser') == 'last_year' ? 'selected' : '' }}>last year
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </form>
+                            <div class="flex justify-between items-center mx-8">
+                                <select id="UserFilterSelect" class="form-control">
+                                    <option value="">Select One</option>
+                                    <option value="today">Today</option>
+                                    <option value="this_week">This Week</option>
+                                    <option value="this_month">This Month</option>
+                                    <option value="this_year">This Year</option>
+                                    <option value="last_year">Last Year</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="ms-6">
-                        <p class="text-5xl font-bold text-indigo-700 leading-tight">{{ $userCount }}</p>
+                        <p class="text-5xl font-bold text-indigo-700 leading-tight" id="userCount">{{ $userCount }}
+                        </p>
                         <p class="text-sm text-gray-500 mt-2">List of number of Users.</p>
                     </div>
                 </div>
@@ -168,37 +123,23 @@
                             <h3 class="text-xl font-semibold text-gray-800 capitalize">total amount</h3>
                         </div>
                         <div>
-                            <form action="{{ route('dashboard') }}" method="get" id="getTotal">
-                                <div class="flex justify-between items-center mx-8">
-                                    <div class="flex items-center gap-2">
-                                        <select name="totalAmount"
-                                            onchange="document.getElementById('getTotal').submit();"
-                                            class="block py-2.5 px-4 w-35 text-sm text-gray-500 bg-transparent border-b">
-                                            <option value="">Select Option</option>
-                                            <option value="today"
-                                                {{ request('totalAmount') == 'today' ? 'selected' : '' }}>
-                                                today</option>
-                                            <option value="this_week"
-                                                {{ request('totalAmount') == 'this_week' ? 'selected' : '' }}>this week
-                                            </option>
-                                            <option value="this_month"
-                                                {{ request('totalAmount') == 'this_month' ? 'selected' : '' }}>this
-                                                month
-                                            </option>
-                                            <option value="this_year"
-                                                {{ request('totalAmount') == 'this_year' ? 'selected' : '' }}>this year
-                                            </option>
-                                            <option value="last_year"
-                                                {{ request('totalAmount') == 'last_year' ? 'selected' : '' }}>last year
-                                            </option>
-                                        </select>
-                                    </div>
+                            <div class="flex justify-between items-center mx-8">
+                                <div class="flex items-center gap-2">
+                                    <select id="ExpenseFilterSelect" class="form-control">
+                                        <option value="">Select One</option>
+                                        <option value="today">Today</option>
+                                        <option value="this_week">This Week</option>
+                                        <option value="this_month">This Month</option>
+                                        <option value="this_year">This Year</option>
+                                        <option value="last_year">Last Year</option>
+                                    </select>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                     <div class="ms-6">
-                        <p class="text-5xl font-bold text-indigo-700 leading-tight">{{ round($expenses) }}</p>
+                        <p class="text-5xl font-bold text-indigo-700 leading-tight" id="expenseCount">
+                            {{ round($expenses) }}</p>
                         <p class="text-sm text-gray-500 mt-2">List of total amounts.</p>
                     </div>
                 </div>
@@ -208,41 +149,28 @@
                 <div class="my-4">
                     <div class="flex items-center justify-between mb-4">
                         <div class="ms-6">
-                            <h3 class="text-xl font-semibold text-gray-800">Salaries</h3>
+                            <h3 class="text-xl font-semibold text-gray-800 capitalize">Total Salary</h3>
                         </div>
                         <div>
-                            <form action="{{ route('dashboard') }}" method="get" id="getSalary">
-                                <div class="flex justify-between items-center mx-8">
-                                    <div class="flex items-center gap-2">
-                                        <select name="totalSalary"
-                                            onchange="document.getElementById('getSalary').submit();"
-                                            class="block py-2.5 px-4 w-35 text-sm text-gray-500 bg-transparent border-b">
-                                            <option value="">Select Option</option>
-                                            <option value="today"
-                                                {{ request('totalSalary') == 'today' ? 'selected' : '' }}>
-                                                today</option>
-                                            <option value="this_week"
-                                                {{ request('totalSalary') == 'this_week' ? 'selected' : '' }}>this week
-                                            </option>
-                                            <option value="this_month"
-                                                {{ request('totalSalary') == 'this_month' ? 'selected' : '' }}>this
-                                                month
-                                            </option>
-                                            <option value="this_year"
-                                                {{ request('totalSalary') == 'this_year' ? 'selected' : '' }}>this year
-                                            </option>
-                                            <option value="last_year"
-                                                {{ request('totalSalary') == 'last_year' ? 'selected' : '' }}>last year
-                                            </option>
-                                        </select>
-                                    </div>
+                            <div class="flex justify-between items-center mx-8">
+                                <div class="flex items-center gap-2">
+                                    <select id="SalaryFilterSelect" class="form-control">
+                                        <option value="">Select One</option>
+                                        <option value="today">Today</option>
+                                        <option value="this_week">This Week</option>
+                                        <option value="this_month">This Month</option>
+                                        <option value="this_year">This Year</option>
+                                        <option value="last_year">Last Year</option>
+                                    </select>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                     <div class="ms-6">
-                        <p class="text-5xl font-bold text-indigo-700 leading-tight">{{ round($salary) }}</p>
-                        <p class="text-sm text-gray-500 mt-2">List of number of salaries.</p>
+                        <p class="text-5xl font-bold text-indigo-700 leading-tight" id="salaryCount">
+                            {{ round($salary) }}
+                        </p>
+                        <p class="text-sm text-gray-500 mt-2">Total salary expenses.</p>
                     </div>
                 </div>
             </div>
@@ -251,46 +179,29 @@
                 <div class="my-4">
                     <div class="flex items-center justify-between mb-4">
                         <div class="ms-6">
-                            <h3 class="text-xl font-semibold text-gray-800 capitalize">remain amount</h3>
+                            <h3 class="text-xl font-semibold text-gray-800 capitalize">Remain Amount</h3>
                         </div>
                         <div>
-                            <form action="{{ route('dashboard') }}" method="get" id="getRemain">
-                                <div class="flex justify-between items-center mx-8">
-                                    <div class="flex items-center gap-2">
-                                        <select name="totalRemain"
-                                            onchange="document.getElementById('getRemain').submit();"
-                                            class="block py-2.5 px-4 w-35 text-sm text-gray-500 bg-transparent border-b">
-                                            <option value="">Select Option</option>
-                                            <option value="today"
-                                                {{ request('totalRemain') == 'today' ? 'selected' : '' }}>
-                                                today</option>
-                                            <option value="this_week"
-                                                {{ request('totalRemain') == 'this_week' ? 'selected' : '' }}>this week
-                                            </option>
-                                            <option value="this_month"
-                                                {{ request('totalRemain') == 'this_month' ? 'selected' : '' }}>this
-                                                month
-                                            </option>
-                                            <option value="this_year"
-                                                {{ request('totalRemain') == 'this_year' ? 'selected' : '' }}>this year
-                                            </option>
-                                            <option value="last_year"
-                                                {{ request('totalRemain') == 'last_year' ? 'selected' : '' }}>last year
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </form>
-
+                            <div class="flex justify-between items-center mx-8">
+                                <select id="RemainFilterSelect" class="form-control">
+                                    <option value="">Select One</option>
+                                    <option value="today">Today</option>
+                                    <option value="this_week">This Week</option>
+                                    <option value="this_month">This Month</option>
+                                    <option value="this_year">This Year</option>
+                                    <option value="last_year">Last Year</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="ms-6">
-                        <p class="text-5xl font-bold text-indigo-700 leading-tight">{{ round($amount) }}</p>
-                        <p class="text-sm text-gray-500 mt-2">List of remaining amounts.</p>
+                        <p class="text-5xl font-bold text-indigo-700 leading-tight" id="remainAmount">
+                            {{ $amount }}
+                        </p>
+                        <p class="text-sm text-gray-500 mt-2">Remaining amount (Expenses - Salary).</p>
                     </div>
                 </div>
             </div>
-
         </div>
 
         <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-6 mt-6">
@@ -303,8 +214,8 @@
                         <div class="flex items-center gap-2">
                             <select name="payment" id="underline_select"
                                 onchange="document.getElementById('paymentOverview').submit();"
-                                class="block py-2.5 px-4 w-full sm:w-40 md:w-48 text-sm text-gray-500 bg-transparent border-b">
-                                <option value="">Select Option</option>
+                                class="form-control">
+                                <option value="">Select One</option>
                                 <option value="today" {{ request('payment') == 'today' ? 'selected' : '' }}>today
                                 </option>
                                 <option value="this_week" {{ request('payment') == 'this_week' ? 'selected' : '' }}>
@@ -337,8 +248,8 @@
                         <div class="flex items-center gap-2">
                             <select name="option" onchange="document.getElementById('statusOverview').submit();"
                                 id="underline_select"
-                                class="block py-2.5 px-4 w-full sm:w-40 md:w-48 text-sm text-gray-500 bg-transparent border-b">
-                                <option value="">Select Option</option>
+                                class="form-control">
+                                <option value="">Select One</option>
                                 <option value="today" {{ request('option') == 'today' ? 'selected' : '' }}>today
                                 </option>
                                 <option value="this_week" {{ request('option') == 'this_week' ? 'selected' : '' }}>
@@ -373,7 +284,7 @@
                         <div class="flex items-center gap-2">
                             <select name="project" id="underline_select"
                                 onchange="document.getElementById('projectOverview').submit();"
-                                class="block py-2.5 px-4 w-full sm:w-40 md:w-48 text-sm text-gray-500 bg-transparent border-b">
+                                class="form-control">
                                 <option value="">Select Option</option>
                                 <option value="today" {{ request('project') == 'today' ? 'selected' : '' }}>today
                                 </option>
@@ -514,7 +425,6 @@
             }
         });
 
-
         document.addEventListener('DOMContentLoaded', function() {
             const labels = @json($projectlabels);
             const data = @json($projectdata);
@@ -547,6 +457,113 @@
                 }
             });
         });
-    </script>
 
+        $(document).ready(function() {
+            $('#projectFilterSelect').on('change', function() {
+                var selectedValue = $(this).val();
+                console.log("Project filter value: " + selectedValue);
+
+                if (selectedValue) {
+                    $.ajax({
+                        url: '/dashboard/filter/' + selectedValue + '/projects',
+                        type: 'GET',
+                        success: function(data) {
+                            $('#projectCount').text(data.count);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error filtering projects:", error);
+                        }
+                    });
+                }
+            });
+
+            $('#clientFilterSelect').on('change', function() {
+                var selectedValue = $(this).val();
+                console.log("Client filter value: " + selectedValue);
+
+                if (selectedValue) {
+                    $.ajax({
+                        url: '/dashboard/filter/' + selectedValue + '/clients',
+                        type: 'GET',
+                        success: function(data) {
+                            $('#clientCount').text(data.count);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error filtering clients:", error);
+                        }
+                    });
+                }
+            });
+
+            $('#UserFilterSelect').on('change', function() {
+                var selectedValue = $(this).val();
+                console.log("User filter value: " + selectedValue);
+
+                if (selectedValue) {
+                    $.ajax({
+                        url: '/dashboard/filter/' + selectedValue + '/users',
+                        type: 'GET',
+                        success: function(data) {
+                            $('#userCount').text(data.count);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error filtering clients:", error);
+                        }
+                    });
+                }
+            });
+
+            $('#ExpenseFilterSelect').on('change', function() {
+                var selectedValue = $(this).val();
+                console.log("Expense filter value: " + selectedValue);
+                if (selectedValue) {
+                    $.ajax({
+                        url: '/dashboard/filter/' + selectedValue + '/expenses',
+                        type: 'GET',
+                        success: function(data) {
+                            $('#expenseCount').text(data.total);
+                        },
+
+                        error: function(xhr, status, error) {
+                            console.error("Error filtering expenses:", error);
+                        }
+                    });
+                }
+            });
+            $('#SalaryFilterSelect').on('change', function() {
+                var selectedValue = $(this).val();
+                console.log("Salary filter value: " + selectedValue);
+
+                if (selectedValue) {
+                    $.ajax({
+                        url: '/dashboard/filter/' + selectedValue + '/salary',
+                        type: 'GET',
+                        success: function(data) {
+                            $('#salaryCount').text(data.total);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error filtering salary:", error);
+                        }
+                    });
+                }
+            });
+            $('#RemainFilterSelect').on('change', function() {
+                var selectedValue = $(this).val();
+                console.log("Remain filter value: " + selectedValue);
+
+                if (selectedValue) {
+                    $.ajax({
+                        url: '/dashboard/filter/' + selectedValue + '/remain',
+                        type: 'GET',
+                        success: function(data) {
+                            $('#remainAmount').text(data.total);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error filtering remain:", error);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 </x-app-layout>
