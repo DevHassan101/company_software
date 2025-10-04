@@ -2,32 +2,30 @@
     <x-slot name="header">
         {{ __('Dashboard') }}
     </x-slot>
+
     <div>
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg flex justify-between items-center">
             <div class="p-6 border-b border-gray-200">
                 {{ __('You are logged in!') }}
             </div>
 
-            <form action="{{ route('dashboard') }}" method="get" id="allData">
-                <div class="flex justify-between items-center mx-8">
-                    <div class="flex items-center gap-2">
-                        <select name="filter" onchange="document.getElementById('allData').submit();"
-                            class="form-control">
-                            <option value="">Select One</option>
-                            <option value="today" {{ request('filter') == 'today' ? 'selected' : '' }}>today</option>
-                            <option value="this_week" {{ request('filter') == 'this_week' ? 'selected' : '' }}>this week
-                            </option>
-                            <option value="this_month" {{ request('filter') == 'this_month' ? 'selected' : '' }}>this
-                                month
-                            </option>
-                            <option value="this_year" {{ request('filter') == 'this_year' ? 'selected' : '' }}>this year
-                            </option>
-                            <option value="last_year" {{ request('filter') == 'last_year' ? 'selected' : '' }}>last year
-                            </option>
-                        </select>
-                    </div>
+            <div class="flex justify-between items-center mx-8">
+                <div class="flex items-center gap-2">
+                    <select name="filter" id="allFilter" class="form-control">
+                        <option value="">Select One</option>
+                        <option value="today" {{ request('filter') == 'today' ? 'selected' : '' }}>today</option>
+                        <option value="this_week" {{ request('filter') == 'this_week' ? 'selected' : '' }}>this week
+                        </option>
+                        <option value="this_month" {{ request('filter') == 'this_month' ? 'selected' : '' }}>this
+                            month
+                        </option>
+                        <option value="this_year" {{ request('filter') == 'this_year' ? 'selected' : '' }}>this year
+                        </option>
+                        <option value="last_year" {{ request('filter') == 'last_year' ? 'selected' : '' }}>last year
+                        </option>
+                    </select>
                 </div>
-            </form>
+            </div>
         </div>
 
         <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6 mt-6 capitalize">
@@ -52,6 +50,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="ms-6">
                         <p class="text-5xl font-bold text-indigo-700 leading-tight" id="projectCount">
                             {{ $projectCount }}</p>
@@ -206,68 +205,60 @@
 
         <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-6 mt-6">
             <div class="bg-white rounded-xl shadow-md border border-gray-200 overflow-x-auto">
-                <form action="{{ route('dashboard') }}" method="get" id="paymentOverview">
-                    <div class="flex justify-between items-center mx-8 mt-4">
-                        <div class="capitalize">
-                            <span>payment overview</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <select name="payment" id="underline_select"
-                                onchange="document.getElementById('paymentOverview').submit();"
-                                class="form-control">
-                                <option value="">Select One</option>
-                                <option value="today" {{ request('payment') == 'today' ? 'selected' : '' }}>today
-                                </option>
-                                <option value="this_week" {{ request('payment') == 'this_week' ? 'selected' : '' }}>
-                                    this
-                                    week</option>
-                                <option value="this_month" {{ request('payment') == 'this_month' ? 'selected' : '' }}>
-                                    this
-                                    month</option>
-                                <option value="this_year" {{ request('payment') == 'this_year' ? 'selected' : '' }}>
-                                    this
-                                    year</option>
-                                <option value="last_year" {{ request('payment') == 'last_year' ? 'selected' : '' }}>
-                                    last
-                                    year</option>
-                            </select>
-                        </div>
+                <div class="flex justify-between items-center mx-8 mt-4">
+                    <div class="capitalize">
+                        <span>payment overview</span>
                     </div>
-                </form>
+                    <div class="flex items-center gap-2">
+                        <select id="barChart" class="form-control">
+                            <option value="">Select One</option>
+                            <option value="today" {{ request('payment') == 'today' ? 'selected' : '' }}>today
+                            </option>
+                            <option value="this_week" {{ request('payment') == 'this_week' ? 'selected' : '' }}>
+                                this
+                                week</option>
+                            <option value="this_month" {{ request('payment') == 'this_month' ? 'selected' : '' }}>
+                                this
+                                month</option>
+                            <option value="this_year" {{ request('payment') == 'this_year' ? 'selected' : '' }}>
+                                this
+                                year</option>
+                            <option value="last_year" {{ request('payment') == 'last_year' ? 'selected' : '' }}>
+                                last
+                                year</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="p-2 sm:p-4">
                     <canvas id="myBarChart" class="w-full"></canvas>
                 </div>
             </div>
 
             <div class="bg-white rounded-xl shadow-md border border-gray-200 overflow-x-auto">
-                <form action="{{ route('dashboard') }}" method="get" id="statusOverview">
-                    <div class="flex justify-between items-center mx-8 mt-4">
-                        <div class="capitalize">
-                            <span>status overview</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <select name="option" onchange="document.getElementById('statusOverview').submit();"
-                                id="underline_select"
-                                class="form-control">
-                                <option value="">Select One</option>
-                                <option value="today" {{ request('option') == 'today' ? 'selected' : '' }}>today
-                                </option>
-                                <option value="this_week" {{ request('option') == 'this_week' ? 'selected' : '' }}>
-                                    this
-                                    week</option>
-                                <option value="this_month" {{ request('option') == 'this_month' ? 'selected' : '' }}>
-                                    this
-                                    month</option>
-                                <option value="this_year" {{ request('option') == 'this_year' ? 'selected' : '' }}>
-                                    this
-                                    year</option>
-                                <option value="last_year" {{ request('option') == 'last_year' ? 'selected' : '' }}>
-                                    last
-                                    year</option>
-                            </select>
-                        </div>
+                <div class="flex justify-between items-center mx-8 mt-4">
+                    <div class="capitalize">
+                        <span>status overview</span>
                     </div>
-                </form>
+                    <div class="flex items-center gap-2">
+                        <select name="option" id="statusOverview" class="form-control">
+                            <option value="">Select One</option>
+                            <option value="today" {{ request('option') == 'today' ? 'selected' : '' }}>today
+                            </option>
+                            <option value="this_week" {{ request('option') == 'this_week' ? 'selected' : '' }}>
+                                this
+                                week</option>
+                            <option value="this_month" {{ request('option') == 'this_month' ? 'selected' : '' }}>
+                                this
+                                month</option>
+                            <option value="this_year" {{ request('option') == 'this_year' ? 'selected' : '' }}>
+                                this
+                                year</option>
+                            <option value="last_year" {{ request('option') == 'last_year' ? 'selected' : '' }}>
+                                last
+                                year</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="p-2 sm:p-4" style="height:400px;">
                     <canvas id="myChart"></canvas>
                 </div>
@@ -276,34 +267,25 @@
 
         <div class="mt-6">
             <div class="bg-white rounded-xl shadow-md border border-gray-200 overflow-x-auto">
-                <form action="{{ route('dashboard') }}" method="get" id="projectOverview">
-                    <div class="flex justify-between items-center mx-8 mt-4">
-                        <div class="capitalize">
-                            <span>Project overview</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <select name="project" id="underline_select"
-                                onchange="document.getElementById('projectOverview').submit();"
-                                class="form-control">
-                                <option value="">Select Option</option>
-                                <option value="today" {{ request('project') == 'today' ? 'selected' : '' }}>today
-                                </option>
-                                <option value="this_week" {{ request('project') == 'this_week' ? 'selected' : '' }}>
-                                    this
-                                    week</option>
-                                <option value="this_month" {{ request('project') == 'this_month' ? 'selected' : '' }}>
-                                    this
-                                    month</option>
-                                <option value="this_year" {{ request('project') == 'this_year' ? 'selected' : '' }}>
-                                    this
-                                    year</option>
-                                <option value="last_year" {{ request('project') == 'last_year' ? 'selected' : '' }}>
-                                    last
-                                    year</option>
-                            </select>
-                        </div>
+                <div class="flex justify-between items-center mx-8 mt-4">
+                    <div class="capitalize">
+                        <span>Project overview</span>
                     </div>
-                </form>
+                    <div class="flex items-center gap-2">
+                        <select name="option" id="lineChartFilter" class="form-control">
+                            <option value="">Select One</option>
+                            <option value="today" {{ request('option') == 'today' ? 'selected' : '' }}>today</option>
+                            <option value="this_week" {{ request('option') == 'this_week' ? 'selected' : '' }}>this
+                                week</option>
+                            <option value="this_month" {{ request('option') == 'this_month' ? 'selected' : '' }}>this
+                                month</option>
+                            <option value="this_year" {{ request('option') == 'this_year' ? 'selected' : '' }}>this
+                                year</option>
+                            <option value="last_year" {{ request('option') == 'last_year' ? 'selected' : '' }}>last
+                                year</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="p-2 sm:p-4">
                     <canvas id="myLineChart"></canvas>
                 </div>
@@ -311,25 +293,23 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
-
     <script>
+        let myStatusChart, myBarChart, myLineChart;
+
         document.addEventListener("DOMContentLoaded", function() {
             const canvas = document.getElementById('myChart');
             if (!canvas || typeof Chart === 'undefined' || typeof ChartDataLabels === 'undefined') {
-                console.error('Chart or canvas or plugin missing');
+                console.error('Chart.js or plugin missing');
                 return;
             }
-            const statusCounts = @json($statusCounts);
-            console.log(statusCounts);
 
+            const statusCounts = @json($statusCounts);
             const labels = Object.keys(statusCounts);
             const dataValues = Object.values(statusCounts);
             const colors = ["#00aba9", "#2b5797", "#b91d47", "#5cb85c"];
 
             const ctx = canvas.getContext('2d');
-            new Chart(ctx, {
+            myStatusChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
                     labels: labels,
@@ -357,13 +337,6 @@
                                 }
                             }
                         },
-                        title: {
-                            display: true,
-                            text: '',
-                            font: {
-                                size: 16
-                            },
-                        },
                         tooltip: {
                             callbacks: {
                                 label: function(ctx) {
@@ -384,53 +357,102 @@
                 },
                 plugins: [ChartDataLabels]
             });
+
+            $('#statusOverview').on('change', function() {
+                var selectedValue = $(this).val();
+                if (selectedValue) {
+                    $.ajax({
+                        url: '{{ route('dashboard.status-data') }}',
+                        type: "GET",
+                        data: {
+                            filter: selectedValue
+                        },
+                        success: function(response) {
+                            if (myStatusChart) {
+                                myStatusChart.data.labels = response.labels;
+                                myStatusChart.data.datasets[0].data = response.data;
+                                myStatusChart.update();
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error filtering status chart:", error);
+                        }
+                    });
+                }
+            });
         });
 
-        const bar = document.getElementById('myBarChart').getContext('2d');
-        const labels = @json($labels);
-        const expensesData = @json($expensesData);
-        const paymentsData = @json($paymentsData);
+        $(document).ready(function() {
+            const bar = document.getElementById('myBarChart').getContext('2d');
+            const labels = @json($labels);
+            const expensesData = @json($expensesData);
+            const paymentsData = @json($paymentsData);
 
-        new Chart(bar, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [{
-                        label: 'Monthly Expenses',
-                        data: expensesData,
-                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Monthly Payments',
-                        data: paymentsData,
-                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    },
-                ]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+            myBarChart = new Chart(bar, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                            label: 'Monthly Expenses',
+                            data: expensesData,
+                            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Monthly Payments',
+                            data: paymentsData,
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }
+                    ]
                 },
-                plugins: {
-                    legend: {
-                        align: 'start'
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            align: 'start'
+                        }
                     }
                 }
-            }
+            });
+
+            $('#barChart').on('change', function() {
+                var selectedValue = $(this).val();
+                if (selectedValue) {
+                    $.ajax({
+                        url: '{{ route('dashboard.chart-data') }}',
+                        type: 'GET',
+                        data: {
+                            filter: selectedValue
+                        },
+                        success: function(response) {
+                            if (myBarChart) {
+                                myBarChart.data.labels = response.labels;
+                                myBarChart.data.datasets[0].data = response.expensesData;
+                                myBarChart.data.datasets[1].data = response.paymentsData;
+                                myBarChart.update();
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error filtering bar chart:", error);
+                        }
+                    });
+                }
+            });
         });
 
         document.addEventListener('DOMContentLoaded', function() {
             const labels = @json($projectlabels);
             const data = @json($projectdata);
-
             const line = document.getElementById('myLineChart').getContext('2d');
-            new Chart(line, {
+
+            myLineChart = new Chart(line, {
                 type: 'line',
                 data: {
                     labels: labels,
@@ -447,13 +469,36 @@
                     scales: {
                         y: {
                             beginAtZero: true
-                        },
+                        }
                     },
                     plugins: {
                         legend: {
                             align: 'start'
                         }
                     }
+                }
+            });
+
+            $('#lineChartFilter').on('change', function() {
+                const selectedValue = $(this).val();
+                if (selectedValue) {
+                    $.ajax({
+                        url: '{{ route('dashboard.project-chart-data') }}',
+                        type: 'GET',
+                        data: {
+                            filter: selectedValue
+                        },
+                        success: function(response) {
+                            if (myLineChart) {
+                                myLineChart.data.labels = response.labels;
+                                myLineChart.data.datasets[0].data = response.data;
+                                myLineChart.update();
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error filtering line chart:", error);
+                        }
+                    });
                 }
             });
         });
@@ -560,6 +605,87 @@
                         },
                         error: function(xhr, status, error) {
                             console.error("Error filtering remain:", error);
+                        }
+                    });
+                }
+            });
+        });
+
+        $(document).ready(function() {
+            $('#allFilter').on('change', function() {
+                var selectedValue = $(this).val();
+                if (selectedValue) {
+                    $.ajax({
+                        url: '{{ route('dashboard.filter') }}',
+                        type: "GET",
+                        data: {
+                            filter: selectedValue
+                        },
+                        success: function(response) {
+                            $('#projectCount').text(response.projectCount);
+                            $('#clientCount').text(response.clientCount);
+                            $('#userCount').text(response.userCount);
+                            $('#expenseCount').text(response.expenseTotal);
+                            $('#salaryCount').text(response.salaryTotal);
+                            $('#remainAmount').text(response.remainAmount);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error filtering summary data:", error);
+                        }
+                    });
+
+                    $.ajax({
+                        url: '{{ route('dashboard.status-data') }}',
+                        type: "GET",
+                        data: {
+                            filter: selectedValue
+                        },
+                        success: function(response) {
+                            if (myStatusChart) {
+                                myStatusChart.data.labels = response.labels;
+                                myStatusChart.data.datasets[0].data = response.data;
+                                myStatusChart.update();
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error filtering status chart:", error);
+                        }
+                    });
+
+                    $.ajax({
+                        url: '{{ route('dashboard.chart-data') }}',
+                        type: 'GET',
+                        data: {
+                            filter: selectedValue
+                        },
+                        success: function(response) {
+                            if (myBarChart) {
+                                myBarChart.data.labels = response.labels;
+                                myBarChart.data.datasets[0].data = response.expensesData;
+                                myBarChart.data.datasets[1].data = response.paymentsData;
+                                myBarChart.update();
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error filtering bar chart:", error);
+                        }
+                    });
+
+                    $.ajax({
+                        url: '{{ route('dashboard.project-chart-data') }}',
+                        type: 'GET',
+                        data: {
+                            filter: selectedValue
+                        },
+                        success: function(response) {
+                            if (myLineChart) {
+                                myLineChart.data.labels = response.labels;
+                                myLineChart.data.datasets[0].data = response.data;
+                                myLineChart.update();
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error filtering line chart:", error);
                         }
                     });
                 }

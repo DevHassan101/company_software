@@ -54,6 +54,8 @@
         </div>
     </div>
 </body>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 <script>
     const Toast = Swal.mixin({
         toast: true,

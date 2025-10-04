@@ -14,146 +14,33 @@ use Carbon\Carbon;
 class DashboardController extends Controller
 {
 
-    public function index(Request $request)
+    public function index()
     {
         $projectStatusCounts = Project::select('status', DB::raw('count(*) as count'))
             ->groupBy('status')
             ->pluck('count', 'status')
             ->toArray();
-            $expense = Expense::query();
-            $query = Project::query();
-            $projetFilter = Project::query();
-            
-
-        if ($request->filled('filter')) {
-            if ($request->filter == 'today') {
-                $expense->whereDate('created_at', now());
-                $query->whereDate('created_at', now());
-                $projetFilter->whereDate('created_at', now());
-            } elseif ($request->filter == 'this_week') {
-                $expense->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
-                $query->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
-                $projetFilter->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
-            } elseif ($request->filter == 'this_month') {
-                $expense->whereMonth('created_at', now()->month);
-                $query->whereMonth('created_at', now()->month);
-                $projetFilter->whereMonth('created_at', now()->month);
-            } elseif ($request->filter == 'this_year') {
-                $expense->whereYear('created_at', now()->year);
-                $query->whereYear('created_at', now()->year);
-                $projetFilter->whereYear('created_at', now()->year);
-            } elseif ($request->filter == 'last_year') {
-                $expense->whereYear('created_at', now()->subYear()->year);
-                $query->whereYear('created_at', now()->subYear()->year);
-                $projetFilter->whereYear('created_at', now()->subYear()->year);
-            }
-        }
 
         $pending   = $projectStatusCounts['pending'] ?? 0;
         $ongoing   = $projectStatusCounts['ongoing'] ?? 0;
         $delivered = $projectStatusCounts['delivered'] ?? 0;
         $continued = $projectStatusCounts['continued'] ?? 0;
-      
 
-        $totalProject = Project::query();
-        if ($request->filled('totalProject')) {
-            if ($request->totalProject == 'today') {
-                $totalProject->whereDate('created_at', now());
-            } elseif ($request->totalProject == 'this_week') {
-                $totalProject->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
-            } elseif ($request->totalProject == 'this_month') {
-                $totalProject->whereMonth('created_at', now()->month);
-            } elseif ($request->totalProject == 'this_year') {
-                $totalProject->whereYear('created_at', now()->year);
-            } elseif ($request->totalProject == 'last_year') {
-                $totalProject->whereYear('created_at', now()->subYear()->year);
-            }
-        }
-        $projectCount = $totalProject->count();
+        $projectCount = Project::count();
 
-        $totalClient = Client::query();
-        if ($request->filled('client')) {
-            if ($request->client == 'today') {
-                $totalClient->whereDate('created_at', now());
-            } elseif ($request->client == 'this_week') {
-                $totalClient->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
-            } elseif ($request->client == 'this_month') {
-                $totalClient->whereMonth('created_at', now()->month);
-            } elseif ($request->client == 'this_year') {
-                $totalClient->whereYear('created_at', now()->year);
-            } elseif ($request->client == 'last_year') {
-                $totalClient->whereYear('created_at', now()->subYear()->year);
-            }
-        }
-        $clientCount = $totalClient->count();
+        $clientCount = Client::count();
 
-        $totalUser = User::query();
-        if ($request->filled('totalUser')) {
-            if ($request->totalUser == 'today') {
-                $totalUser->whereDate('created_at', now());
-            } elseif ($request->totalUser == 'this_week') {
-                $totalUser->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
-            } elseif ($request->totalUser == 'this_month') {
-                $totalUser->whereMonth('created_at', now()->month);
-            } elseif ($request->totalUser == 'this_year') {
-                $totalUser->whereYear('created_at', now()->year);
-            } elseif ($request->totalUser == 'last_year') {
-                $totalUser->whereYear('created_at', now()->subYear()->year);
-            }
-        }
-        $userCount = $totalUser->count();
+        $userCount = User::count();
 
-        $getTotal = Expense::query();
-        if ($request->filled('totalAmount')) {
-            if ($request->totalAmount == 'today') {
-                $getTotal->whereDate('created_at', now());
-            } elseif ($request->totalAmount == 'this_week') {
-                $getTotal->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
-            } elseif ($request->totalAmount == 'this_month') {
-                $getTotal->whereMonth('created_at', now()->month);
-            } elseif ($request->totalAmount == 'this_year') {
-                $getTotal->whereYear('created_at', now()->year);
-            } elseif ($request->totalAmount == 'last_year') {
-                $getTotal->whereYear('created_at', now()->subYear()->year);
-            }
-        }
-        $totalExpenses = $getTotal->sum('amount');
+        $totalExpenses = Expense::sum('amount');
 
-        $getSalary = Expense::query();
-        if ($request->filled('totalSalary')) {
-            if ($request->totalSalary == 'today') {
-                $getSalary->whereDate('created_at', now());
-            } elseif ($request->totalSalary == 'this_week') {
-                $getSalary->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
-            } elseif ($request->totalSalary == 'this_month') {
-                $getSalary->whereMonth('created_at', now()->month);
-            } elseif ($request->totalSalary == 'this_year') {
-                $getSalary->whereYear('created_at', now()->year);
-            } elseif ($request->totalSalary == 'last_year') {
-                $getSalary->whereYear('created_at', now()->subYear()->year);
-            }
-        }
-        $salary = $getSalary->where('type', 'salary')->sum('amount');
+        $salary = Expense::where('type', 'salary')->sum('amount');
 
-        $remainQuery = Expense::query();
-        if ($request->filled('totalRemain')) {
-            if ($request->totalRemain == 'today') {
-                $remainQuery->whereDate('created_at', now());
-            } elseif ($request->totalRemain == 'this_week') {
-                $remainQuery->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
-            } elseif ($request->totalRemain == 'this_month') {
-                $remainQuery->whereMonth('created_at', now()->month);
-            } elseif ($request->totalRemain == 'this_year') {
-                $remainQuery->whereYear('created_at', now()->year);
-            } elseif ($request->totalRemain == 'last_year') {
-                $remainQuery->whereYear('created_at', now()->subYear()->year);
-            }
-        }
-        
-        $totalRemainExpenses = $remainQuery->sum('amount');
+        $totalRemainExpenses = Expense::sum('amount');
+
         $amount = $totalRemainExpenses - $salary;
 
-        $monthlyExpenses = $expense->select(
+        $monthlyExpenses = Expense::select(
             DB::raw('MONTH(created_at) as month'),
             DB::raw('SUM(amount) as total_amount')
         )
@@ -161,22 +48,7 @@ class DashboardController extends Controller
             ->orderBy('month')
             ->pluck('total_amount', 'month');
 
-        $projectPayment = ProjectPayment::query();
-        if ($request->filled('payment')) {
-            if ($request->payment == 'today') {
-                $projectPayment->whereDate('created_at', now());
-            } elseif ($request->payment == 'this_week') {
-                $projectPayment->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
-            } elseif ($request->payment == 'this_month') {
-                $projectPayment->whereMonth('created_at', now()->month);
-            } elseif ($request->payment == 'this_year') {
-                $projectPayment->whereYear('created_at', now()->year);
-            } elseif ($request->payment == 'last_year') {
-                $projectPayment->whereYear('created_at', now()->subYear()->year);
-            }
-        }
-
-        $monthlyPayments = $projectPayment->select(
+        $monthlyPayments = ProjectPayment::select(
             DB::raw('MONTH(created_at) as month'),
             DB::raw('SUM(amount) as total_amount')
         )
@@ -189,40 +61,12 @@ class DashboardController extends Controller
 
         $expensesData = collect($months)->map(fn($m) => $monthlyExpenses->get($m, 0));
         $paymentsData = collect($months)->map(fn($m) => $monthlyPayments->get($m, 0));
-        if ($request->filled('option')) {
-            if ($request->option == 'today') {
-                $query->whereDate('created_at', now());
-            } elseif ($request->option == 'this_week') {
-                $query->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
-            } elseif ($request->option == 'this_month') {
-                $query->whereMonth('created_at', now()->month);
-            } elseif ($request->option == 'this_year') {
-                $query->whereYear('created_at', now()->year);
-            } elseif ($request->option == 'last_year') {
-                $query->whereYear('created_at', now()->subYear()->year);
-            }
-        }
 
-        $filteredData = $query->selectRaw('status, count(*) as count')
+        $filteredData = Project::selectRaw('status, count(*) as count')
             ->groupBy('status')
             ->pluck('count', 'status')
             ->toArray();
-
-        if ($request->filled('project')) {
-            if ($request->project == 'today') {
-                $projetFilter->whereDate('created_at', now());
-            } elseif ($request->project == 'this_week') {
-                $projetFilter->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
-            } elseif ($request->project == 'this_month') {
-                $projetFilter->whereMonth('created_at', now()->month);
-            } elseif ($request->project == 'this_year') {
-                $projetFilter->whereYear('created_at', now()->year);
-            } elseif ($request->project == 'last_year') {
-                $projetFilter->whereYear('created_at', now()->subYear()->year);
-            }
-        }
-
-        $projects = $projetFilter->selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, count(*) as count')
+        $projects = Project::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, count(*) as count')
             ->groupBy('year', 'month')
             ->orderBy('year')
             ->orderBy('month')
@@ -263,7 +107,7 @@ class DashboardController extends Controller
     }
 
     public function filterData($filter, $model)
-    {      
+    {
         if ($model == 'projects') {
             $query = Project::query();
         } elseif ($model == 'clients') {
@@ -299,11 +143,11 @@ class DashboardController extends Controller
             $totalExpenses = $expensesQuery->sum('amount');
             $salary        = $salaryQuery->sum('amount');
             $remain        = $totalExpenses - $salary;
-
             return response()->json([
                 'total' => round($remain),
             ]);
         }
+
         $applyFilter($query, $filter);
         if ($model == 'expenses' || $model == 'salary') {
             return response()->json([
@@ -312,6 +156,154 @@ class DashboardController extends Controller
         }
         return response()->json([
             'count' => $query->count(),
+        ]);
+    }
+
+    public function getChartData(Request $request)
+    {
+        $filter = $request->get('filter');
+        $expensesQuery = Expense::query();
+        $salaryQuery = Expense::where('type', 'salary');
+
+        $applyFilter = function ($query, $filter) {
+            if ($filter === 'today') {
+                $query->whereDate('created_at', now());
+            } elseif ($filter === 'this_week') {
+                $query->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+            } elseif ($filter === 'this_month') {
+                $query->whereBetween('created_at', [now()->startOfMonth(), now()->endOfMonth()]);
+            } elseif ($filter === 'this_year') {
+                $query->whereBetween('created_at', [now()->startOfYear(), now()->endOfYear()]);
+            } elseif ($filter === 'last_year') {
+                $query->whereBetween('created_at', [now()->subYear()->startOfYear(), now()->subYear()->endOfYear()]);
+            }
+        };
+
+        $applyFilter($expensesQuery, $filter);
+        $applyFilter($salaryQuery, $filter);
+
+        $totalExpenses = $expensesQuery->sum('amount');
+        $totalPayments = $salaryQuery->sum('amount');
+
+        return response()->json([
+            'labels' => ['Filtered Data'],
+            'expensesData' => [$totalExpenses],
+            'paymentsData' => [$totalPayments],
+        ]);
+    }
+
+    public function filter(Request $request)
+    {
+        $filter = $request->get('filter');
+        $projectsCount = 0;
+        $clientsCount = 0;
+        $usersCount = 0;
+        $expensesTotal = 0;
+        $salaryTotal = 0;
+        $remainAmount = 0;
+
+        $applyFilter = function ($query) use ($filter) {
+            if ($filter === 'today') {
+                $query->whereDate('created_at', now());
+            } elseif ($filter === 'this_week') {
+                $query->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+            } elseif ($filter === 'this_month') {
+                $query->whereMonth('created_at', now()->month);
+            } elseif ($filter === 'this_year') {
+                $query->whereYear('created_at', now()->year);
+            } elseif ($filter === 'last_year') {
+                $query->whereYear('created_at', now()->subYear()->year);
+            }
+        };
+
+        if ($filter) {
+            $projectsCount = tap(Project::query(), $applyFilter)->count();
+            $clientsCount = tap(Client::query(), $applyFilter)->count();
+            $usersCount = tap(User::query(), $applyFilter)->count();
+            $expensesQuery = Expense::query();
+            $applyFilter($expensesQuery);
+            $expensesTotal = $expensesQuery->sum('amount');
+            $salaryQuery = Expense::where('type', 'salary');
+            $applyFilter($salaryQuery);
+            $salaryTotal = $salaryQuery->sum('amount');
+
+            $remainAmount = $expensesTotal - $salaryTotal;
+        } else {
+            $projectsCount = Project::count();
+            $clientsCount = Client::count();
+            $usersCount = User::count();
+            $expensesTotal = Expense::sum('amount');
+            $salaryTotal = Expense::where('type', 'salary')->sum('amount');
+            $remainAmount = $expensesTotal - $salaryTotal;
+        }
+
+        return response()->json([
+            'projectCount' => $projectsCount,
+            'clientCount' => $clientsCount,
+            'userCount' => $usersCount,
+            'expenseTotal' => round($expensesTotal),
+            'salaryTotal' => round($salaryTotal),
+            'remainAmount' => round($remainAmount),
+        ]);
+    }
+
+    public function getProjectChartData(Request $request)
+    {
+        $filter = $request->get('filter');
+        $projectsQuery = Project::query();
+        $applyFilter = function ($query) use ($filter) {
+            if ($filter === 'today') {
+                $query->whereDate('created_at', now());
+            } elseif ($filter === 'this_week') {
+                $query->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+            } elseif ($filter === 'this_month') {
+                $query->whereMonth('created_at', now()->month);
+            } elseif ($filter === 'this_year') {
+                $query->whereYear('created_at', now()->year);
+            } elseif ($filter === 'last_year') {
+                $query->whereYear('created_at', now()->subYear()->year);
+            }
+        };
+        if ($filter) {
+            $applyFilter($projectsQuery);
+        }
+        $projectCount = $projectsQuery->count();
+        return response()->json([
+            'labels' => [$filter ? ucfirst($filter) : 'All Projects'],
+            'data' => [$projectCount],
+        ]);
+    }
+
+    public function getStatusOverviewData(Request $request)
+    {
+        $filter = $request->get('filter');
+
+        $applyFilter = function ($query) use ($filter) {
+            if ($filter === 'today') {
+                $query->whereDate('created_at', now());
+            } elseif ($filter === 'this_week') {
+                $query->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+            } elseif ($filter === 'this_month') {
+                $query->whereMonth('created_at', now()->month);
+            } elseif ($filter === 'this_year') {
+                $query->whereYear('created_at', now()->year);
+            } elseif ($filter === 'last_year') {
+                $query->whereYear('created_at', now()->subYear()->year);
+            }
+        };
+
+        $projectsQuery = Project::query();
+        $applyFilter($projectsQuery);
+        $statusCounts = $projectsQuery
+            ->select('status', DB::raw('count(*) as total'))
+            ->groupBy('status')
+            ->pluck('total', 'status')
+            ->toArray();
+        $labels = array_keys($statusCounts);
+        $data = array_values($statusCounts);
+        return response()->json([
+            'labels' => $labels,
+            'data' => $data,
         ]);
     }
 }

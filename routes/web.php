@@ -38,6 +38,10 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/filter/{filter}/{model}', [DashboardController::class, 'filterData'])->name('dashboard.filterData');
+    Route::get('/dashboard/filter', [DashboardController::class, 'filter'])->name('dashboard.filter');
+    Route::get('/dashboard/chart-data', [DashboardController::class, 'getChartData'])->name('dashboard.chart-data');
+    Route::get('/dashboard/project-chart-data', [DashboardController::class, 'getProjectChartData'])->name('dashboard.project-chart-data');
+    Route::get('/dashboard/status-data', [DashboardController::class, 'getStatusOverviewData'])->name('dashboard.status-data');
 });
 
 Route::middleware('auth')->group(function () {
