@@ -4,7 +4,7 @@
     </x-slot>
 
     <div>
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg flex justify-between items-center">
+        {{-- <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg flex justify-between items-center">
             <div class="p-6 border-b border-gray-200">
                 {{ __('You are logged in!') }}
             </div>
@@ -24,6 +24,31 @@
                         <option value="last_year" {{ request('filter') == 'last_year' ? 'selected' : '' }}>last year
                         </option>
                     </select>
+                </div>
+            </div>
+        </div> --}}
+
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center p-6 border-b border-gray-200">
+                <div class="text-base sm:text-lg lg:text-xl">
+                    {{ __('You are logged in!') }}
+                </div>
+                <div class="mt-4 sm:mt-0">
+                    <div class="flex items-center gap-2">
+                        <select name="filter" id="allFilter"
+                            class="form-select w-full sm:w-auto mt-1 sm:mt-0 py-2 px-3 border border-gray-900 rounded-md shadow-sm">
+                            <option value="">Select One</option>
+                            <option value="today" {{ request('filter') == 'today' ? 'selected' : '' }}>today</option>
+                            <option value="this_week" {{ request('filter') == 'this_week' ? 'selected' : '' }}>this week
+                            </option>
+                            <option value="this_month" {{ request('filter') == 'this_month' ? 'selected' : '' }}>this
+                                month</option>
+                            <option value="this_year" {{ request('filter') == 'this_year' ? 'selected' : '' }}>this year
+                            </option>
+                            <option value="last_year" {{ request('filter') == 'last_year' ? 'selected' : '' }}>last year
+                            </option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>

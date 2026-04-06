@@ -210,7 +210,7 @@
 
             });
         </script>
-        
+
         @if (session('success'))
             @push('script')
                 <script>

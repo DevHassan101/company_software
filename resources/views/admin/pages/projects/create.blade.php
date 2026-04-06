@@ -109,8 +109,8 @@
                 <textarea id="message" rows="8"
                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Write here..." name="description">{{ old('description') }}</textarea>
-
             </div>
+
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
                     Requirments
